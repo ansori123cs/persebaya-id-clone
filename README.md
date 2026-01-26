@@ -1,6 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FaiSal - Modern Next.js Dashboard Template
 
-## Getting Started
+A production-ready dashboard template built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Zustand**. Features a responsive sidebar, navbar, and pre-built components for rapid development.
+
+## ✨ Features
+
+- ⚡ **Next.js App Router** - Latest Next.js with App Router
+- 🎨 **Tailwind CSS** - Utility-first CSS framework
+- 📘 **TypeScript** - Full type safety
+- 📱 **Responsive Design** - Mobile-first approach
+- 🧩 **Reusable Components** - UI component library
+- 🎭 **State Management** - Zustand for lightweight state
+- 🚀 **Production Ready** - Best practices throughout
+- ♿ **Accessible** - Semantic HTML and ARIA ready
+- 🎪 **Icons** - Lucide React icons included
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── dashboard/         # Dashboard route
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Home page
+│   └── globals.css        # Global styles
+├── components/
+│   ├── layout/            # Layout components (Navbar, Sidebar)
+│   └── ui/                # Reusable UI components
+├── layouts/               # Layout wrappers
+├── lib/                   # Utility functions
+└── stores/                # Zustand stores
+```
+
+## 🚀 Getting Started
 
 First, run the development server:
 
