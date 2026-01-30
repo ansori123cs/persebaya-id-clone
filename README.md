@@ -2,19 +2,19 @@
 
 A production-ready dashboard template built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Zustand**. Features a responsive sidebar, navbar, and pre-built components for rapid development.
 
-## ✨ Features
+## Features
 
 - ⚡ **Next.js App Router** - Latest Next.js with App Router
-- 🎨 **Tailwind CSS** - Utility-first CSS framework
-- 📘 **TypeScript** - Full type safety
-- 📱 **Responsive Design** - Mobile-first approach
-- 🧩 **Reusable Components** - UI component library
-- 🎭 **State Management** - Zustand for lightweight state
-- 🚀 **Production Ready** - Best practices throughout
-- ♿ **Accessible** - Semantic HTML and ARIA ready
-- 🎪 **Icons** - Lucide React icons included
+- **Tailwind CSS** - Utility-first CSS framework
+- **TypeScript** - Full type safety
+- **Responsive Design** - Mobile-first approach
+- **Reusable Components** - UI component library
+- **State Management** - Zustand for lightweight state
+- **Production Ready** - Best practices throughout
+- **Accessible** - Semantic HTML and ARIA ready
+- **Icons** - Lucide React icons included
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -31,7 +31,7 @@ src/
 └── stores/                # Zustand stores
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 First, run the development server:
 
