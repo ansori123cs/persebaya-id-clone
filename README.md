@@ -4,7 +4,7 @@ A production-ready dashboard template built with **Next.js 15**, **TypeScript**,
 
 ## Features
 
-- ⚡ **Next.js App Router** - Latest Next.js with App Router
+- **Next.js App Router** - Latest Next.js with App Router
 - **Tailwind CSS** - Utility-first CSS framework
 - **TypeScript** - Full type safety
 - **Responsive Design** - Mobile-first approach
