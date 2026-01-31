@@ -42,12 +42,23 @@ export default function RegisterPage() {
     agreeTerms: false,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value, type } = e.target;
+
+    if (e.target instanceof HTMLInputElement && type === "checkbox") {
+      const checked = e.target.checked;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -99,7 +110,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F2F4F7] px-4">
-      <Card className="mb-6 w-full max-w-2xl bg-white rounded-2xl p-1">
+      <Card className="mb-6 w-full max-w-2xl bg-white rounded-2xl p-1 mt-2">
         <CardContent className="pt-6">
           {/* Header */}
           <div className="text-center mb-8">
@@ -127,7 +138,8 @@ export default function RegisterPage() {
                   </div>
                 )}
 
-                <div className="flex justify-between">
+                {/* Baris 1: Full Name & NIK */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Full Name Field */}
                   <div className="space-y-2">
                     <label
@@ -145,10 +157,11 @@ export default function RegisterPage() {
                         placeholder="Maulana Faisal Fardani"
                         value={formData.fullName}
                         onChange={handleChange}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                       />
                     </div>
                   </div>
+
                   {/* NIK Field */}
                   <div className="space-y-2">
                     <label
@@ -164,14 +177,16 @@ export default function RegisterPage() {
                         name="nik"
                         type="text"
                         placeholder="3572456653766352"
-                        value={formData.fullName}
+                        value={formData.nik}
                         onChange={handleChange}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                       />
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-between">
+
+                {/* Baris 2: Username & Password */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Username Field */}
                   <div className="space-y-2">
                     <label
@@ -189,10 +204,11 @@ export default function RegisterPage() {
                         placeholder="faisal123cs"
                         value={formData.username}
                         onChange={handleChange}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                       />
                     </div>
                   </div>
+
                   {/* Password Field */}
                   <div className="space-y-2">
                     <label
@@ -210,7 +226,7 @@ export default function RegisterPage() {
                         placeholder="••••••••"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                       />
                       <button
                         type="button"
@@ -244,7 +260,7 @@ export default function RegisterPage() {
                       placeholder="you@example.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -266,7 +282,7 @@ export default function RegisterPage() {
                       placeholder="+62 812-3456-7890"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -280,15 +296,15 @@ export default function RegisterPage() {
                     Alamat
                   </label>
                   <div className="relative">
-                    <HouseHeart className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <HouseHeart className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                     <textarea
                       id="alamat"
                       name="alamat"
-                      type="text"
-                      placeholder="faisal123cs"
+                      placeholder="Masukkan alamat lengkap"
                       value={formData.alamat}
-                      onChange={(e) => setFormData()}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
+                      rows={4}
                     />
                   </div>
                 </div>
@@ -307,14 +323,14 @@ export default function RegisterPage() {
                     Saya setuju dengan{" "}
                     <Link
                       href="#"
-                      className="text-persebaya-link hover:text-blue-700 font-medium"
+                      className="text-persebaya-link underline hover:text-blue-700 font-medium"
                     >
                       Syarat & Ketentuan
                     </Link>{" "}
                     dan{" "}
                     <Link
                       href="#"
-                      className="text-persebaya-link hover:text-blue-700 font-medium"
+                      className="text-persebaya-link underline hover:text-blue-700 font-medium"
                     >
                       Kebijakan Privasi
                     </Link>
@@ -336,12 +352,12 @@ export default function RegisterPage() {
           </Card>
 
           {/* Footer */}
-          <div className="text-center">
+          <div className="text-start">
             <p className="text-gray-600 text-sm">
               Sudah punya akun?{" "}
               <Link
                 href="/login"
-                className="text-persebaya-link hover:text-blue-700 font-semibold"
+                className="text-persebaya-link underline hover:text-blue-700 font-semibold"
               >
                 Masuk di sini
               </Link>
