@@ -1,8 +1,14 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+  const redirectToLogin = () => {
+    redirect("/login");
+  };
+  redirectToLogin();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-persebaya-bg via-white to-purple-50 px-4">
       <div className="text-center max-w-2xl">
