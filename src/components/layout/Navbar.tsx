@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-24 bg-persebaya-primary text-white z-40 flex items-center  shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 h-20  bg-persebaya-primary text-white z-40 flex items-center  shadow-sm">
       <div className="w-full items-center h-16">
         <div className="flex w-full justify-between">
           {/* Left Section */}
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
             </Button>
           </div>
 
-          <Link href="/" className="absolute top-4 left-32 z-10">
+          <Link href="/" className="absolute top-4 left-20 z-10">
             <Image
               src="/logo-small.png"
               width={100}
@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Right Section */}
-          <div className="flex items-center gap-2 md:gap-4 mb-3">
+          <div className="flex items-center gap-2 md:gap-4 my-2 me-2">
             <Button variant="ghost" size="sm" className="p-2 relative">
               <Bell className="w-5 h-5 text-white" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
@@ -126,7 +126,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-center bg-white h-16 z-50">
+        <div className="flex w-full justify-center bg-white h-10 z-50">
           {/* Menu Items */}
           <div className="hidden md:flex items-center space-x-8">
             {NavbarMenu.map((item) => (

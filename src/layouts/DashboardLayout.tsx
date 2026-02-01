@@ -14,17 +14,20 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { isOpen } = useSidebarStore();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-hero-pattern bg-cover">
       <Navbar />
       <Sidebar />
 
       {/* Main Content */}
       <main
         className={clsx(
-          "pt-16 transition-all duration-300",
+          "pt-28 transition-all duration-300",
           isOpen ? "md:ml-64" : "md:ml-20",
         )}
       >
+        <h1 className="text-center text-3xl font-bold mt-2">
+          Selamat Datang Di Website Persebaya Surabaya
+        </h1>
         <div className="p-4 md:p-6 lg:p-8">{children}</div>
       </main>
     </div>

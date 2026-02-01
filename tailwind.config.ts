@@ -7,6 +7,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "hero-pattern": "url('/bg.png')",
+      },
       colors: {
         /* Primary */
         "persebaya-primary": "#005A2C",

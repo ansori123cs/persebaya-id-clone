@@ -113,24 +113,24 @@ const Sidebar: React.FC = () => {
             href={item.href}
             onClick={() => isMobile && closeSidebar()}
             className={clsx(
-              "flex items-center justify-between px-4 py-3 rounded-lg transition-colors",
+              "flex items-center justify-between px-4 py-3 rounded-xl transition-colors",
               isSubmenu ? "text-sm ml-4" : "text-base",
               isActive(item.href)
-                ? "bg-persebaya-primary text-white shadow-md"
-                : "text-persebaya-text hover:bg-persebaya-bg",
+                ? "bg-persebaya-primary text-white shadow-md border border-persebaya-accent"
+                : "text-persebaya-text hover:bg-persebaya-bg border border-persebaya-accent",
             )}
           >
-            <div className="flex items-center gap-3 flex-1">
-              {item.icon}
+            <div className="flex justify-center  items-center gap-3 flex-1">
+              {/* {item.icon} */}
               <span className={clsx("font-medium", !isOpen && "hidden")}>
                 {item.label}
               </span>
             </div>
-            {item.badge && isOpen && (
+            {/* {item.badge && isOpen && (
               <span className="bg-persebaya-error text-white text-xs font-bold rounded-full px-2 py-1">
                 {item.badge}
               </span>
-            )}
+            )} */}
           </Link>
         )}
         {hasSubmenu && expanded && isOpen && (
@@ -157,7 +157,7 @@ const Sidebar: React.FC = () => {
       {/* Sidebar */}
       <aside
         className={clsx(
-          "fixed top-16 left-0 bottom-0 bg-white border-r border-gray-200 z-30 transition-all duration-300 overflow-y-auto",
+          "fixed top-16 left-0 bottom-0 bg-white/45 z-30 transition-all duration-300 overflow-y-auto",
           isOpen
             ? isMobile
               ? "w-64"
@@ -184,7 +184,7 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Navigation Items */}
-        <nav className="space-y-1 px-2 py-4">
+        <nav className="space-y-5 px-2 py-4">
           {navItems.map((item) => (
             <NavItemComponent key={item.href} item={item} />
           ))}
