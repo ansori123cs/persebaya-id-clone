@@ -7,201 +7,183 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/Card";
+import Image from "next/image";
+
+interface NewsProperty {
+  name: string;
+  src: string;
+  alt: string;
+}
+
+interface MatchProperty {
+  team: TeamProperty[];
+  date: string;
+  time?: string; // optional
+  venue?: string; // optional
+}
+
+interface TeamProperty {
+  teamName: string;
+  src: string;
+}
+
+const todaysMatch: MatchProperty[] = [
+  {
+    date: "2 February 2026",
+    team: [
+      {
+        teamName: "Persebaya Surabaya",
+        src: "/persebaya.png", // Ganti dengan path lokal jika ada
+      },
+      {
+        teamName: "Persib Bandung",
+        src: "/persib.png",
+      },
+    ],
+    time: "19:30 WIB",
+    venue: "Gelora Bung Tomo Stadium",
+  },
+  {
+    date: "20 February 2026",
+    team: [
+      {
+        teamName: "Persib Bandung",
+        src: "/persib.png",
+      },
+      {
+        teamName: "Persebaya Surabaya",
+        src: "/persebaya.png",
+      },
+    ],
+    time: "20:00 WIB",
+    venue: "Siliwangi Stadium",
+  },
+];
+
+const news: NewsProperty[] = [
+  { name: "Stadion", alt: "Stadion Persebaya", src: "/img1.png" },
+  { name: "Pemain", alt: "Pemain Persebaya", src: "/img2.png" },
+  { name: "Pemain Terbaik", alt: "Pemain Terbaik Persebaya", src: "/img3.png" },
+];
 
 const Dashboard = () => {
-  const stats = [
-    {
-      title: "Total Revenue",
-      value: "$45,231.89",
-      icon: TrendingUp,
-      change: "+20.1%",
-      isPositive: true,
-    },
-    {
-      title: "Total Users",
-      value: "2,543",
-      icon: Users,
-      change: "+180",
-      isPositive: true,
-    },
-    {
-      title: "Conversion Rate",
-      value: "12.5%",
-      icon: BarChart3,
-      change: "-4.3%",
-      isPositive: false,
-    },
-    {
-      title: "Active Now",
-      value: "573",
-      icon: Activity,
-      change: "+201",
-      isPositive: true,
-    },
-  ];
-
-  const recentActivities = [
-    {
-      id: 1,
-      action: "New user registration",
-      timestamp: "2 hours ago",
-      user: "John Doe",
-    },
-    {
-      id: 2,
-      action: "Payment received",
-      timestamp: "5 hours ago",
-      user: "$2,500 from Acme Inc",
-    },
-    { id: 3, action: "System update", timestamp: "Yesterday", user: "System" },
-    {
-      id: 4,
-      action: "Report generated",
-      timestamp: "2 days ago",
-      user: "Jane Smith",
-    },
-  ];
-
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600">
-          Welcome back! Here's what's happening with your business today.
-        </p>
-      </div>
+      {/* Main Content Grid dengan Map */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Gambar Utama (index 0) */}
+        {news.length > 0 && (
+          <Card className="lg:col-span-2">
+            <CardHeader className="pb-3">
+              <h2 className="text-lg font-semibold text-gray-900">
+                {news[0].name}
+              </h2>
+            </CardHeader>
+            <CardContent>
+              <div className="relative h-52 md:h-72 lg:h-80 rounded-lg overflow-hidden">
+                <Image
+                  src={news[0].src}
+                  fill
+                  alt={news[0].alt}
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <p className="mt-3 text-sm text-gray-600">{news[0].alt}</p>
+            </CardContent>
+          </Card>
+        )}
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title}>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <Icon className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <span
-                    className={`text-sm font-semibold ${
-                      stat.isPositive ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {stat.change}
-                  </span>
+        {/* Gambar-gambar Lainnya */}
+        <div className="space-y-6">
+          {news.slice(1).map((item, index) => (
+            <Card key={`${item.name}-${index}`}>
+              <CardContent className="p-4">
+                <div className="relative h-32 rounded-lg overflow-hidden mb-3">
+                  <Image
+                    src={item.src}
+                    fill
+                    alt={item.alt}
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <p className="text-gray-600 text-sm mb-1">{stat.title}</p>
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  {item.name}
+                </h3>
+                <p className="text-sm text-gray-600">{item.alt}</p>
               </CardContent>
             </Card>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart Card */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <h2 className="text-lg font-semibold text-gray-900">
-              Monthly Revenue
-            </h2>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg border border-gray-200">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-gray-900 mb-2">
-                  $87,432
+      {/*Match Card*/}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-gray-900">Upcoming Matches</h2>
+
+        {todaysMatch.map((match, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-lg border border-gray-200 p-4 hover:border-persebaya-accent transition-colors"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-gray-500">
+                {match.date}
+              </span>
+              <span className="bg-persebaya-bg text-persebaya-accent text-xs font-bold px-3 py-1 rounded-full">
+                Liga 1
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              {/* Home Team */}
+              <div className="flex items-center gap-3 w-2/5">
+                <div className="w-10 h-10 relative">
+                  <Image
+                    src={match.team[0].src}
+                    alt={match.team[0].teamName}
+                    fill
+                    className="object-contain"
+                  />
                 </div>
-                <p className="text-gray-600">
-                  Chart placeholder - integrate with your charting library
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Quick Stats */}
-        <Card>
-          <CardHeader>
-            <h2 className="text-lg font-semibold text-gray-900">Quick Stats</h2>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">Completion Rate</span>
-                <span className="font-semibold text-gray-900">85%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-blue-600 h-2 rounded-full"
-                  style={{ width: "85%" }}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">Target Progress</span>
-                <span className="font-semibold text-gray-900">62%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-purple-600 h-2 rounded-full"
-                  style={{ width: "62%" }}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">Customer Satisfaction</span>
-                <span className="font-semibold text-gray-900">94%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-green-600 h-2 rounded-full"
-                  style={{ width: "94%" }}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Recent Activity
-          </h2>
-          <Button variant="secondary" size="sm">
-            View All
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentActivities.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-center justify-between py-3 border-b border-gray-200 last:border-0"
-              >
-                <div className="flex-1">
-                  <p className="font-medium text-gray-900">{activity.action}</p>
-                  <p className="text-sm text-gray-600">{activity.user}</p>
-                </div>
-                <span className="text-sm text-gray-500">
-                  {activity.timestamp}
+                <span className="font-medium text-gray-900 text-sm truncate">
+                  {match.team[0].teamName}
                 </span>
               </div>
-            ))}
+
+              {/* VS */}
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-800">VS</div>
+                {match.time && (
+                  <div className="text-xs text-gray-500 mt-1">{match.time}</div>
+                )}
+              </div>
+
+              {/* Away Team */}
+              <div className="flex items-center gap-3 w-2/5 justify-end">
+                <span className="font-medium text-gray-900 text-sm truncate text-right">
+                  {match.team[1].teamName}
+                </span>
+                <div className="w-10 h-10 relative">
+                  <Image
+                    src={match.team[1].src}
+                    alt={match.team[1].teamName}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {match.venue && (
+              <div className="mt-3 pt-3 border-t border-gray-100">
+                <p className="text-xs text-gray-500 truncate">
+                  🏟️ {match.venue}
+                </p>
+              </div>
+            )}
           </div>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button variant="ghost">Load More</Button>
-        </CardFooter>
-      </Card>
+        ))}
+      </div>
     </div>
   );
 };

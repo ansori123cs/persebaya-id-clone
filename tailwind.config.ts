@@ -9,6 +9,7 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "hero-pattern": "url('/bg.png')",
+        "dashboard-pattern": "url('/img1.png')",
       },
       colors: {
         /* Primary */
