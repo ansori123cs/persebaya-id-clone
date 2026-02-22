@@ -51,7 +51,7 @@ const TicketPage = () => {
           <div className='flex justify-center items-center gap-x-72'>
             <div className='space-y-3  items-center justify-center flex flex-col'>
               <div>
-                <Image alt={PlayMatch.tim[0].label} src={`/playmatch/${PlayMatch.tim[0].logo}`} width={100} className='w-32 h-32' height={100} />
+                <Image alt={PlayMatch.tim[0].label} src={`/playmatch/${PlayMatch.tim[0].logo}`} width={200} className='w-32 h-32 shadow-sm rounded-2xl' height={200} />
               </div>
               <h1 className='text-xl font-bold text-center'> {PlayMatch.tim[0].label}</h1>
             </div>
@@ -60,7 +60,7 @@ const TicketPage = () => {
             </div>
             <div className='space-y-3 items-center justify-center flex flex-col'>
               <div>
-                <Image alt={PlayMatch.tim[1].label} src={`/playmatch/${PlayMatch.tim[1].logo}`} width={100} className='w-32 h-32' height={100} />
+                <Image alt={PlayMatch.tim[1].label} src={`/playmatch/${PlayMatch.tim[1].logo}`} width={200} className='w-32 h-32 shadow-sm rounded-2xl' height={200} />
               </div>
               <h1 className='text-xl font-bold text-center'> {PlayMatch.tim[1].label}</h1>
             </div>
