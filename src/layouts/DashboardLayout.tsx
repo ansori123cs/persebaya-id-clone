@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
-import clsx from "clsx";
-import { useSidebarStore } from "@/stores/sidebarStore";
-import Navbar from "@/components/layout/Navbar";
-import Sidebar from "@/components/layout/Sidebar";
-import Image from "next/image";
+import React from 'react';
+import clsx from 'clsx';
+import { useSidebarStore } from '@/stores/sidebarStore';
+import Navbar from '@/components/layout/Navbar';
+import Sidebar from '@/components/layout/Sidebar';
+import Image from 'next/image';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
   return (
     <div
-      className="min-h-screen bg-persebaya-bg bg-cover bg-center bg-no-repeat"
+      className='min-h-screen bg-persebaya-bg bg-cover bg-center bg-no-repeat'
       // style={{
       //   backgroundImage: "url('/img1.png')",
       // }}
@@ -32,16 +32,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <Navbar />
       <Sidebar />
       {/* Main Content */}
-      <main
-        className={clsx(
-          "pt-28 transition-all duration-300",
-          isOpen ? "md:ml-64" : "md:ml-20",
-        )}
-      >
-        <h1 className="text-center text-3xl text-persebaya-text font-bold mt-2">
-          Selamat Datang Di Website Persebaya Surabaya
-        </h1>
-        <div className="p-4 md:p-6 lg:p-8">{children}</div>
+      <main className={clsx('pt-28 transition-all duration-300', isOpen ? 'md:ml-64' : 'md:ml-20')}>
+        <div className='p-4 md:p-6 lg:p-8'>{children}</div>
       </main>
     </div>
   );

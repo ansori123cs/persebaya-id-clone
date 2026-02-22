@@ -64,6 +64,7 @@ const news: NewsProperty[] = [
 const Dashboard = () => {
   return (
     <div className='space-y-8'>
+      <h1 className='text-center text-3xl text-persebaya-text font-bold mt-2'>Selamat Datang Di Website Persebaya Surabaya</h1>
       {/* Main Content Grid dengan Map */}
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
         {/* Gambar Utama (index 0) */}
