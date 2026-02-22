@@ -2,11 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Menu, Bell, Settings, LogOut, User, Search } from 'lucide-react';
+import { Menu, Bell, Settings, LogOut, User, Search, ArrowLeft } from 'lucide-react';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import Button from '@/components/ui/Button';
 import Dropdown from '@/components/ui/Dropdown';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface NavbarMenuTypes {
   title: string;
@@ -54,6 +55,11 @@ const NavbarMenu: NavbarMenuTypes[] = [
 
 const Navbar: React.FC = () => {
   const { toggleSidebar } = useSidebarStore();
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <nav className='fixed top-0 left-0 right-0 h-20  bg-persebaya-primary text-white z-40 flex items-center  shadow-sm'>
@@ -61,12 +67,15 @@ const Navbar: React.FC = () => {
         <div className='flex w-full justify-between'>
           {/* Left Section */}
           <div className='flex items-center gap-4'>
+            <Button variant='primary' size='sm' onClick={handleBack} className='md:p-2'>
+              <ArrowLeft className='w-8 h-8' />
+            </Button>
             <Button variant='primary' size='sm' onClick={toggleSidebar} className='md:p-2'>
-              <Menu className='w-5 h-5' />
+              <Menu className='w-8 h-8' />
             </Button>
           </div>
 
-          <Link href='/' className='absolute top-4 left-20 z-10'>
+          <Link href='/' className='absolute top-4 left-32 z-10'>
             <Image src='/logo-small.png' width={100} height={100} alt='logo-persebaya' />
           </Link>
 
