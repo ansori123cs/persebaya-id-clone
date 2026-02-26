@@ -37,31 +37,37 @@ const ticket = [
     kategori: "fans",
     listTicket: [
       {
+        kode: "T-001",
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
       },
       {
+        kode: "T-002",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
       },
       {
+        kode: "T-003",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
       },
       {
+        kode: "T-004",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
       },
       {
+        kode: "T-005",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
       },
       {
+        kode: "T-006",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
@@ -72,31 +78,37 @@ const ticket = [
     kategori: "tourist",
     listTicket: [
       {
+        kode: "TR-007",
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
       },
       {
+        kode: "TR-008",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
       },
       {
+        kode: "TR-009",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
       },
       {
+        kode: "TR-010",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
       },
       {
+        kode: "TR-011",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
       },
       {
+        kode: "TR-012",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
@@ -107,21 +119,25 @@ const ticket = [
     kategori: "komunitas",
     listTicket: [
       {
+        kode: "K-013",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: true,
       },
       {
+        kode: "K-014",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
       },
       {
+        kode: "K-015",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
       },
       {
+        kode: "K-016",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
@@ -148,6 +164,10 @@ const PurchaseTicketPage = () => {
 
   //   return "bg-white";
   // };
+
+  const handlePurcheTicketDetail = (ticket: string) => {
+    router.push(`/ticket/purchase/${ticket}`);
+  };
 
   const handleTutorial = () => {
     router.push("/tutorial");
@@ -255,6 +275,9 @@ const PurchaseTicketPage = () => {
             ? "bg-red-700 text-white hover:bg-red-800"
             : "bg-white"
   }`}
+                      onClick={() => handlePurcheTicketDetail(ticket.kode)}
+                      key={index}
+                      disabled={!ticket.statusTersedia}
                     >
                       <p className="font-bold">
                         {ticket.namaTiket} - RP.
