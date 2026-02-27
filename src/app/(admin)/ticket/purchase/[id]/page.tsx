@@ -1,8 +1,9 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/Card";
+import Radio from "@/components/ui/Radio";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
@@ -11,10 +12,40 @@ const PlayMatch = {
     { logo: "play1.png", label: "Persebaya Surabaya" },
     { logo: "play2.png", label: "Manchaster United" },
   ],
-  ticketDipilih: "Ticket Gate VIP (West)",
 };
 
+const ticketDipilih = {
+  nama: "Ticket Gate VIP (West)",
+};
+
+const tempatPenukaran = [
+  {
+    label: "Persebaya Store Komplek-Jl.Slamet No.11.Surabaya",
+    key: "selamet",
+    checked: false,
+  },
+  {
+    label:
+      "Persebaya Store (AZAWEAR Store) Sutos-Jl.Hayam Wuruk No.6. Surabaya",
+    key: "azawear",
+    checked: false,
+  },
+  {
+    label:
+      "Persebaya Store Semolo-Ruko Manyar Garden Regency. Jl.Nginden Semolo. Surabaya",
+    key: "manyar",
+    checked: false,
+  },
+  {
+    label: "Persebaya Store Sidoarjo-Jl.Jenggolo No. 76. Sidoarjo",
+    key: "sda",
+    checked: false,
+  },
+];
+
 const PurchaseTicketDetailPage = () => {
+  const [penukaran, setPenukaran] = useState("");
+
   const params = useParams();
   const id = params?.id as string | undefined;
 
@@ -42,7 +73,7 @@ const PurchaseTicketDetailPage = () => {
               {PlayMatch.tanggal}
             </h1>
             <button className="w-full border-4 rounded-lg border-persebaya-primary text-white bg-persebaya-accent text-xl font-bold hover:bg-persebaya-accent/50 cursor-pointer py-2">
-              {PlayMatch.ticketDipilih}
+              {ticketDipilih.nama}
             </button>
           </div>
           <div className="w-full">
@@ -86,7 +117,31 @@ const PurchaseTicketDetailPage = () => {
         <CardContent>{RenderedComponent}</CardContent>
       </Card>
       <Card className="mt-2">
-        <CardContent>Penukaran lokasi Tiket</CardContent>
+        <CardContent>
+          <h1 className="text-xl font-bold">
+            Ticket Location Exchange / Lokasi Penukaran Tiket
+          </h1>
+          <div className="space-y-1 mt-2">
+            {tempatPenukaran.map((item, index) => (
+              <Radio
+                checked={penukaran === item.key}
+                label={item.label}
+                onChange={() => {
+                  setPenukaran(item.key);
+                }}
+                key={item.key}
+              />
+            ))}
+          </div>
+          <div className="flex justify-end">
+            <button
+              className="text-white  rounded-xl border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer px-4 py-2"
+              type="submit"
+            >
+              Continue
+            </button>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
@@ -94,21 +149,373 @@ const PurchaseTicketDetailPage = () => {
 
 export default PurchaseTicketDetailPage;
 
+interface FansFormData {
+  namaLengkap: string;
+  email: string;
+  nomorNik: string;
+  noTelp: string;
+  tanggalLahir: string;
+  jenisKelamin: "pria" | "wanita";
+}
+
 const FansForm = () => {
+  const [formData, setFormData] = useState<FansFormData>({
+    namaLengkap: "",
+    email: "",
+    nomorNik: "",
+    noTelp: "",
+    tanggalLahir: "",
+    jenisKelamin: "pria",
+  });
+
+  const sanitizeString = (value: string): string => {
+    return value
+      .replace(/</g, "")
+      .replace(/>/g, "")
+      .replace(/script/gi, "")
+      .replace(/on\w+=/gi, "")
+      .trim();
+  };
+
+  const sanitizeByField = (name: string, value: string) => {
+    const sanitized = sanitizeString(value);
+
+    switch (name) {
+      case "namaLengkap":
+        return sanitized.replace(/[^a-zA-Z\s]/g, "");
+
+      case "email":
+        return sanitized
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          );
+
+      case "nomorNik":
+        return sanitized.replace(/\D/g, "");
+
+      case "noTelp":
+        return sanitized.replace(/\D/g, "");
+
+      case "jenisKelamin":
+        return sanitized as "pria" | "wanita";
+
+      default:
+        return sanitized;
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    const sanitizedValue = sanitizeByField(name, value);
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: sanitizedValue,
+    }));
+  };
+
+  const handleKelamin = (value: "pria" | "wanita") => {
+    setFormData((prev) => ({
+      ...prev,
+      jenisKelamin: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   return (
     <div>
-      <div>Halaman Fans Form</div>
+      <h1 className="text-xl font-bold">Data Pemesan Kategori Fans</h1>
+
+      <form className="space-y-3 mt-3">
+        {/* Nama Lengkap */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="namaLengkap" className="md:w-1/4 w-full font-medium">
+            Nama Lengkap
+          </label>
+          <input
+            id="namaLengkap"
+            name="namaLengkap"
+            type="text"
+            maxLength={100}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Email */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="email" className="md:w-1/4 w-full font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            maxLength={100}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Nomor KTP */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
+            Nomor KTP
+          </label>
+          <input
+            id="nomorNik"
+            name="nomorNik"
+            type="text"
+            maxLength={16}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Nomor Telp */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
+            Nomor Telephone / WhatsApp
+          </label>
+          <input
+            id="noTelp"
+            name="noTelp"
+            type="tel"
+            maxLength={15}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Tanggal Lahir */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="tanggalLahir" className="md:w-1/4 w-full font-medium">
+            Tanggal Lahir
+          </label>
+          <input
+            id="tanggalLahir"
+            name="tanggalLahir"
+            type="date"
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Jenis Kelamin */}
+        <div className="flex flex-col md:flex-row items-center gap-3">
+          <span className="md:w-1/4 w-full font-medium">Jenis Kelamin</span>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="pria"
+              checked={formData.jenisKelamin === "pria"}
+              onChange={() => handleKelamin("pria")}
+            />
+            <label htmlFor="pria">Pria</label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="wanita"
+              checked={formData.jenisKelamin === "wanita"}
+              onChange={() => handleKelamin("wanita")}
+            />
+            <label htmlFor="wanita">Wanita</label>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };
 
 const TouristForm = () => {
+  const [formData, setFormData] = useState<FansFormData>({
+    namaLengkap: "",
+    email: "",
+    nomorNik: "",
+    noTelp: "",
+    tanggalLahir: "",
+    jenisKelamin: "pria",
+  });
+
+  const sanitizeString = (value: string): string => {
+    return value
+      .replace(/</g, "")
+      .replace(/>/g, "")
+      .replace(/script/gi, "")
+      .replace(/on\w+=/gi, "")
+      .trim();
+  };
+
+  const sanitizeByField = (name: string, value: string) => {
+    const sanitized = sanitizeString(value);
+
+    switch (name) {
+      case "namaLengkap":
+        return sanitized.replace(/[^a-zA-Z\s]/g, "");
+
+      case "email":
+        return sanitized
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          );
+
+      case "nomorNik":
+        return sanitized.replace(/\D/g, "");
+
+      case "noTelp":
+        return sanitized.replace(/\D/g, "");
+
+      case "jenisKelamin":
+        return sanitized as "pria" | "wanita";
+
+      default:
+        return sanitized;
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    const sanitizedValue = sanitizeByField(name, value);
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: sanitizedValue,
+    }));
+  };
+
+  const handleKelamin = (value: "pria" | "wanita") => {
+    setFormData((prev) => ({
+      ...prev,
+      jenisKelamin: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   return (
     <div>
-      <div>Halaman Turis Form</div>
+      <h1 className="text-xl font-bold">Tourist Category Order Data</h1>
+
+      <form className="space-y-3 mt-3">
+        {/* Full Name */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="namaLengkap" className="md:w-1/4 w-full font-medium">
+            Full Name
+          </label>
+          <input
+            id="namaLengkap"
+            name="namaLengkap"
+            type="text"
+            placeholder="Maulana Faisal Fardani"
+            maxLength={100}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Email */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="email" className="md:w-1/4 w-full font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="example@email.com"
+            maxLength={100}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* ID Number */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
+            National ID Number
+          </label>
+          <input
+            id="nomorNik"
+            name="nomorNik"
+            type="text"
+            placeholder="3575673587990004"
+            maxLength={16}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Phone */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
+            Phone Number / WhatsApp
+          </label>
+          <input
+            id="noTelp"
+            name="noTelp"
+            type="tel"
+            placeholder="081234567890"
+            maxLength={15}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Date of Birth */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="tanggalLahir" className="md:w-1/4 w-full font-medium">
+            Date of Birth
+          </label>
+          <input
+            id="tanggalLahir"
+            name="tanggalLahir"
+            type="date"
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Gender */}
+        <div className="flex flex-col md:flex-row items-center gap-3">
+          <span className="md:w-1/4 w-full font-medium">Gender</span>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="male"
+              checked={formData.jenisKelamin === "pria"}
+              onChange={() => handleKelamin("pria")}
+            />
+            <label htmlFor="male">Male</label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="female"
+              checked={formData.jenisKelamin === "wanita"}
+              onChange={() => handleKelamin("wanita")}
+            />
+            <label htmlFor="female">Female</label>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };
+
 const KomunitasForm = () => {
   return (
     <div>
