@@ -2,7 +2,7 @@
 import { Card, CardContent } from "@/components/ui/Card";
 import Radio from "@/components/ui/Radio";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ReactNode, useState, useEffect } from "react";
 
 const PlayMatch = {
@@ -46,6 +46,7 @@ const tempatPenukaran = [
 const PurchaseTicketDetailPage = () => {
   const [penukaran, setPenukaran] = useState("");
 
+  const router = useRouter();
   const params = useParams();
   const id = params?.id as string | undefined;
 
@@ -60,6 +61,10 @@ const PurchaseTicketDetailPage = () => {
   const RenderedComponent = (prefix && componentMap[prefix]) ?? (
     <div>Ticket tidak ditemukan</div>
   );
+
+  const handlePayment = () => {
+    router.push(`/ticket/purchase/${id}/payment`);
+  };
 
   return (
     <div className="p-2">
@@ -136,7 +141,8 @@ const PurchaseTicketDetailPage = () => {
           <div className="flex justify-end">
             <button
               className="text-white  rounded-xl border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer px-4 py-2"
-              type="submit"
+              type="button"
+              onClick={handlePayment}
             >
               Continue
             </button>
@@ -516,10 +522,273 @@ const TouristForm = () => {
   );
 };
 
+interface KomunitasFormData {
+  namaLengkap: string;
+  email: string;
+  nomorNik: string;
+  noTelp: string;
+  tanggalLahir: string;
+  jenisKelamin: "pria" | "wanita";
+  anggotaKomunitas: anggotaKomunitas[];
+}
+interface anggotaKomunitas {
+  key: string;
+  namaLengkap: string;
+  nomorNik: string;
+}
+
 const KomunitasForm = () => {
+  const [formData, setFormData] = useState<KomunitasFormData>({
+    namaLengkap: "",
+    email: "",
+    nomorNik: "",
+    noTelp: "",
+    tanggalLahir: "",
+    jenisKelamin: "pria",
+    anggotaKomunitas: [],
+  });
+
+  const [anggotaKomunitas, setAnggotaKomunitas] = useState<anggotaKomunitas[]>([
+    { key: crypto.randomUUID(), namaLengkap: "", nomorNik: "" },
+  ]);
+
+  const handleAddAnggota = () => {
+    if (anggotaKomunitas.length < 10) {
+      let randomKey = crypto.randomUUID();
+      const newAnggotaKomunitas: anggotaKomunitas = {
+        key: randomKey,
+        namaLengkap: "",
+        nomorNik: "",
+      };
+      setAnggotaKomunitas([...anggotaKomunitas, newAnggotaKomunitas]);
+    } else {
+      alert("Maks 10 Anggota");
+    }
+  };
+
+  const handleRemoveAnggota = (id: string) => {
+    // Use filter to create a new array without the deleted item
+    const updatedFields = anggotaKomunitas.filter((field) => field.key !== id);
+    setAnggotaKomunitas(updatedFields);
+  };
+
+  const sanitizeString = (value: string): string => {
+    return value
+      .replace(/</g, "")
+      .replace(/>/g, "")
+      .replace(/script/gi, "")
+      .replace(/on\w+=/gi, "")
+      .trim();
+  };
+
+  const sanitizeByField = (name: string, value: string) => {
+    const sanitized = sanitizeString(value);
+
+    switch (name) {
+      case "namaLengkap":
+        return sanitized.replace(/[^a-zA-Z\s]/g, "");
+
+      case "email":
+        return sanitized
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          );
+
+      case "nomorNik":
+        return sanitized.replace(/\D/g, "");
+
+      case "noTelp":
+        return sanitized.replace(/\D/g, "");
+
+      case "jenisKelamin":
+        return sanitized as "pria" | "wanita";
+
+      default:
+        return sanitized;
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    const sanitizedValue = sanitizeByField(name, value);
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: sanitizedValue,
+    }));
+  };
+
+  const handleKelamin = (value: "pria" | "wanita") => {
+    setFormData((prev) => ({
+      ...prev,
+      jenisKelamin: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   return (
     <div>
-      <div>Halaman Komunitas Form</div>
+      <h1 className="text-xl font-bold">Data Pemesan Kategori Komunitas</h1>
+
+      <form className="space-y-3 mt-3">
+        {/* Nama Lengkap */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="namaLengkap" className="md:w-1/4 w-full font-medium">
+            Nama Lengkap
+          </label>
+          <input
+            id="namaLengkap"
+            name="namaLengkap"
+            type="text"
+            maxLength={100}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Email */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="email" className="md:w-1/4 w-full font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            maxLength={100}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Nomor KTP */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
+            Nomor KTP
+          </label>
+          <input
+            id="nomorNik"
+            name="nomorNik"
+            type="text"
+            maxLength={16}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Nomor Telp */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
+            Nomor Telephone / WhatsApp
+          </label>
+          <input
+            id="noTelp"
+            name="noTelp"
+            type="tel"
+            maxLength={15}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Tanggal Lahir */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="tanggalLahir" className="md:w-1/4 w-full font-medium">
+            Tanggal Lahir
+          </label>
+          <input
+            id="tanggalLahir"
+            name="tanggalLahir"
+            type="date"
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
+        {/* Jenis Kelamin */}
+        <div className="flex flex-col md:flex-row items-center gap-3">
+          <span className="md:w-1/4 w-full font-medium">Jenis Kelamin</span>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="pria"
+              checked={formData.jenisKelamin === "pria"}
+              onChange={() => handleKelamin("pria")}
+            />
+            <label htmlFor="pria">Pria</label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="radio"
+              id="wanita"
+              checked={formData.jenisKelamin === "wanita"}
+              onChange={() => handleKelamin("wanita")}
+            />
+            <label htmlFor="wanita">Wanita</label>
+          </div>
+        </div>
+        {/* Data Angota */}
+        <Card className="p-2 shadow-lg">
+          <CardContent>
+            <div className="flex flex-col space-y-3">
+              <div className="grid grid-cols-2 ">
+                <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
+                  Nama Anggota
+                </label>
+                <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
+                  NiK Anggota
+                </label>
+              </div>
+              {anggotaKomunitas.map((item, index) => (
+                <div className="grid grid-cols-2 " key={index}>
+                  <div className="flex w-full space-x-2">
+                    <div>{index + 1}</div>
+                    <input
+                      id={index.toString()}
+                      name="noTelp"
+                      type="text"
+                      maxLength={100}
+                      onChange={handleChange}
+                      className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+                    />
+                  </div>
+                  <div className=" flex w-full space-x-2">
+                    <input
+                      id={index.toString()}
+                      name="noTelp"
+                      type="text"
+                      maxLength={16}
+                      onChange={handleChange}
+                      className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+                    />
+                    <button
+                      onClick={() => handleRemoveAnggota(item.key)}
+                      className="p-2 bg-red-500 hover:bg-red-500/50 cursor-pointer text-white rounded-xl border-2 border-persebaya-accent"
+                      type="button"
+                    >
+                      hapus anggota
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+          <button
+            onClick={handleAddAnggota}
+            className="p-2 bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer text-white rounded-xl border-2 border-persebaya-accent"
+            type="button"
+          >
+            tambah anggota
+          </button>
+        </Card>
+      </form>
     </div>
   );
 };
