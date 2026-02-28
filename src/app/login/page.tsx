@@ -56,7 +56,7 @@ export default function LoginPage() {
                 alt="logo-persebaya"
               />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Login</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Login</h1>
           </div>
 
           {/* Login Card */}

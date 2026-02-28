@@ -122,7 +122,7 @@ export default function RegisterPage() {
                 alt="logo-persebaya"
               />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
               Registrasi
             </h1>
           </div>

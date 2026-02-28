@@ -98,7 +98,7 @@ const PurchaseTicketDetailPage = () => {
                 </h1>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-center">VS</h1>
+                <h1 className="text-2xl font-bold text-center">VS</h1>
               </div>
               <div className="space-y-3 items-center justify-center flex flex-col">
                 <div>

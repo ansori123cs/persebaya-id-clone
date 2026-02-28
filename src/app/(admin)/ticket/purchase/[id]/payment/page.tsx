@@ -30,6 +30,13 @@ const menuEwallet = [
   { label: "gopay", src: "/payment/ewallet-gopay.png" },
 ];
 
+const ticketDetail = {
+  name: "Ticked Gate VIP (West)",
+  price: 200000,
+  fee: 5000,
+  total: 205000,
+};
+
 const PaymentPage = () => {
   const [pembayaran, setPembayaran] = useState("");
 
@@ -40,7 +47,11 @@ const PaymentPage = () => {
   };
 
   const handleBuy = () => {
-    router.push("/ticket/purchase");
+    if (pembayaran === "") {
+      alert("Silahkan pilih Metode Pembayaran / Please Select Payment Method");
+    } else {
+      router.push("/ticket/purchased");
+    }
   };
 
   return (
@@ -48,8 +59,8 @@ const PaymentPage = () => {
       <Card>
         <CardContent>
           <div>
-            <h1 className="text-3xl font-bold text-start">Nama Ticket</h1>
-            <h1 className="text-3xl font-bold text-center">
+            <h1 className="text-2xl font-bold text-start">Nama Ticket</h1>
+            <h1 className="text-2xl font-bold text-center">
               {PlayMatch.stadion}
             </h1>
             <h1 className="text-lg font-bold text-center">
@@ -73,7 +84,7 @@ const PaymentPage = () => {
               </h1>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-center">VS</h1>
+              <h1 className="text-2xl font-bold text-center">VS</h1>
             </div>
             <div className="space-y-3 items-center justify-center flex flex-col">
               <div>
@@ -86,7 +97,6 @@ const PaymentPage = () => {
                 />
               </div>
               <h1 className="text-xl font-bold text-center">
-                {" "}
                 {PlayMatch.tim[1].label}
               </h1>
             </div>
@@ -96,21 +106,29 @@ const PaymentPage = () => {
       {/* Price */}
       <Card>
         <CardContent>
-          <h1 className="text-3xl font-bold text-start">
+          <h1 className="text-2xl font-bold text-star mb-3">
             Detil Harga / Price Detail
           </h1>
           <div className="flex justify-between">
             <div className="w-3/4 space-y-1">
-              <h1 className="text-lg font-bold text-start">Nama Ticket</h1>
+              <h1 className="text-lg font-bold text-start">
+                {ticketDetail.name}
+              </h1>
               <h1 className="text-lg font-bold text-start">Service fee</h1>
               <hr className="w-full" />
               <h1 className="text-lg font-bold text-start">Total Harga</h1>
             </div>
             <div className="w-1/4 space-y-1">
-              <h1 className="text-lg font-bold text-start">Rp : 200.000</h1>
-              <h1 className="text-lg font-bold text-start">Rp : 5.000</h1>
+              <h1 className="text-lg font-bold text-start">
+                Rp :{ticketDetail.price.toLocaleString("id-ID")}
+              </h1>
+              <h1 className="text-lg font-bold text-start">
+                Rp :{ticketDetail.fee.toLocaleString("id-ID")}
+              </h1>
               <hr className="w-full" />
-              <h1 className="text-lg font-bold text-start">Rp : 205.000</h1>
+              <h1 className="text-lg font-bold text-start">
+                Rp :{ticketDetail.total.toLocaleString("id-ID")}
+              </h1>
             </div>
           </div>
         </CardContent>
@@ -163,7 +181,10 @@ const PaymentPage = () => {
             </div>
           </div>
           <div className="w-1/4 flex items-end justify-end">
-            <button className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer">
+            <button
+              className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
+              onClick={handleBuy}
+            >
               Proceed To Payment
             </button>
           </div>

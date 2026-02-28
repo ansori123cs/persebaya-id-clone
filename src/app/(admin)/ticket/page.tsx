@@ -49,7 +49,7 @@ const TicketPage = () => {
       <Card>
         <CardContent>
           <div>
-            <h1 className="text-3xl font-bold text-center">
+            <h1 className="text-2xl font-bold text-center">
               {PlayMatch.stadion}
             </h1>
             <h1 className="text-lg font-bold text-center">
@@ -73,7 +73,7 @@ const TicketPage = () => {
               </h1>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-center">VS</h1>
+              <h1 className="text-2xl font-bold text-center">VS</h1>
             </div>
             <div className="space-y-3 items-center justify-center flex flex-col">
               <div>
@@ -104,7 +104,7 @@ const TicketPage = () => {
           </div>
           <div className="flex w-full justify-between mb-24">
             <div>
-              <h1 className="text-3xl font-bold">Pemesanan Tiket</h1>
+              <h1 className="text-2xl font-bold">Pemesanan Tiket</h1>
               <h1 className="text-xl">Pertandingan {PlayMatch.tanggal}</h1>
             </div>
             <button

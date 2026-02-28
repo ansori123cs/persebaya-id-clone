@@ -51,7 +51,7 @@ export default function UsersPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-gray-900">Users</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Users</h1>
           <p className="text-gray-600">
             Manage and view all users in your system.
           </p>

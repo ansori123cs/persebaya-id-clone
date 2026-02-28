@@ -50,7 +50,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-            <div className="text-3xl mb-2">⚡</div>
+            <div className="text-2xl mb-2">⚡</div>
             <h3 className="font-semibold text-gray-900 mb-2">Fast & Modern</h3>
             <p className="text-gray-600 text-sm">
               Built with Next.js App Router for optimal performance and modern
@@ -59,7 +59,7 @@ export default function Home() {
           </div>
 
           <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-            <div className="text-3xl mb-2">🎨</div>
+            <div className="text-2xl mb-2">🎨</div>
             <h3 className="font-semibold text-gray-900 mb-2">Beautiful UI</h3>
             <p className="text-gray-600 text-sm">
               Tailwind CSS with custom components for a consistent and
@@ -68,7 +68,7 @@ export default function Home() {
           </div>
 
           <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-            <div className="text-3xl mb-2">🔧</div>
+            <div className="text-2xl mb-2">🔧</div>
             <h3 className="font-semibold text-gray-900 mb-2">
               Developer Friendly
             </h3>
