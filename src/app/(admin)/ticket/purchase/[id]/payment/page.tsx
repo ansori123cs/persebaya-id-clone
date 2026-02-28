@@ -42,10 +42,6 @@ const PaymentPage = () => {
 
   const router = useRouter();
 
-  const handleTutorial = () => {
-    router.push("/tutorial");
-  };
-
   const handleBuy = () => {
     if (pembayaran === "") {
       alert("Silahkan pilih Metode Pembayaran / Please Select Payment Method");
