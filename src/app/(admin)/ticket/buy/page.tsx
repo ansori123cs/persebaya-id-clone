@@ -41,36 +41,42 @@ const ticket = [
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
+        variant: "bg-persebaya-accent border-persebaya-primary",
       },
       {
         kode: "T-002",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
+        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
       },
       {
         kode: "T-003",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
+        variant: "bg-[#0000FF] text-white border-persebaya-accent",
       },
       {
         kode: "T-004",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
+        variant: "bg-[#005a2c] text-white border-persebaya-accent",
       },
       {
         kode: "T-005",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
+        variant: "bg-[#BDBDBD] border-persebaya-primary",
       },
       {
         kode: "T-006",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
+        variant: "bg-[#810103] text-white border-persebaya-accent",
       },
     ],
   },
@@ -82,36 +88,42 @@ const ticket = [
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
+        variant: "bg-persebaya-accent border-persebaya-primary",
       },
       {
         kode: "TR-008",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
+        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
       },
       {
         kode: "TR-009",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
+        variant: "bg-[#0000FF] text-white border-persebaya-accent",
       },
       {
         kode: "TR-010",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
+        variant: "bg-[#005a2c] text-white border-persebaya-accent",
       },
       {
         kode: "TR-011",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
+        variant: "bg-[#BDBDBD] border-persebaya-primary",
       },
       {
         kode: "TR-012",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
+        variant: "bg-[#810103] text-white border-persebaya-accent",
       },
     ],
   },
@@ -123,24 +135,28 @@ const ticket = [
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: true,
+        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
       },
       {
         kode: "K-014",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
+        variant: "bg-[#005a2c] text-white border-persebaya-accent",
       },
       {
         kode: "K-015",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
+        variant: "bg-[#0000FF] text-white border-persebaya-accent",
       },
       {
         kode: "K-016",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
-        statusTersedia: false,
+        statusTersedia: true,
+        variant: "bg-[#810103] text-white border-persebaya-accent",
       },
     ],
   },
@@ -149,24 +165,8 @@ const ticket = [
 const PurchaseTicketPage = () => {
   const router = useRouter();
 
-  // const getGateBg = (namaTiket) => {
-  //   if (namaTiket.toLowerCase().includes("west"))
-  //     return "bg-yellow-400 hover:bg-yellow-500";
-
-  //   if (namaTiket.toLowerCase().includes("north"))
-  //     return "bg-gray-800 text-white hover:bg-gray-900";
-
-  //   if (namaTiket.toLowerCase().includes("east"))
-  //     return "bg-green-700 text-white hover:bg-green-800";
-
-  //   if (namaTiket.toLowerCase().includes("south"))
-  //     return "bg-red-700 text-white hover:bg-red-800";
-
-  //   return "bg-white";
-  // };
-
   const handlePurcheTicketDetail = (ticket: string) => {
-    router.push(`/ticket/purchase/${ticket}`);
+    router.push(`/ticket/buy/${ticket}`);
   };
 
   const handleTutorial = () => {
@@ -179,8 +179,8 @@ const PurchaseTicketPage = () => {
         <Image
           alt="stadion"
           src="/stadionPurchase.png"
-          width={200}
-          height={200}
+          width={500}
+          height={500}
           className="w-full"
         />
 
@@ -253,9 +253,9 @@ const PurchaseTicketPage = () => {
             {PlayMatch.tim[1].label}
           </span>
         </h1>
-        <div className="space-y-2">
+        <div className="space-y-8">
           {ticket.map((item, index) => (
-            <Card key={index}>
+            <Card key={index} className="shadow-2xl">
               <CardContent>
                 <h1 className="font-bold text-base uppercase text-center mb-2">
                   Category Ticket for {item.kategori}
@@ -263,18 +263,8 @@ const PurchaseTicketPage = () => {
                 <div className="grid  md:grid-cols-2 grid-cols-1 gap-2">
                   {item.listTicket.map((ticket, index) => (
                     <button
-                      className={`cursor-pointer p-2 flex justify-between items-center border-2 border-persebaya-primary rounded-2xl
-  ${
-    ticket.namaTiket.toLowerCase().includes("west")
-      ? "bg-yellow-400 hover:bg-yellow-500"
-      : ticket.namaTiket.toLowerCase().includes("north")
-        ? "bg-gray-800 text-white hover:bg-gray-900"
-        : ticket.namaTiket.toLowerCase().includes("east")
-          ? "bg-green-700 text-white hover:bg-green-800"
-          : ticket.namaTiket.toLowerCase().includes("south")
-            ? "bg-red-700 text-white hover:bg-red-800"
-            : "bg-white"
-  }`}
+                      className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl
+ ${ticket.variant} `}
                       onClick={() => handlePurcheTicketDetail(ticket.kode)}
                       key={index}
                       disabled={!ticket.statusTersedia}

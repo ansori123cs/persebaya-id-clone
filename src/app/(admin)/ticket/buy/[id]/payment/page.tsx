@@ -43,11 +43,16 @@ const PaymentPage = () => {
   const router = useRouter();
 
   const handleBuy = () => {
-    if (pembayaran === "") {
+    if (!pembayaran?.trim()) {
       alert("Silahkan pilih Metode Pembayaran / Please Select Payment Method");
-    } else {
-      router.push("/ticket/purchased");
+      return;
     }
+
+    alert("Pembayaran Berhasil");
+
+    setTimeout(() => {
+      router.push("/ticket");
+    }, 1000);
   };
 
   return (

@@ -14,9 +14,135 @@ const PlayMatch = {
   ],
 };
 
-const ticketDipilih = {
-  nama: "Ticket Gate VIP (West)",
-};
+const ticket = [
+  {
+    kategori: "fans",
+    listTicket: [
+      {
+        kode: "T-001",
+        namaTiket: "Ticket Gate VIP (West)",
+        harga: 200000,
+        statusTersedia: true,
+        variant: "bg-persebaya-accent border-persebaya-primary",
+      },
+      {
+        kode: "T-002",
+        namaTiket: "Ticket Gate Utara (North)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+      },
+      {
+        kode: "T-003",
+        namaTiket: "Ticket Gate Jhoner (West)",
+        harga: 150000,
+        statusTersedia: false,
+        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+      },
+      {
+        kode: "T-004",
+        namaTiket: "Ticket Gate Timur (East)",
+        harga: 150000,
+        statusTersedia: false,
+        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+      },
+      {
+        kode: "T-005",
+        namaTiket: "Ticket Gate Keluarga (West)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#BDBDBD] border-persebaya-primary",
+      },
+      {
+        kode: "T-006",
+        namaTiket: "Ticket Gate Selatan (South)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#810103] text-white border-persebaya-accent",
+      },
+    ],
+  },
+  {
+    kategori: "tourist",
+    listTicket: [
+      {
+        kode: "TR-007",
+        namaTiket: "Ticket Gate VIP (West)",
+        harga: 200000,
+        statusTersedia: true,
+        variant: "bg-persebaya-accent border-persebaya-primary",
+      },
+      {
+        kode: "TR-008",
+        namaTiket: "Ticket Gate Utara (North)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+      },
+      {
+        kode: "TR-009",
+        namaTiket: "Ticket Gate Jhoner (West)",
+        harga: 150000,
+        statusTersedia: false,
+        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+      },
+      {
+        kode: "TR-010",
+        namaTiket: "Ticket Gate Timur (East)",
+        harga: 150000,
+        statusTersedia: false,
+        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+      },
+      {
+        kode: "TR-011",
+        namaTiket: "Ticket Gate Keluarga (West)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#BDBDBD] border-persebaya-primary",
+      },
+      {
+        kode: "TR-012",
+        namaTiket: "Ticket Gate Selatan (South)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#810103] text-white border-persebaya-accent",
+      },
+    ],
+  },
+  {
+    kategori: "komunitas",
+    listTicket: [
+      {
+        kode: "K-013",
+        namaTiket: "Ticket Gate Utara (North)",
+        harga: 100000,
+        statusTersedia: true,
+        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+      },
+      {
+        kode: "K-014",
+        namaTiket: "Ticket Gate Timur (East)",
+        harga: 150000,
+        statusTersedia: false,
+        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+      },
+      {
+        kode: "K-015",
+        namaTiket: "Ticket Gate Jhoner (West)",
+        harga: 150000,
+        statusTersedia: false,
+        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+      },
+      {
+        kode: "K-016",
+        namaTiket: "Ticket Gate Selatan (South)",
+        harga: 100000,
+        statusTersedia: false,
+        variant: "bg-[#810103] text-white border-persebaya-accent",
+      },
+    ],
+  },
+];
 
 const tempatPenukaran = [
   {
@@ -43,12 +169,52 @@ const tempatPenukaran = [
   },
 ];
 
+type TicketDipilih = {
+  name: string;
+  variant: string;
+};
+
 const PurchaseTicketDetailPage = () => {
   const [penukaran, setPenukaran] = useState("");
+  const [ticketDipilih, setTicketDipilih] = useState<TicketDipilih>({
+    name: "",
+    variant: "",
+  });
 
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string | undefined;
+
+  useEffect(() => {
+    const set = () => {
+      if (!id) return;
+
+      let kategoriIndex = -1;
+      const kode = id.toString();
+
+      if (kode.startsWith("TR")) {
+        kategoriIndex = 1; // tourist
+      } else if (kode.startsWith("T")) {
+        kategoriIndex = 0; // fans
+      } else if (kode.startsWith("K")) {
+        kategoriIndex = 2; // komunitas
+      }
+
+      if (kategoriIndex === -1) return;
+
+      const selectedTicket = ticket[kategoriIndex]?.listTicket.find(
+        (item) => item.kode === kode,
+      );
+
+      if (selectedTicket) {
+        setTicketDipilih({
+          name: selectedTicket.namaTiket,
+          variant: selectedTicket.variant,
+        });
+      }
+    };
+    set();
+  }, []);
 
   const prefix = id?.split("-")[0];
 
@@ -63,7 +229,7 @@ const PurchaseTicketDetailPage = () => {
   );
 
   const handlePayment = () => {
-    router.push(`/ticket/purchase/${id}/payment`);
+    router.push(`/ticket/buy/${id}/payment`);
   };
 
   return (
@@ -77,8 +243,10 @@ const PurchaseTicketDetailPage = () => {
             <h1 className="text-lg text-center font-bold">
               {PlayMatch.tanggal}
             </h1>
-            <button className="w-full border-4 rounded-lg border-persebaya-primary text-white bg-persebaya-accent text-xl font-bold hover:bg-persebaya-accent/50 cursor-pointer py-2">
-              {ticketDipilih.nama}
+            <button
+              className={`w-full border-4 rounded-lg ${ticketDipilih.variant} text-xl font-bold hover:bg-persebaya-accent/50 cursor-pointer py-2`}
+            >
+              {ticketDipilih.name}
             </button>
           </div>
           <div className="w-full">
@@ -553,7 +721,7 @@ const KomunitasForm = () => {
   ]);
 
   const handleAddAnggota = () => {
-    if (anggotaKomunitas.length < 10) {
+    if (anggotaKomunitas.length < 20) {
       let randomKey = crypto.randomUUID();
       const newAnggotaKomunitas: anggotaKomunitas = {
         key: randomKey,
@@ -562,7 +730,7 @@ const KomunitasForm = () => {
       };
       setAnggotaKomunitas([...anggotaKomunitas, newAnggotaKomunitas]);
     } else {
-      alert("Maks 10 Anggota");
+      alert("Maks 20 Anggota");
     }
   };
 
@@ -734,58 +902,62 @@ const KomunitasForm = () => {
             <label htmlFor="wanita">Wanita</label>
           </div>
         </div>
-        {/* Data Angota */}
-        <Card className="p-2 shadow-lg">
+        {/* Data Anggota */}
+        <Card className="p-4 border shadow-2xl">
           <CardContent>
-            <div className="flex flex-col space-y-3">
-              <div className="grid grid-cols-2 ">
-                <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
-                  Nama Anggota
-                </label>
-                <label htmlFor="noTelp" className="md:w-1/4 w-full font-medium">
-                  NiK Anggota
-                </label>
+            <div className="space-y-3">
+              {/* Header */}
+              <div className="grid grid-cols-2 font-medium">
+                <div>Nama Anggota</div>
+                <div>NIK Anggota</div>
               </div>
+
+              {/* Rows */}
               {anggotaKomunitas.map((item, index) => (
-                <div className="grid grid-cols-2 " key={index}>
-                  <div className="flex w-full space-x-2">
-                    <div>{index + 1}</div>
+                <div
+                  className="grid grid-cols-2 gap-4 items-center"
+                  key={item.key}
+                >
+                  {/* Kolom Nama */}
+                  <div className="flex items-center gap-2">
+                    <span className="w-5">{index + 1}.</span>
                     <input
-                      id={index.toString()}
-                      name="noTelp"
+                      name="nama"
                       type="text"
                       maxLength={100}
-                      onChange={handleChange}
-                      className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+                      onChange={(e) => {}}
+                      className="w-full px-2 py-1 border rounded-lg"
                     />
                   </div>
-                  <div className=" flex w-full space-x-2">
+
+                  {/* Kolom NIK */}
+                  <div className="flex items-center gap-2">
                     <input
-                      id={index.toString()}
-                      name="noTelp"
+                      name="nik"
                       type="text"
                       maxLength={16}
-                      onChange={handleChange}
-                      className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+                      onChange={(e) => {}}
+                      className="w-full px-2 py-1 border rounded-lg"
                     />
                     <button
                       onClick={() => handleRemoveAnggota(item.key)}
-                      className="p-2 bg-red-500 hover:bg-red-500/50 cursor-pointer text-white rounded-xl border-2 border-persebaya-accent"
+                      className="px-3 py-1 bg-red-500 hover:bg-red-500/70 text-white rounded-lg"
                       type="button"
                     >
-                      hapus anggota
+                      Hapus
                     </button>
                   </div>
                 </div>
               ))}
             </div>
           </CardContent>
+
           <button
             onClick={handleAddAnggota}
-            className="p-2 bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer text-white rounded-xl border-2 border-persebaya-accent"
+            className="mt-4 px-4 py-2 bg-persebaya-primary hover:bg-persebaya-primary/70 text-white rounded-lg"
             type="button"
           >
-            tambah anggota
+            Tambah Anggota
           </button>
         </Card>
       </form>

@@ -41,12 +41,8 @@ const PurchasedTicketPage = () => {
 
   const router = useRouter();
 
-  const handleTutorial = () => {
-    router.push("/tutorial");
-  };
-
-  const handleBuy = () => {
-    router.push("/ticket/purchase");
+  const handleSendEmail = () => {
+    alert("Bukti Sudah Dikirim Ke Email");
   };
 
   return (
@@ -159,7 +155,10 @@ const PurchasedTicketPage = () => {
               </div>
             </div>
             <div className="w-1/4 flex items-end justify-end">
-              <button className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer">
+              <button
+                className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
+                onClick={handleSendEmail}
+              >
                 Kirim Bukti Ke Email
               </button>
             </div>

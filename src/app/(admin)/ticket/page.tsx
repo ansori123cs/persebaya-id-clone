@@ -41,7 +41,11 @@ const TicketPage = () => {
   };
 
   const handleBuy = () => {
-    router.push("/ticket/purchase");
+    router.push("/ticket/buy");
+  };
+
+  const handlePurchased = () => {
+    router.push("/ticket/purchased");
   };
 
   return (
@@ -122,7 +126,10 @@ const TicketPage = () => {
               <div>Buy Ticket</div>
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
-            <button className="flex justify-between w-full border-2 p text-white text-xl bg-persebaya-primary border-persebaya-accent p-5 rounded-2xl shadow-2xl hover:bg-persebaya-primary-hover cursor-pointer">
+            <button
+              className="flex justify-between w-full border-2 p text-white text-xl bg-persebaya-primary border-persebaya-accent p-5 rounded-2xl shadow-2xl hover:bg-persebaya-primary-hover cursor-pointer"
+              onClick={handlePurchased}
+            >
               <div>Ticket Purchased</div>{" "}
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
