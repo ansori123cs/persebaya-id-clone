@@ -5,6 +5,38 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { ReactNode, useState, useEffect } from "react";
 
+// --- shared form types -------------------------------------------------
+
+interface FansFormData {
+  namaLengkap: string;
+  email: string;
+  nomorNik: string;
+  noTelp: string;
+  tanggalLahir: string;
+  jenisKelamin: "pria" | "wanita";
+}
+
+interface AnggotaKomunitas {
+  key: string;
+  namaLengkap: string;
+  nomorNik: string;
+}
+
+interface KomunitasFormData extends FansFormData {
+  anggotaKomunitas: AnggotaKomunitas[];
+}
+
+// union of all possible shapes we keep in parent state
+// extra properties (like anggotaKomunitas) are harmless when unused
+export type AnyFormData = FansFormData | KomunitasFormData;
+
+interface FormProps<T> {
+  formData: T;
+  setFormData: React.Dispatch<React.SetStateAction<T>>;
+}
+
+// we can reuse FormProps<FansFormData> etc when typing individual components
+
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
   tanggal: "Senin 10 Maret 2026",
@@ -218,10 +250,42 @@ const PurchaseTicketDetailPage = () => {
 
   const prefix = id?.split("-")[0];
 
+  // --- lift form state here, keep a generic shape so we can handle all categories
+  const [formData, setFormData] = useState<AnyFormData>({
+    namaLengkap: "",
+    email: "",
+    nomorNik: "",
+    noTelp: "",
+    tanggalLahir: "",
+    jenisKelamin: "pria",
+    anggotaKomunitas: [],
+  } as AnyFormData);
+
   const componentMap: Record<string, ReactNode> = {
-    T: <FansForm />,
-    TR: <TouristForm />,
-    K: <KomunitasForm />,
+    T: (
+      <FansForm
+        formData={formData as FansFormData}
+        setFormData={
+          setFormData as React.Dispatch<React.SetStateAction<FansFormData>>
+        }
+      />
+    ),
+    TR: (
+      <TouristForm
+        formData={formData as FansFormData}
+        setFormData={
+          setFormData as React.Dispatch<React.SetStateAction<FansFormData>>
+        }
+      />
+    ),
+    K: (
+      <KomunitasForm
+        formData={formData as KomunitasFormData}
+        setFormData={
+          setFormData as React.Dispatch<React.SetStateAction<KomunitasFormData>>
+        }
+      />
+    ),
   };
 
   const RenderedComponent = (prefix && componentMap[prefix]) ?? (
@@ -229,6 +293,7 @@ const PurchaseTicketDetailPage = () => {
   );
 
   const handlePayment = () => {
+    localStorage.setItem("user", JSON.stringify(formData));
     router.push(`/ticket/buy/${id}/payment`);
   };
 
@@ -323,25 +388,9 @@ const PurchaseTicketDetailPage = () => {
 
 export default PurchaseTicketDetailPage;
 
-interface FansFormData {
-  namaLengkap: string;
-  email: string;
-  nomorNik: string;
-  noTelp: string;
-  tanggalLahir: string;
-  jenisKelamin: "pria" | "wanita";
-}
-
-const FansForm = () => {
-  const [formData, setFormData] = useState<FansFormData>({
-    namaLengkap: "",
-    email: "",
-    nomorNik: "",
-    noTelp: "",
-    tanggalLahir: "",
-    jenisKelamin: "pria",
-  });
-
+// Fans form no longer manages its own state; the parent page holds the data.
+const FansForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
+  // sanitize helpers can be shared, but we redefine them locally for clarity
   const sanitizeString = (value: string): string => {
     return value
       .replace(/</g, "")
@@ -351,7 +400,30 @@ const FansForm = () => {
       .trim();
   };
 
-  const sanitizeByField = (name: string, value: string) => {
+  const sanitizeByField = (name: string, value: string): string => {
+    const sanitized = sanitizeString(value);
+
+    switch (name) {
+      case "namaLengkap":
+        return sanitized.replace(/[^a-zA-Z\s]/g, "");
+
+      case "email":
+        return sanitized.toLowerCase();
+
+      case "nomorNik":
+        return sanitized.replace(/\D/g, "");
+
+      case "noTelp":
+        return sanitized.replace(/\D/g, "");
+
+      case "jenisKelamin":
+        return sanitized as "pria" | "wanita";
+
+      default:
+        return sanitized;
+    }
+  };
+  const _unusedSanitizeByField = (name: string, value: string) => {
     const sanitized = sanitizeString(value);
 
     switch (name) {
@@ -509,15 +581,8 @@ const FansForm = () => {
   );
 };
 
-const TouristForm = () => {
-  const [formData, setFormData] = useState<FansFormData>({
-    namaLengkap: "",
-    email: "",
-    nomorNik: "",
-    noTelp: "",
-    tanggalLahir: "",
-    jenisKelamin: "pria",
-  });
+const TouristForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
+  // no local state; values are controlled by parent
 
   const sanitizeString = (value: string): string => {
     return value
@@ -528,7 +593,7 @@ const TouristForm = () => {
       .trim();
   };
 
-  const sanitizeByField = (name: string, value: string) => {
+  const sanitizeByField = (name: string, value: string): string => {
     const sanitized = sanitizeString(value);
 
     switch (name) {
@@ -536,11 +601,7 @@ const TouristForm = () => {
         return sanitized.replace(/[^a-zA-Z\s]/g, "");
 
       case "email":
-        return sanitized
-          .toLowerCase()
-          .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          );
+        return sanitized.toLowerCase();
 
       case "nomorNik":
         return sanitized.replace(/\D/g, "");
@@ -690,54 +751,37 @@ const TouristForm = () => {
   );
 };
 
-interface KomunitasFormData {
-  namaLengkap: string;
-  email: string;
-  nomorNik: string;
-  noTelp: string;
-  tanggalLahir: string;
-  jenisKelamin: "pria" | "wanita";
-  anggotaKomunitas: anggotaKomunitas[];
-}
-interface anggotaKomunitas {
-  key: string;
-  namaLengkap: string;
-  nomorNik: string;
-}
-
-const KomunitasForm = () => {
-  const [formData, setFormData] = useState<KomunitasFormData>({
-    namaLengkap: "",
-    email: "",
-    nomorNik: "",
-    noTelp: "",
-    tanggalLahir: "",
-    jenisKelamin: "pria",
-    anggotaKomunitas: [],
-  });
-
-  const [anggotaKomunitas, setAnggotaKomunitas] = useState<anggotaKomunitas[]>([
-    { key: crypto.randomUUID(), namaLengkap: "", nomorNik: "" },
-  ]);
+// KomunitasForm uses props; shared types defined at top
+const KomunitasForm = ({
+  formData,
+  setFormData,
+}: FormProps<KomunitasFormData>) => {
+  // helpers as before, sanitization identical to other forms
 
   const handleAddAnggota = () => {
-    if (anggotaKomunitas.length < 20) {
-      let randomKey = crypto.randomUUID();
-      const newAnggotaKomunitas: anggotaKomunitas = {
-        key: randomKey,
+    const current = (formData as KomunitasFormData).anggotaKomunitas;
+    if (current.length < 20) {
+      const newItem: AnggotaKomunitas = {
+        key: crypto.randomUUID(),
         namaLengkap: "",
         nomorNik: "",
       };
-      setAnggotaKomunitas([...anggotaKomunitas, newAnggotaKomunitas]);
+      setFormData((prev) => ({
+        ...(prev as KomunitasFormData),
+        anggotaKomunitas: [...current, newItem],
+      }));
     } else {
       alert("Maks 20 Anggota");
     }
   };
 
   const handleRemoveAnggota = (id: string) => {
-    // Use filter to create a new array without the deleted item
-    const updatedFields = anggotaKomunitas.filter((field) => field.key !== id);
-    setAnggotaKomunitas(updatedFields);
+    setFormData((prev) => ({
+      ...(prev as KomunitasFormData),
+      anggotaKomunitas: (prev as KomunitasFormData).anggotaKomunitas.filter(
+        (f) => f.key !== id,
+      ),
+    }));
   };
 
   const sanitizeString = (value: string): string => {
@@ -749,7 +793,7 @@ const KomunitasForm = () => {
       .trim();
   };
 
-  const sanitizeByField = (name: string, value: string) => {
+  const sanitizeByField = (name: string, value: string): string => {
     const sanitized = sanitizeString(value);
 
     switch (name) {
@@ -757,11 +801,7 @@ const KomunitasForm = () => {
         return sanitized.replace(/[^a-zA-Z\s]/g, "");
 
       case "email":
-        return sanitized
-          .toLowerCase()
-          .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          );
+        return sanitized.toLowerCase();
 
       case "nomorNik":
         return sanitized.replace(/\D/g, "");
@@ -913,42 +953,73 @@ const KomunitasForm = () => {
               </div>
 
               {/* Rows */}
-              {anggotaKomunitas.map((item, index) => (
-                <div
-                  className="grid grid-cols-2 gap-4 items-center"
-                  key={item.key}
-                >
-                  {/* Kolom Nama */}
-                  <div className="flex items-center gap-2">
-                    <span className="w-5">{index + 1}.</span>
-                    <input
-                      name="nama"
-                      type="text"
-                      maxLength={100}
-                      onChange={(e) => {}}
-                      className="w-full px-2 py-1 border rounded-lg"
-                    />
-                  </div>
+              {(formData as KomunitasFormData).anggotaKomunitas.map(
+                (item, index) => (
+                  <div
+                    className="grid grid-cols-2 gap-4 items-center"
+                    key={item.key}
+                  >
+                    {/* Kolom Nama */}
+                    <div className="flex items-center gap-2">
+                      <span className="w-5">{index + 1}.</span>
+                      <input
+                        name="nama"
+                        type="text"
+                        maxLength={100}
+                        value={item.namaLengkap}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(
+                            /[^a-zA-Z\s]/g,
+                            "",
+                          );
+                          setFormData((prev) => ({
+                            ...(prev as KomunitasFormData),
+                            anggotaKomunitas: (
+                              prev as KomunitasFormData
+                            ).anggotaKomunitas.map((a) =>
+                              a.key === item.key
+                                ? { ...a, namaLengkap: value }
+                                : a,
+                            ),
+                          }));
+                        }}
+                        className="w-full px-2 py-1 border rounded-lg"
+                      />
+                    </div>
 
-                  {/* Kolom NIK */}
-                  <div className="flex items-center gap-2">
-                    <input
-                      name="nik"
-                      type="text"
-                      maxLength={16}
-                      onChange={(e) => {}}
-                      className="w-full px-2 py-1 border rounded-lg"
-                    />
-                    <button
-                      onClick={() => handleRemoveAnggota(item.key)}
-                      className="px-3 py-1 bg-red-500 hover:bg-red-500/70 text-white rounded-lg"
-                      type="button"
-                    >
-                      Hapus
-                    </button>
+                    {/* Kolom NIK */}
+                    <div className="flex items-center gap-2">
+                      <input
+                        name="nik"
+                        type="text"
+                        maxLength={16}
+                        value={item.nomorNik}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, "");
+                          setFormData((prev) => ({
+                            ...(prev as KomunitasFormData),
+                            anggotaKomunitas: (
+                              prev as KomunitasFormData
+                            ).anggotaKomunitas.map((a) =>
+                              a.key === item.key
+                                ? { ...a, nomorNik: value }
+                                : a,
+                            ),
+                          }));
+                        }}
+                        className="w-full px-2 py-1 border rounded-lg"
+                      />
+                      <button
+                        onClick={() => handleRemoveAnggota(item.key)}
+                        className="px-3 py-1 bg-red-500 hover:bg-red-500/70 text-white rounded-lg"
+                        type="button"
+                      >
+                        Hapus
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </CardContent>
 

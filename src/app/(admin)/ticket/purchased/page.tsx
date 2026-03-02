@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
@@ -38,6 +38,15 @@ const TicketPurchased = {
 };
 const PurchasedTicketPage = () => {
   const [pembayaran, setPembayaran] = useState("");
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // This code runs only on the client side after hydration
+    const item = localStorage.getItem("user");
+    if (item) {
+      console.log(item);
+    }
+  }, []);
 
   const router = useRouter();
 
