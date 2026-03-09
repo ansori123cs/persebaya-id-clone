@@ -245,7 +245,6 @@ const PurchaseTicketDetailPage = () => {
           harga: selectedTicket.harga,
         });
       }
-      console.log(ticketDipilih);
     };
     set();
   }, []);
