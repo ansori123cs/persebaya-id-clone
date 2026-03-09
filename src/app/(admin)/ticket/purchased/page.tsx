@@ -16,36 +16,62 @@ const PlayMatch = {
     { logo: "play2.png", label: "Manchaster United" },
   ],
 };
-const TicketPurchased = {
-  qrCode: "/qrExample.png",
-  nameTicked: "Ticked Gate VIP (West)",
-  category: "FANS",
-  code: "0011223344",
-  dataDiri: {
-    namaLengkap: "Maulana Faisal",
-    email: "maulanafaisal123@gmail.com",
-    nomorNik: "3524062804020001",
-    noTelp: "085647852783",
-    TanggalLahir: "28 maret 2002",
-    JenisKelamin: "Laki - Laki",
-    TanggalBooking: new Date().toLocaleDateString("id-ID", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-  },
+
+type FormData = {
+  namaLengkap: string;
+  email: string;
+  nomorNik: string;
+  noTelp: string;
+  tanggalLahir: string;
+  jenisKelamin: string;
+  anggotaKomunitas: AnggotaKomunitas[];
+  ticket: { name: string; variant: string; harga: number };
 };
+
+interface AnggotaKomunitas {
+  key: string;
+  namaLengkap: string;
+  nomorNik: string;
+}
+
+type TicketPurchased = {
+  QrCode: string;
+  NameTicket: string;
+  CategoryTicket: string;
+  Code: string;
+  DataDiri: FormData;
+  Keterangan: {
+    BoodkedDate: string;
+  };
+};
+
 const PurchasedTicketPage = () => {
   const [pembayaran, setPembayaran] = useState("");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<TicketPurchased>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // This code runs only on the client side after hydration
-    const item = localStorage.getItem("user");
-    if (item) {
-      console.log(item);
-    }
+    const load = async () => {
+      const item = JSON.parse(localStorage.getItem("user")!) as FormData;
+      setLoading(true);
+      setData({
+        QrCode: "/qrExample.png",
+        Code: btoa("persebaya" + item.namaLengkap),
+        CategoryTicket: item.ticket.name,
+        NameTicket: item.ticket.name,
+        DataDiri: item,
+        Keterangan: {
+          BoodkedDate: new Date().toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        },
+      });
+    };
+    load();
+    setLoading(false);
   }, []);
 
   const router = useRouter();
@@ -60,7 +86,7 @@ const PurchasedTicketPage = () => {
         <CardContent>
           <div>
             <h1 className="text-2xl font-bold text-start">
-              {TicketPurchased.nameTicked}
+              {data?.NameTicket}
             </h1>
             <h1 className="text-2xl font-bold text-center">
               {PlayMatch.stadion}
@@ -113,52 +139,45 @@ const PurchasedTicketPage = () => {
         <CardContent>
           <div className="mb-2">
             <h1 className="font-bold text-lg bg-persebaya-accent text-left p-1 inline-block">
-              {TicketPurchased.nameTicked} Kategori {TicketPurchased.category}
+              {data?.NameTicket} Kategori {data?.CategoryTicket}
             </h1>
           </div>
           <div className="flex">
             <div className="w-3/4 flex justify-center items-center">
               <div className="w-1/4">
-                <Image
-                  alt="qrCode"
-                  src={TicketPurchased.qrCode}
-                  width={200}
-                  height={200}
-                />
-                <p className="font-semibold">
-                  Code Ticket : {TicketPurchased.code}
-                </p>
+                {loading ? (
+                  <h1 className="w-full h-full justify-center items-center text-9xl">
+                    Loading...
+                  </h1>
+                ) : (
+                  <Image
+                    alt="qrCode"
+                    src={data?.QrCode! ?? "/qrExample.png"}
+                    width={200}
+                    height={200}
+                  />
+                )}
+
+                <p className="font-semibold">Code Ticket : {data?.Code}</p>
               </div>
               <div>
                 <p className="font-semibold mb-3">Data Booked</p>
                 <div className="grid grid-cols-2 gap-x-2">
                   <p className="font-semibold">Email </p>
-                  <p className="font-semibold">
-                    {TicketPurchased.dataDiri.email}
-                  </p>
+                  <p className="font-semibold">{data?.DataDiri.email}</p>
                   <p className="font-semibold">Nama Lengkap </p>
-                  <p className="font-semibold">
-                    {TicketPurchased.dataDiri.namaLengkap}
-                  </p>
+                  <p className="font-semibold">{data?.DataDiri.namaLengkap}</p>
                   <p className="font-semibold">Nomor KTP/NIK </p>
-                  <p className="font-semibold">
-                    {TicketPurchased.dataDiri.nomorNik}
-                  </p>
+                  <p className="font-semibold">{data?.DataDiri.nomorNik}</p>
                   <p className="font-semibold">No Telp / WA </p>
-                  <p className="font-semibold">
-                    {TicketPurchased.dataDiri.noTelp}
-                  </p>
+                  <p className="font-semibold">{data?.DataDiri.noTelp}</p>
                   <p className="font-semibold">Tanggal Lahir </p>
-                  <p className="font-semibold">
-                    {TicketPurchased.dataDiri.TanggalLahir}
-                  </p>
+                  <p className="font-semibold">{data?.DataDiri.tanggalLahir}</p>
                   <p className="font-semibold">Jenis kelamin </p>
-                  <p className="font-semibold">
-                    {TicketPurchased.dataDiri.JenisKelamin}
-                  </p>
+                  <p className="font-semibold">{data?.DataDiri.jenisKelamin}</p>
                   <p className="font-semibold">Tanggal Booking </p>
                   <p className="font-semibold">
-                    {TicketPurchased.dataDiri.TanggalBooking}
+                    {data?.Keterangan.BoodkedDate}
                   </p>
                 </div>
               </div>
