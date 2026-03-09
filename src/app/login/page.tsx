@@ -34,7 +34,7 @@ export default function LoginPage() {
           "user",
           JSON.stringify({ username, name: username }),
         );
-        router.push("/dashboard");
+        router.push("/berita");
       } else {
         setError("username dan password harus diisi");
         setIsLoading(false);

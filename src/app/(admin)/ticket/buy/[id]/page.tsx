@@ -26,8 +26,6 @@ interface KomunitasFormData extends FansFormData {
   anggotaKomunitas: AnggotaKomunitas[];
 }
 
-// union of all possible shapes we keep in parent state
-// extra properties (like anggotaKomunitas) are harmless when unused
 export type AnyFormData = FansFormData | KomunitasFormData;
 
 interface FormProps<T> {
@@ -204,6 +202,7 @@ const tempatPenukaran = [
 type TicketDipilih = {
   name: string;
   variant: string;
+  harga: number;
 };
 
 const PurchaseTicketDetailPage = () => {
@@ -211,6 +210,7 @@ const PurchaseTicketDetailPage = () => {
   const [ticketDipilih, setTicketDipilih] = useState<TicketDipilih>({
     name: "",
     variant: "",
+    harga: 0,
   });
 
   const router = useRouter();
@@ -242,8 +242,10 @@ const PurchaseTicketDetailPage = () => {
         setTicketDipilih({
           name: selectedTicket.namaTiket,
           variant: selectedTicket.variant,
+          harga: selectedTicket.harga,
         });
       }
+      console.log(ticketDipilih);
     };
     set();
   }, []);
@@ -292,8 +294,16 @@ const PurchaseTicketDetailPage = () => {
     <div>Ticket tidak ditemukan</div>
   );
 
-  const handlePayment = () => {
-    localStorage.setItem("user", JSON.stringify(formData));
+  const handlePayment = (e: TicketDipilih) => {
+    const newData = {
+      ...formData,
+      ticket: e,
+    };
+
+    setFormData(newData);
+
+    localStorage.removeItem("user");
+    localStorage.setItem("user", JSON.stringify(newData));
     router.push(`/ticket/buy/${id}/payment`);
   };
 
@@ -375,7 +385,7 @@ const PurchaseTicketDetailPage = () => {
             <button
               className="text-white  rounded-xl border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer px-4 py-2"
               type="button"
-              onClick={handlePayment}
+              onClick={() => handlePayment(ticketDipilih)}
             >
               Continue
             </button>
@@ -468,10 +478,6 @@ const FansForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
       jenisKelamin: value,
     }));
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <div>
@@ -634,10 +640,6 @@ const TouristForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
       jenisKelamin: value,
     }));
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <div>
@@ -834,10 +836,6 @@ const KomunitasForm = ({
       jenisKelamin: value,
     }));
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <div>

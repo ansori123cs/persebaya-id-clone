@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
@@ -30,15 +30,55 @@ const menuEwallet = [
   { label: "gopay", src: "/payment/ewallet-gopay.png" },
 ];
 
-const ticketDetail = {
-  name: "Ticked Gate VIP (West)",
-  price: 200000,
-  fee: 5000,
-  total: 205000,
+type FormData = {
+  namaLengkap: string;
+  email: string;
+  nomorNik: string;
+  noTelp: string;
+  tanggalLahir: string;
+  jenisKelamin: string;
+  anggotaKomunitas: AnggotaKomunitas[];
+  ticket: { name: string; variant: string; harga: number };
+};
+
+interface AnggotaKomunitas {
+  key: string;
+  namaLengkap: string;
+  nomorNik: string;
+}
+type ticketDetail = {
+  name: string;
+  price: number;
+  fee: number;
+  total: number;
 };
 
 const PaymentPage = () => {
   const [pembayaran, setPembayaran] = useState("");
+  const [formDataBuyer, setFormDataBuyer] = useState<FormData>();
+  const [ticketPrice, setTicketPrice] = useState<ticketDetail>({
+    name: "",
+    fee: 5000,
+    price: 0,
+    total: 0,
+  });
+
+  useEffect(() => {
+    const load = async () => {
+      const localItem = localStorage.getItem("user");
+      const deserialize = JSON.parse(localItem!) as FormData;
+      setTicketPrice({
+        fee: 5000,
+        price: deserialize.ticket.harga,
+        total:
+          (deserialize.anggotaKomunitas.length + 1) *
+          (deserialize.ticket.harga + 5000),
+        name: deserialize.ticket.name,
+      });
+      setFormDataBuyer(deserialize);
+    };
+    load();
+  }, []);
 
   const router = useRouter();
 
@@ -113,22 +153,22 @@ const PaymentPage = () => {
           <div className="flex justify-between">
             <div className="w-3/4 space-y-1">
               <h1 className="text-lg font-bold text-start">
-                {ticketDetail.name}
+                {ticketPrice.name}
               </h1>
-              <h1 className="text-lg font-bold text-start">Service fee</h1>
-              <hr className="w-full" />
+              <h1 className="text-lg font-bold text-start mb-5">Service fee</h1>
+
               <h1 className="text-lg font-bold text-start">Total Harga</h1>
             </div>
             <div className="w-1/4 space-y-1">
               <h1 className="text-lg font-bold text-start">
-                Rp :{ticketDetail.price.toLocaleString("id-ID")}
+                Rp :{ticketPrice.price.toLocaleString("id-ID")} X{" "}
+                {formDataBuyer?.anggotaKomunitas.length! + 1} orang
+              </h1>
+              <h1 className="text-lg font-bold text-start mb-5">
+                Rp :{ticketPrice.fee.toLocaleString("id-ID")}
               </h1>
               <h1 className="text-lg font-bold text-start">
-                Rp :{ticketDetail.fee.toLocaleString("id-ID")}
-              </h1>
-              <hr className="w-full" />
-              <h1 className="text-lg font-bold text-start">
-                Rp :{ticketDetail.total.toLocaleString("id-ID")}
+                Rp :{ticketPrice.total.toLocaleString("id-ID")}
               </h1>
             </div>
           </div>

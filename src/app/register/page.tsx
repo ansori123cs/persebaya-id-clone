@@ -104,7 +104,7 @@ export default function RegisterPage() {
           name: formData.fullName,
         }),
       );
-      router.push("/dashboard");
+      router.push("/berita");
     }, 800);
   };
 
