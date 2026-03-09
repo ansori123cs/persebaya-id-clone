@@ -139,10 +139,13 @@ const PurchasedTicketPage = () => {
         <CardContent>
           <div className="mb-2">
             <h1 className="font-bold text-lg bg-persebaya-accent text-left p-1 inline-block">
-              {data?.NameTicket} Kategori {data?.CategoryTicket}
+              {data?.NameTicket} Kategori{" "}
+              {data?.DataDiri.anggotaKomunitas.length === 0
+                ? "Fans"
+                : "Komunitas"}
             </h1>
           </div>
-          <div className="flex">
+          <div className="flex ">
             <div className="w-3/4 flex justify-center items-center">
               <div className="w-1/4">
                 {loading ? (
@@ -179,6 +182,22 @@ const PurchasedTicketPage = () => {
                   <p className="font-semibold">
                     {data?.Keterangan.BoodkedDate}
                   </p>
+                </div>
+
+                <div>
+                  <p className="font-semibold mt-3">Anggota Komunitas</p>
+                  {data?.DataDiri.anggotaKomunitas.length === 0 ? (
+                    <p className="font-semibold">Tidak Ada Anggota Komunitas</p>
+                  ) : (
+                    <div>
+                      {data?.DataDiri.anggotaKomunitas.map((item, index) => (
+                        <div className="grid grid-cols-2 gap-x-2" key={index}>
+                          <p className="font-semibold">{item.namaLengkap}</p>
+                          <p className="font-semibold">{item.nomorNik}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
