@@ -28,3 +28,8 @@ export interface CommunityMember {
   nik: string;
   communityId: number;
 }
+
+export type Member = {
+  name: string;
+  nik: string;
+};

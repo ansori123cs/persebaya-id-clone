@@ -1,0 +1,21 @@
+{
+  "register": {
+    "title": "Registrasi Akun",
+    "fullName-label": "Nama Lengkap",
+    "fullName-placeholder": "Maulana Faisal Fardani",
+    "no-label": "Nomor NIK",
+    "no-placeholder": "35781605040003",
+    "phoneNumber-label": "No Telp / Wa",
+    "phoneNumber-placeholder": "+6287834818534",
+    "address-label": "Alamat",
+    "address-placeholder": "Masukan Alamat Contoh Jalan Gubeng No 10 Surabaya ",
+    "allready-have-account": "Sudah Punya Akun?",
+    "agree": "Saya setuju dengan",
+    "and": "dan",
+    "term": " Syarat & Ketentuan ",
+    "privacy": "  Kebijakan Privasi ",
+    "button": "Daftar",
+    "have-account": "Sudah Punya Akun?",
+    "here": "Login Di Sini"
+  }
+}

@@ -13,16 +13,19 @@ import {
   SquareUser,
   Dock,
   HouseHeart,
+  Users,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import Image from "next/image";
+import { Member } from "@/lib/type";
+import id from "./id.json";
+import en from "./en.json";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showCommunityMemberForm, setShowCommunityMemberForm] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isCommunityLeader, setIsCommunityLeader] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -36,6 +39,28 @@ export default function RegisterPage() {
     address: "",
     agreeTerms: false,
   });
+
+  const translations = {
+    id,
+    en,
+  };
+
+  const [lang, setLang] = useState<"id" | "en">("id");
+  const toggleLang = () => {
+    setLang((prev) => (prev === "id" ? "en" : "id"));
+  };
+  const t = (key: string) => {
+    const keys = key.split(".");
+    let value: any = translations[lang];
+
+    keys.forEach((k) => {
+      value = value?.[k];
+    });
+
+    return value || key;
+  };
+
+  const [members, setMembers] = useState<Member[]>([{ name: "", nik: "" }]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -99,67 +124,117 @@ export default function RegisterPage() {
   };
 
   const toggleCommunityMemberForm = () => {
-    setShowCommunityMemberForm((prev) => !prev);
+    setIsCommunityLeader((prev) => !prev);
   };
 
-  const [members, setMembers] = useState([{ name: "", nik: "" }]);
+  const handleMember = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = e.target;
 
-  const handleChangea = (index, e) => {
+    console.log(name, value);
+
     const updated = [...members];
-    updated[index][e.target.name] = e.target.value;
+    updated[index] = {
+      ...updated[index],
+      [name]: value,
+    };
+
     setMembers(updated);
   };
 
   const handleAdd = () => {
-    setMembers([...members, { name: "", nik: "" }]);
+    members.length >= 20
+      ? setError("Maksimal anggota komunitas adalah 20")
+      : setMembers((prev) => [...prev, { name: "", nik: "" }]);
   };
 
-  const handleDelete = (index) => {
-    const updated = members.filter((_, i) => i !== index);
-    setMembers(updated);
+  const handleDelete = (index: number) => {
+    if (members.length <= 3) {
+      setError("Minimal 3 anggota komunitas harus ada");
+      return; // proteksi minimal 1
+    }
+
+    setMembers((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const CommunityMemberForm = ({ index, data, onChange, onDelete }) => {
+  const CommunityMemberForm = ({
+    index,
+    data,
+    onChange,
+    onDelete,
+  }: {
+    index: number;
+    data: { name: string; nik: string };
+    onChange: (index: number, e: React.ChangeEvent<HTMLInputElement>) => void;
+    onDelete: (index: number) => void;
+  }) => {
     return (
-      <div className="space-y-4 border border-gray-300 rounded-lg p-4">
-        {/* Name */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Full Name / Nama Lengkap
-          </label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Masukkan nama lengkap"
-            value={data.name}
-            onChange={(e) => onChange(index, e)}
-            className="w-full px-4 py-2 border rounded-lg"
-          />
-        </div>
+      <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {/* Full Name Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="fullName"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Nama Lengkap
+            </label>
+            <div className="relative">
+              <SquareUser className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                id={`name`}
+                name={`name`}
+                type="text"
+                placeholder="Maulana Faisal Fardani"
+                value={data.name}
+                onChange={(e) => onChange(index, e)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
+              />
+            </div>
+          </div>
 
-        {/* NIK */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">NIK</label>
-          <input
-            type="text"
-            name="nik"
-            placeholder="Masukkan NIK"
-            value={data.nik}
-            onChange={(e) => onChange(index, e)}
-            className="w-full px-4 py-2 border rounded-lg"
-          />
+          {/* no Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="no"
+              className="block text-sm font-medium text-gray-700"
+            >
+              NIK
+            </label>
+            <div className="relative">
+              <Dock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                id={`nik`}
+                name={`nik`}
+                type="text"
+                placeholder="3572456653766352"
+                value={data.nik}
+                onChange={(e) => onChange(index, e)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
+              />
+            </div>
+          </div>
         </div>
-
-        <Button onClick={() => onDelete(index)} variant="danger">
-          Hapus
-        </Button>
+        <div className="flex w-full items-center justify-end mt-2">
+          <Button
+            onClick={() => onDelete(index)}
+            variant="danger"
+            type="button"
+          >
+            Hapus
+          </Button>
+        </div>
       </div>
     );
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F2F4F7] px-4">
-      <Card className="mb-6 w-full max-w-5xl bg-white rounded-2xl p-1 mt-2">
+      <Card
+        className={`mb-6 w-full bg-white rounded-2xl p-1 mt-2 ${isCommunityLeader && lang === "id" ? "max-w-8xl" : "max-w-3xl"}`}
+      >
         <CardContent className="pt-6">
           {/* Header */}
           <div className="text-center mb-8">
@@ -172,12 +247,12 @@ export default function RegisterPage() {
               />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Registrasi
+              {t("register.title")}
             </h1>
           </div>
 
           {/* Register Card */}
-          <Card className="mb-6">
+          <Card className="mb-6 ">
             <CardContent className="pt-6">
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Error Message */}
@@ -187,10 +262,52 @@ export default function RegisterPage() {
                   </div>
                 )}
                 <div
-                  className={`grid   ${showCommunityMemberForm ? "md:grid-cols-2 grid-cols-1" : "grid-cols-1 "} gap-4`}
+                  className={
+                    isCommunityLeader && lang === "id"
+                      ? "md:grid grid-cols-2 gap-3"
+                      : ""
+                  }
                 >
                   <Card>
                     <CardContent>
+                      <div className="flex items-center gap-3 mb-2">
+                        {/* EN */}
+                        <span
+                          className={`text-sm ${
+                            lang === "en"
+                              ? "font-semibold text-black"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          Register As a Tourist
+                        </span>
+
+                        {/* Toggle */}
+                        <button
+                          type="button"
+                          onClick={toggleLang}
+                          className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+                            lang === "en" ? "bg-gray-300" : "bg-green-500"
+                          }`}
+                        >
+                          <div
+                            className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
+                              lang === "en" ? "translate-x-0" : "translate-x-6"
+                            }`}
+                          />
+                        </button>
+
+                        {/* ID */}
+                        <span
+                          className={`text-sm ${
+                            lang === "id"
+                              ? "font-semibold text-black"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          Daftar Sebagai Orang Indonesia
+                        </span>
+                      </div>
                       {/* Baris 1: Full Name & no */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Full Name Field */}
@@ -199,7 +316,7 @@ export default function RegisterPage() {
                             htmlFor="fullName"
                             className="block text-sm font-medium text-gray-700"
                           >
-                            Nama Lengkap
+                            {t("register.fullName-label")}
                           </label>
                           <div className="relative">
                             <SquareUser className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -207,7 +324,7 @@ export default function RegisterPage() {
                               id="fullName"
                               name="fullName"
                               type="text"
-                              placeholder="Maulana Faisal Fardani"
+                              placeholder={t("register.fullName-placeholder")}
                               value={formData.fullName}
                               onChange={handleChange}
                               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
@@ -221,7 +338,7 @@ export default function RegisterPage() {
                             htmlFor="no"
                             className="block text-sm font-medium text-gray-700"
                           >
-                            no
+                            {t("register.no-label")}
                           </label>
                           <div className="relative">
                             <Dock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -229,7 +346,7 @@ export default function RegisterPage() {
                               id="no"
                               name="no"
                               type="text"
-                              placeholder="3572456653766352"
+                              placeholder={t("register.no-placeholder")}
                               value={formData.no}
                               onChange={handleChange}
                               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
@@ -324,7 +441,7 @@ export default function RegisterPage() {
                           htmlFor="phone"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Nomor HP
+                          {t("register.phoneNumber-label")}
                         </label>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -332,7 +449,7 @@ export default function RegisterPage() {
                             id="phone"
                             name="phone"
                             type="tel"
-                            placeholder="+62 812-3456-7890"
+                            placeholder={t("register.phoneNumber-placeholder")}
                             value={formData.phone}
                             onChange={handleChange}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
@@ -346,14 +463,14 @@ export default function RegisterPage() {
                           htmlFor="address"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          address
+                          {t("register.address-label")}
                         </label>
                         <div className="relative">
                           <HouseHeart className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                           <textarea
                             id="address"
                             name="address"
-                            placeholder="Masukkan address lengkap"
+                            placeholder={t("register.address-placeholder")}
                             value={formData.address}
                             onChange={handleChange}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
@@ -361,23 +478,71 @@ export default function RegisterPage() {
                           />
                         </div>
                       </div>
+                      {/* Is Leader Community*/}
+                      {lang === "id" ? (
+                        <div className="flex items-center ">
+                          <span className="text-sm text-gray-600 me-2">
+                            Daftar Sebagai Ketua Komunitas
+                          </span>
+                          <button
+                            type="button"
+                            onClick={toggleCommunityMemberForm}
+                            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+                              isCommunityLeader ? "bg-green-500" : "bg-gray-300"
+                            }`}
+                          >
+                            <div
+                              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
+                                isCommunityLeader
+                                  ? "translate-x-6"
+                                  : "translate-x-0"
+                              }`}
+                            />
+                          </button>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </CardContent>
                   </Card>
-                  {showCommunityMemberForm && (
-                    <Card className="h-screen overflow-y-auto">
-                      <h1>Form Komunitas</h1>
+                  {isCommunityLeader && lang === "id" && (
+                    <Card className="mb-6 w-full space-y-2 bg-white rounded-2xl p-3">
+                      <h1>Form Komunitas ( Min 3 anggota, Max 20 anggota )</h1>
 
-                      {members.map((member, index) => (
-                        <CommunityMemberForm
-                          key={index}
-                          index={index}
-                          data={member}
-                          onChange={handleChange}
-                          onDelete={handleDelete}
-                        />
-                      ))}
+                      {/* Community NameField  */}
+                      <div className="space-y-2">
+                        <label
+                          htmlFor="phone"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Nama Komunitas
+                        </label>
+                        <div className="relative">
+                          <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                          <input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            placeholder="Komunitas Bonek ....."
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
+                          />
+                        </div>
+                      </div>
+                      <div className="p-2 space-y-2">
+                        {members.map((member, index) => (
+                          <CommunityMemberForm
+                            key={index}
+                            index={index}
+                            data={member}
+                            onChange={handleMember}
+                            onDelete={handleDelete}
+                          />
+                        ))}
+                      </div>
 
-                      <Button onClick={handleAdd}>
+                      <Button onClick={handleAdd} type="button">
                         Tambah Anggota Komunitas
                       </Button>
                     </Card>
@@ -394,36 +559,20 @@ export default function RegisterPage() {
                     className="mt-1 rounded border-gray-300"
                   />
                   <label htmlFor="agreeTerms" className="text-sm text-gray-600">
-                    Saya setuju dengan{" "}
+                    {t("register.agree")}{" "}
                     <Link
                       href="#"
                       className="text-persebaya-link underline hover:text-blue-700 font-medium"
                     >
-                      Syarat & Ketentuan
+                      {t("register.term")}
                     </Link>{" "}
-                    dan{" "}
+                    {t("register.and")}{" "}
                     <Link
                       href="#"
                       className="text-persebaya-link underline hover:text-blue-700 font-medium"
                     >
-                      Kebijakan Privasi
+                      {t("register.policy")}
                     </Link>
-                  </label>
-                </div>
-                {/* Terms Agreement */}
-                <div className="flex items-start gap-2">
-                  <input
-                    id="isCommunityMember"
-                    name="isCommunityMember"
-                    type="checkbox"
-                    onChange={toggleCommunityMemberForm}
-                    className="mt-1 rounded border-gray-300"
-                  />
-                  <label
-                    htmlFor="isCommunityMember"
-                    className="text-sm text-gray-600"
-                  >
-                    Saya anggota komunitas
                   </label>
                 </div>
 
@@ -435,7 +584,7 @@ export default function RegisterPage() {
                   loading={isLoading}
                   className="w-full mt-6"
                 >
-                  Daftar
+                  {t("register.button")}
                 </Button>
               </form>
             </CardContent>
@@ -444,12 +593,12 @@ export default function RegisterPage() {
           {/* Footer */}
           <div className="text-start">
             <p className="text-gray-600 text-sm">
-              Sudah punya akun?{" "}
+              {t("register.have-account")}{" "}
               <Link
                 href="/login"
                 className="text-persebaya-link underline hover:text-blue-700 font-semibold"
               >
-                Masuk di sini
+                {t("register.here")}
               </Link>
             </p>
           </div>
