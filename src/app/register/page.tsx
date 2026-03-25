@@ -35,10 +35,11 @@ export default function RegisterPage() {
     username: "",
     phone: "",
     password: "",
-    telephone: "",
     address: "",
     agreeTerms: false,
   });
+
+  const [community, setCommunity] = useState("");
 
   const translations = {
     id,
@@ -89,7 +90,7 @@ export default function RegisterPage() {
     if (
       !formData.fullName ||
       !formData.no ||
-      !formData.telephone ||
+      !formData.phone ||
       !formData.username ||
       !formData.password ||
       !formData.address
@@ -108,17 +109,28 @@ export default function RegisterPage() {
       return;
     }
 
+    const formDataFinal = new FormData();
+
+    formDataFinal.append("fullName", formData.fullName);
+
+    if (community) {
+      const communityWithMembers = {
+        nameCommunity: community,
+        membersCommunity: members,
+      };
+    }
+
     setIsLoading(true);
 
     // Simulasi register - dalam production, ini akan ke API
     setTimeout(() => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          username: formData.username,
-          name: formData.fullName,
-        }),
-      );
+      localStorage.setItem("user", JSON.stringify(formData));
+      community !== ""
+        ? localStorage.setItem(
+            "community",
+            JSON.stringify({ community, members }),
+          )
+        : "";
       router.push("/berita");
     }, 800);
   };
@@ -512,7 +524,7 @@ export default function RegisterPage() {
                       {/* Community NameField  */}
                       <div className="space-y-2">
                         <label
-                          htmlFor="phone"
+                          htmlFor="community"
                           className="block text-sm font-medium text-gray-700"
                         >
                           Nama Komunitas
@@ -520,12 +532,12 @@ export default function RegisterPage() {
                         <div className="relative">
                           <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                           <input
-                            id="phone"
-                            name="phone"
-                            type="tel"
+                            id="community"
+                            name="community"
+                            type="text"
                             placeholder="Komunitas Bonek ....."
-                            value={formData.phone}
-                            onChange={handleChange}
+                            value={community}
+                            onChange={(e) => setCommunity(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                           />
                         </div>
