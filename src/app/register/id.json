@@ -17,5 +17,13 @@
     "button": "Daftar",
     "have-account": "Sudah Punya Akun?",
     "here": "Login Di Sini"
+  },
+  "login": {
+    "title": "Login Akun",
+    "remember": "Ingat Saya",
+    "forgot-password": "Lupa password?",
+    "button": "Login",
+    "dont-have-account": "Belum Punya Akun?",
+    "here": "Daftar Di Sini"
   }
 }

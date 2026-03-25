@@ -16,5 +16,13 @@
     "button": "Register",
     "have-account": "Already Have an Account?",
     "here": "Login Here"
+  },
+  "login": {
+    "title": "Login Account",
+    "remember": "Remember Me",
+    "forgot-password": "Forgot password?",
+    "button": "Login",
+    "dont-have-account": "Don't Have an Account?",
+    "here": "Register Here"
   }
 }

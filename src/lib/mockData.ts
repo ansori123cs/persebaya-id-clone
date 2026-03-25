@@ -37,7 +37,7 @@ export const userMockData: User[] = [
     id: 4,
     no: "3578170301850003",
     fullName: "Agus Kopling",
-    username: "akun_comunity_gubeng",
+    username: "akun_community_gubeng",
     password: "password123",
     telphone: "081234567804",
     address: "jl gubeng 3 no 15 Surabaya",

@@ -14,6 +14,9 @@ import {
 import Image from "next/image";
 import { userMockData } from "@/lib/mockData";
 
+import id from "../register/id.json";
+import en from "../register/en.json";
+
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +24,26 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const translations = {
+    id,
+    en,
+  };
+
+  const [lang, setLang] = useState<"id" | "en">("en");
+  const toggleLang = () => {
+    setLang((prev) => (prev === "id" ? "en" : "id"));
+  };
+  const t = (key: string) => {
+    const keys = key.split(".");
+    let value: any = translations[lang];
+
+    keys.forEach((k) => {
+      value = value?.[k];
+    });
+
+    return value || key;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +88,9 @@ export default function LoginPage() {
                 alt="logo-persebaya"
               />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Login</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              {t("login.title")}
+            </h1>
           </div>
 
           {/* Login Card */}
@@ -78,7 +103,44 @@ export default function LoginPage() {
                     <p className="text-sm text-red-600">{error}</p>
                   </div>
                 )}
+                <div className="flex items-center gap-3 mb-2">
+                  {/* EN */}
+                  <span
+                    className={`text-sm ${
+                      lang === "en"
+                        ? "font-semibold text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    English
+                  </span>
 
+                  {/* Toggle */}
+                  <button
+                    type="button"
+                    onClick={toggleLang}
+                    className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+                      lang === "en" ? "bg-gray-300" : "bg-green-500"
+                    }`}
+                  >
+                    <div
+                      className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
+                        lang === "en" ? "translate-x-0" : "translate-x-6"
+                      }`}
+                    />
+                  </button>
+
+                  {/* ID */}
+                  <span
+                    className={`text-sm ${
+                      lang === "id"
+                        ? "font-semibold text-black"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    Indonesia
+                  </span>
+                </div>
                 {/* Username Field */}
                 <div className="space-y-2">
                   <label
@@ -139,25 +201,25 @@ export default function LoginPage() {
                       type="checkbox"
                       className="rounded border-gray-300"
                     />
-                    <span className="text-gray-600">Ingat saya</span>
+                    <span className="text-gray-600">{t("login.remember")}</span>
                   </label>
                   <Link
                     href="#"
                     className="text-persebaya-link hover:text-blue-700 font-medium"
                   >
-                    Lupa password?
+                    {t("login.forgot-password")}
                   </Link>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="text-center">
                     <p className="text-gray-600 text-sm">
-                      Belum punya akun?{" "}
+                      {t("login.dont-have-account")}{" "}
                       <Link
                         href="/register"
                         className="text-persebaya-link hover:text-blue-700 font-semibold underline"
                       >
-                        Daftar di sini
+                        {t("login.here")}
                       </Link>
                     </p>
                   </div>
@@ -169,20 +231,35 @@ export default function LoginPage() {
                     loading={isLoading}
                     className="md:w-1/2 "
                   >
-                    Masuk
+                    {t("login.button")}
                   </Button>
                 </div>
               </form>
             </CardContent>
           </Card>
 
-          {/* Demo Account */}
-          <div className="mt-8 p-4 bg-persebaya-bg rounded-lg border border-gray-300">
-            <p className="text-xs font-semibold text-persebaya-text mb-2">
+          <div className=" p-2 bg-persebaya-bg rounded-lg border border-gray-300">
+            <p className="text-xs font-semibold text-persebaya-text mb-1">
               Demo Account:
             </p>
-            <p className="text-xs text-persebaya-text">username: faisal123cs</p>
-            <p className="text-xs text-persebaya-text">Password: faisal123</p>
+
+            <div className="space-y-1">
+              {userMockData.map((user) => (
+                <div
+                  key={user.id}
+                  className="p-1 rounded border border-gray-200 "
+                >
+                  <p className="text-xs text-persebaya-text">
+                    <span className="font-medium">Username:</span>{" "}
+                    {user.username}
+                  </p>
+                  <p className="text-xs text-persebaya-text">
+                    <span className="font-medium">Password:</span>{" "}
+                    {user.password}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>
