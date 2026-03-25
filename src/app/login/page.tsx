@@ -12,6 +12,7 @@ import {
   CardFooter,
 } from "@/components/ui/Card";
 import Image from "next/image";
+import { userMockData } from "@/lib/mockData";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,19 +27,27 @@ export default function LoginPage() {
     setError("");
     setIsLoading(true);
 
-    // Simulasi login - dalam production, ini akan ke API
     setTimeout(() => {
-      if (username && password) {
-        // Simpan fake auth state
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ username, name: username }),
-        );
-        router.push("/berita");
-      } else {
+      if (!username || !password) {
         setError("username dan password harus diisi");
         setIsLoading(false);
+        return;
       }
+
+      const userLogin = userMockData.find(
+        (user) => user.username === username && user.password === password,
+      );
+
+      if (!userLogin) {
+        setError("username atau password salah");
+        setIsLoading(false);
+        return;
+      }
+
+      // success login
+      localStorage.setItem("user", JSON.stringify(userLogin));
+      setIsLoading(false);
+      router.push("/berita");
     }, 800);
   };
 
