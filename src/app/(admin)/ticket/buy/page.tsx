@@ -202,74 +202,99 @@ const PurchaseTicketPage = () => {
         />
 
         <div className=" w-full p-2 space-y-2">
-          <Card className="h-3/4">
+          <Card className="w-full ">
             <CardContent>
-              <h1 className="text-xl font-bold text-center">
-                {PlayMatch.stadion}
-              </h1>
-              <h1 className="text-sm font-bold text-center">
-                {PlayMatch.tanggal}
-              </h1>
-              <div className="flex justify-center items-center gap-x-2">
-                <div className="space-y-3  items-center justify-center flex flex-col">
-                  <div>
-                    <Image
-                      alt={PlayMatch.tim[0].label}
-                      src={`/playmatch/${PlayMatch.tim[0].logo}`}
-                      width={200}
-                      className="w-32 h-32 shadow-sm rounded-2xl"
-                      height={200}
-                    />
-                  </div>
-                  <h1 className="text-xl font-bold text-center">
+              {/* Header */}
+              <div className="mb-6 text-center">
+                <h1 className="text-lg md:text-2xl font-bold">
+                  {PlayMatch.stadion}
+                </h1>
+                <p className="text-sm md:text-base text-gray-600">
+                  {PlayMatch.tanggal}
+                </p>
+              </div>
+
+              {/* Teams */}
+              <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-16">
+                {/* Team 1 */}
+                <div className="flex flex-col items-center">
+                  <Image
+                    alt={PlayMatch.tim[0].label}
+                    src={`/playmatch/${PlayMatch.tim[0].logo}`}
+                    width={100}
+                    height={100}
+                    className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+                  />
+                  <p className="text-sm md:text-lg font-bold mt-2 text-center">
                     {PlayMatch.tim[0].label}
-                  </h1>
+                  </p>
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-center">VS</h1>
-                </div>
-                <div className="space-y-3 items-center justify-center flex flex-col">
-                  <div>
-                    <Image
-                      alt={PlayMatch.tim[1].label}
-                      src={`/playmatch/${PlayMatch.tim[1].logo}`}
-                      width={200}
-                      className="w-32 h-32 shadow-sm rounded-2xl"
-                      height={200}
-                    />
-                  </div>
-                  <h1 className="text-xl font-bold text-center">
+
+                {/* VS */}
+                <span className="text-lg md:text-2xl font-bold text-gray-500">
+                  VS
+                </span>
+
+                {/* Team 2 */}
+                <div className="flex flex-col items-center">
+                  <Image
+                    alt={PlayMatch.tim[1].label}
+                    src={`/playmatch/${PlayMatch.tim[1].logo}`}
+                    width={100}
+                    height={100}
+                    className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+                  />
+                  <p className="text-sm md:text-lg font-bold mt-2 text-center">
                     {PlayMatch.tim[1].label}
-                  </h1>
+                  </p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <div className="flex justify-between px-2">
-            {menu.map((item) => (
-              <div key={item.label} className="text-lg font-bold">
-                <Link href={item.url}>{item.label}</Link>
+
+          <Card className="w-full ">
+            <CardContent>
+              {/* MENU */}
+              <div className="flex flex-wrap gap-3 mb-4">
+                {menu.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.url}
+                    className="text-sm md:text-base font-semibold hover:underline"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
-            ))}
-          </div>
-          <button
-            onClick={() => handleTutorial()}
-            className="w-full text-xl border-2 border-persebaya-accent rounded-2xl bg-persebaya-primary-hover text-white p-3 cursor-pointer hover:bg-persebaya-primary"
-          >
-            Cara Pemesanan & Pembayaran
-          </button>
+
+              {/* HEADER */}
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                <div>
+                  <h1 className="text-lg md:text-2xl font-bold">
+                    Pemesanan Tiket
+                  </h1>
+                  <p className="text-sm md:text-base text-gray-600">
+                    Pertandingan {PlayMatch.tanggal}
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleTutorial}
+                  className="text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
+                >
+                  Cara Pemesanan
+                </button>
+              </div>
+
+              {/* BUTTON LIST */}
+              <div className="space-y-3"></div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
       {/* buy ticket */}
       <div className="mt-2">
-        <h1 className="text-xl font-bold text-left mb-2">
-          Buy Ticket{" "}
-          <span className="text-base font-normal">
-            {PlayMatch.tanggal} - {PlayMatch.tim[0].label} VS{" "}
-            {PlayMatch.tim[1].label}
-          </span>
-        </h1>
         <div className="space-y-8">
           {ticket
             .filter((item) => item.kategori === category)

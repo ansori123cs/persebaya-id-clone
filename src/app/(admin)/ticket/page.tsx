@@ -49,88 +49,106 @@ const TicketPage = () => {
   };
 
   return (
-    <div className="space-y-3">
-      <Card>
+    <div className="flex flex-col  gap-6">
+      {/* LEFT - MATCH */}
+      <Card className="w-full ">
         <CardContent>
-          <div>
-            <h1 className="text-2xl font-bold text-center">
+          {/* Header */}
+          <div className="mb-6 text-center">
+            <h1 className="text-lg md:text-2xl font-bold">
               {PlayMatch.stadion}
             </h1>
-            <h1 className="text-lg font-bold text-center">
+            <p className="text-sm md:text-base text-gray-600">
               {PlayMatch.tanggal}
-            </h1>
+            </p>
           </div>
-          <div className="flex justify-center items-center gap-x-72">
-            <div className="space-y-3  items-center justify-center flex flex-col">
-              <div>
-                <Image
-                  alt={PlayMatch.tim[0].label}
-                  src={`/playmatch/${PlayMatch.tim[0].logo}`}
-                  width={200}
-                  className="w-32 h-32 shadow-sm rounded-2xl"
-                  height={200}
-                />
-              </div>
-              <h1 className="text-xl font-bold text-center">
-                {" "}
+
+          {/* Teams */}
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-16">
+            {/* Team 1 */}
+            <div className="flex flex-col items-center">
+              <Image
+                alt={PlayMatch.tim[0].label}
+                src={`/playmatch/${PlayMatch.tim[0].logo}`}
+                width={100}
+                height={100}
+                className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+              />
+              <p className="text-sm md:text-lg font-bold mt-2 text-center">
                 {PlayMatch.tim[0].label}
-              </h1>
+              </p>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-center">VS</h1>
-            </div>
-            <div className="space-y-3 items-center justify-center flex flex-col">
-              <div>
-                <Image
-                  alt={PlayMatch.tim[1].label}
-                  src={`/playmatch/${PlayMatch.tim[1].logo}`}
-                  width={200}
-                  className="w-32 h-32 shadow-sm rounded-2xl"
-                  height={200}
-                />
-              </div>
-              <h1 className="text-xl font-bold text-center">
-                {" "}
+
+            {/* VS */}
+            <span className="text-lg md:text-2xl font-bold text-gray-500">
+              VS
+            </span>
+
+            {/* Team 2 */}
+            <div className="flex flex-col items-center">
+              <Image
+                alt={PlayMatch.tim[1].label}
+                src={`/playmatch/${PlayMatch.tim[1].logo}`}
+                width={100}
+                height={100}
+                className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+              />
+              <p className="text-sm md:text-lg font-bold mt-2 text-center">
                 {PlayMatch.tim[1].label}
-              </h1>
+              </p>
             </div>
           </div>
         </CardContent>
       </Card>
-      <Card>
+
+      {/* RIGHT - TICKET */}
+      <Card className="w-full ">
         <CardContent>
-          <div className="flex space-x-2">
+          {/* MENU */}
+          <div className="flex flex-wrap gap-3 mb-4">
             {menu.map((item) => (
-              <div key={item.label} className="text-lg font-bold">
-                <Link href={item.url}>{item.label}</Link>
-              </div>
+              <Link
+                key={item.label}
+                href={item.url}
+                className="text-sm md:text-base font-semibold hover:underline"
+              >
+                {item.label}
+              </Link>
             ))}
           </div>
-          <div className="flex w-full justify-between mb-24">
+
+          {/* HEADER */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-2xl font-bold">Pemesanan Tiket</h1>
-              <h1 className="text-xl">Pertandingan {PlayMatch.tanggal}</h1>
+              <h1 className="text-lg md:text-2xl font-bold">Pemesanan Tiket</h1>
+              <p className="text-sm md:text-base text-gray-600">
+                Pertandingan {PlayMatch.tanggal}
+              </p>
             </div>
+
             <button
-              onClick={() => handleTutorial()}
-              className="text-xl border-2 border-persebaya-accent rounded-2xl bg-persebaya-primary-hover text-white p-3 cursor-pointer hover:bg-persebaya-primary"
+              onClick={handleTutorial}
+              className="text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
             >
-              Cara Pemesanan & Pembayaran
+              Cara Pemesanan
             </button>
           </div>
-          <div className="space-y-4 mt-3">
+
+          {/* BUTTON LIST */}
+          <div className="space-y-3">
             <button
-              className="flex justify-between w-full border-2 p text-white text-xl bg-persebaya-primary border-persebaya-accent p-5 rounded-2xl shadow-2xl hover:bg-persebaya-primary-hover cursor-pointer"
+              className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handleBuy}
             >
-              <div>Buy Ticket</div>
+              <span>Buy Ticket</span>
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
+
             <button
-              className="flex justify-between w-full border-2 p text-white text-xl bg-persebaya-primary border-persebaya-accent p-5 rounded-2xl shadow-2xl hover:bg-persebaya-primary-hover cursor-pointer"
+              className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handlePurchased}
             >
-              <div>Ticket Purchased</div>{" "}
+              <span>Ticket Purchased</span>
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
           </div>
