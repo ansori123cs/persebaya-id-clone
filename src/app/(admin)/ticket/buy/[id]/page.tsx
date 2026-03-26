@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/Card";
 import Radio from "@/components/ui/Radio";
+import { mockCommunity, mockCommunityMembers } from "@/lib/mockData";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { ReactNode, useState, useEffect } from "react";
@@ -759,9 +760,15 @@ const KomunitasForm = ({
 }: FormProps<KomunitasFormData>) => {
   // helpers as before, sanitization identical to other forms
 
+  const localUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const community = mockCommunity.find((e) => e.leaderUserId === localUser.id);
+
+  const members =
+    mockCommunityMembers.filter((m) => m.communityId === community?.id) || [];
+
   const handleAddAnggota = () => {
     const current = (formData as KomunitasFormData).anggotaKomunitas;
-    if (current.length < 20) {
+    if (current.length < members.length) {
       const newItem: AnggotaKomunitas = {
         key: crypto.randomUUID(),
         namaLengkap: "",
@@ -772,7 +779,7 @@ const KomunitasForm = ({
         anggotaKomunitas: [...current, newItem],
       }));
     } else {
-      alert("Maks 20 Anggota");
+      alert("Maksimum Anggota Tercapai");
     }
   };
 
@@ -943,69 +950,56 @@ const KomunitasForm = ({
         <Card className="p-4 border shadow-2xl">
           <CardContent>
             <div className="space-y-3">
-              {/* Header */}
-              <div className="grid grid-cols-2 font-medium">
-                <div>Nama Anggota</div>
-                <div>NIK Anggota</div>
-              </div>
-
               {/* Rows */}
               {(formData as KomunitasFormData).anggotaKomunitas.map(
                 (item, index) => (
                   <div
-                    className="grid grid-cols-2 gap-4 items-center"
+                    className="grid md:grid-cols-4 grid-cols-1 gap-4 items-center"
                     key={item.key}
                   >
                     {/* Kolom Nama */}
+                    {members.length > 0 && (
+                      <div className="block md:flex items-center justify-center gap-2 col-span-3">
+                        <span className="w-5">{index + 1}.</span>
+                        <label className="text-sm font-medium text-heading w-36">
+                          Pilih Anggota
+                        </label>
+                        <select
+                          id="members"
+                          className=" w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium rounded-2xl text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+                          onChange={(e) => {
+                            const selectedNik = e.target.value;
+                            const selectedMember = members.find(
+                              (m) => m.nik === selectedNik,
+                            );
+                            if (selectedMember) {
+                              setFormData((prev) => ({
+                                ...(prev as KomunitasFormData),
+                                anggotaKomunitas: (
+                                  prev as KomunitasFormData
+                                ).anggotaKomunitas.map((a) =>
+                                  a.key === item.key
+                                    ? {
+                                        ...a,
+                                        namaLengkap: selectedMember.name,
+                                        nomorNik: selectedMember.nik,
+                                      }
+                                    : a,
+                                ),
+                              }));
+                            }
+                          }}
+                        >
+                          <option selected>Pilih Anggota</option>
+                          {members.map((member) => (
+                            <option key={member.id} value={member.nik}>
+                              {member.name} - {member.nik}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                     <div className="flex items-center gap-2">
-                      <span className="w-5">{index + 1}.</span>
-                      <input
-                        name="nama"
-                        type="text"
-                        maxLength={100}
-                        value={item.namaLengkap}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(
-                            /[^a-zA-Z\s]/g,
-                            "",
-                          );
-                          setFormData((prev) => ({
-                            ...(prev as KomunitasFormData),
-                            anggotaKomunitas: (
-                              prev as KomunitasFormData
-                            ).anggotaKomunitas.map((a) =>
-                              a.key === item.key
-                                ? { ...a, namaLengkap: value }
-                                : a,
-                            ),
-                          }));
-                        }}
-                        className="w-full px-2 py-1 border rounded-lg"
-                      />
-                    </div>
-
-                    {/* Kolom NIK */}
-                    <div className="flex items-center gap-2">
-                      <input
-                        name="nik"
-                        type="text"
-                        maxLength={16}
-                        value={item.nomorNik}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, "");
-                          setFormData((prev) => ({
-                            ...(prev as KomunitasFormData),
-                            anggotaKomunitas: (
-                              prev as KomunitasFormData
-                            ).anggotaKomunitas.map((a) =>
-                              a.key === item.key
-                                ? { ...a, nomorNik: value }
-                                : a,
-                            ),
-                          }));
-                        }}
-                        className="w-full px-2 py-1 border rounded-lg"
-                      />
                       <button
                         onClick={() => handleRemoveAnggota(item.key)}
                         className="px-3 py-1 bg-red-500 hover:bg-red-500/70 text-white rounded-lg"

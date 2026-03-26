@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/Card";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
@@ -165,9 +166,25 @@ const ticket = [
 const PurchaseTicketPage = () => {
   const router = useRouter();
 
+  const [category, setCategory] = useState("fans");
+
   const handlePurcheTicketDetail = (ticket: string) => {
     router.push(`/ticket/buy/${ticket}`);
   };
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  console.log(user);
+
+  useEffect(() => {
+    if (!user || !user.id) {
+      router.push("/login");
+    } else if (user.categoryUserId === 1) {
+      setCategory("fans");
+    } else if (user.categoryUserId === 2) {
+      setCategory("tourist");
+    } else if (user.categoryUserId === 3) {
+      setCategory("komunitas");
+    }
+  }, [router, user]);
 
   const handleTutorial = () => {
     router.push("/tutorial");
@@ -254,36 +271,38 @@ const PurchaseTicketPage = () => {
           </span>
         </h1>
         <div className="space-y-8">
-          {ticket.map((item, index) => (
-            <Card key={index} className="shadow-2xl">
-              <CardContent>
-                <h1 className="font-bold text-base uppercase text-center mb-2">
-                  Category Ticket for {item.kategori}
-                </h1>
-                <div className="grid  md:grid-cols-2 grid-cols-1 gap-2">
-                  {item.listTicket.map((ticket, index) => (
-                    <button
-                      className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl
+          {ticket
+            .filter((item) => item.kategori === category)
+            .map((item, index) => (
+              <Card key={index} className="shadow-2xl">
+                <CardContent>
+                  <h1 className="font-bold text-base uppercase text-center mb-2">
+                    Category Ticket for {item.kategori}
+                  </h1>
+                  <div className="grid  md:grid-cols-2 grid-cols-1 gap-2">
+                    {item.listTicket.map((ticket, index) => (
+                      <button
+                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl
  ${ticket.variant} `}
-                      onClick={() => handlePurcheTicketDetail(ticket.kode)}
-                      key={index}
-                      disabled={!ticket.statusTersedia}
-                    >
-                      <p className="font-bold">
-                        {ticket.namaTiket} - RP.
-                        {ticket.harga.toLocaleString("id-ID")}
-                      </p>
-                      <div
-                        className={`m-1 px-2 border border-persebaya-accent text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
+                        onClick={() => handlePurcheTicketDetail(ticket.kode)}
+                        key={index}
+                        disabled={!ticket.statusTersedia}
                       >
-                        {ticket.statusTersedia ? "Available" : "Sold Out"}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                        <p className="font-bold">
+                          {ticket.namaTiket} - RP.
+                          {ticket.harga.toLocaleString("id-ID")}
+                        </p>
+                        <div
+                          className={`m-1 px-2 border border-persebaya-accent text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
+                        >
+                          {ticket.statusTersedia ? "Available" : "Sold Out"}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
         </div>
       </div>
     </div>
