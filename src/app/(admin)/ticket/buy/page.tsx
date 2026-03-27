@@ -1,5 +1,7 @@
 "use client";
+
 import { Card, CardContent } from "@/components/ui/Card";
+import { User } from "@/lib/type";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -168,10 +170,16 @@ const PurchaseTicketPage = () => {
 
   const [category, setCategory] = useState("fans");
 
+  const [user, setUser] = useState<User>();
+
   const handlePurcheTicketDetail = (ticket: string) => {
     router.push(`/ticket/buy/${ticket}`);
   };
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  useEffect(() => {
+    const u = JSON.parse(localStorage.getItem("user") || "{}");
+    setUser(u);
+  }, []);
 
   useEffect(() => {
     if (!user || !user.id) {
