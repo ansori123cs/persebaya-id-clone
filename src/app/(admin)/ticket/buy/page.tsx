@@ -172,7 +172,6 @@ const PurchaseTicketPage = () => {
     router.push(`/ticket/buy/${ticket}`);
   };
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  console.log(user);
 
   useEffect(() => {
     if (!user || !user.id) {

@@ -145,8 +145,6 @@ export default function RegisterPage() {
   ) => {
     const { name, value } = e.target;
 
-    console.log(name, value);
-
     const updated = [...members];
     updated[index] = {
       ...updated[index],
