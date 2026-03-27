@@ -81,51 +81,52 @@ const PurchasedTicketPage = () => {
   };
 
   return (
-    <div className="space-y-3">
-      <Card>
+    <div className="flex flex-col  gap-6">
+      <Card className="w-full ">
         <CardContent>
-          <div>
-            <h1 className="text-2xl font-bold text-start">
-              {data?.NameTicket}
-            </h1>
-            <h1 className="text-2xl font-bold text-center">
+          {/* Header */}
+          <div className="mb-6 text-center">
+            <h1 className="text-lg md:text-2xl font-bold">
               {PlayMatch.stadion}
             </h1>
-            <h1 className="text-lg font-bold text-center">
+            <p className="text-sm md:text-base text-gray-600">
               {PlayMatch.tanggal}
-            </h1>
+            </p>
           </div>
-          <div className="flex justify-center items-center gap-x-72">
-            <div className="space-y-3  items-center justify-center flex flex-col">
-              <div>
-                <Image
-                  alt={PlayMatch.tim[0].label}
-                  src={`/playmatch/${PlayMatch.tim[0].logo}`}
-                  width={200}
-                  className="w-32 h-32 shadow-sm rounded-2xl"
-                  height={200}
-                />
-              </div>
-              <h1 className="text-xl font-bold text-center">
+
+          {/* Teams */}
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-16">
+            {/* Team 1 */}
+            <div className="flex flex-col items-center">
+              <Image
+                alt={PlayMatch.tim[0].label}
+                src={`/playmatch/${PlayMatch.tim[0].logo}`}
+                width={100}
+                height={100}
+                className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+              />
+              <p className="text-sm md:text-lg font-bold mt-2 text-center">
                 {PlayMatch.tim[0].label}
-              </h1>
+              </p>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-center">VS</h1>
-            </div>
-            <div className="space-y-3 items-center justify-center flex flex-col">
-              <div>
-                <Image
-                  alt={PlayMatch.tim[1].label}
-                  src={`/playmatch/${PlayMatch.tim[1].logo}`}
-                  width={200}
-                  className="w-32 h-32 shadow-sm rounded-2xl"
-                  height={200}
-                />
-              </div>
-              <h1 className="text-xl font-bold text-center">
+
+            {/* VS */}
+            <span className="text-lg md:text-2xl font-bold text-gray-500">
+              VS
+            </span>
+
+            {/* Team 2 */}
+            <div className="flex flex-col items-center">
+              <Image
+                alt={PlayMatch.tim[1].label}
+                src={`/playmatch/${PlayMatch.tim[1].logo}`}
+                width={100}
+                height={100}
+                className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+              />
+              <p className="text-sm md:text-lg font-bold mt-2 text-center">
                 {PlayMatch.tim[1].label}
-              </h1>
+              </p>
             </div>
           </div>
         </CardContent>
@@ -134,7 +135,7 @@ const PurchasedTicketPage = () => {
       {/* payment method */}
       <Card>
         <CardHeader>
-          <h1 className="font-bold text-lg">Ticket Purchased</h1>
+          <h1 className="font-bold text-xl">Ticket Purchased</h1>
         </CardHeader>
         <CardContent>
           <div className="mb-2">
@@ -145,70 +146,78 @@ const PurchasedTicketPage = () => {
                 : "Komunitas"}
             </h1>
           </div>
-          <div className="flex ">
-            <div className="w-3/4 flex justify-center items-center">
-              <div className="w-1/4">
-                {loading ? (
-                  <h1 className="w-full h-full justify-center items-center text-9xl">
-                    Loading...
-                  </h1>
-                ) : (
-                  <Image
-                    alt="qrCode"
-                    src={data?.QrCode! ?? "/qrExample.png"}
-                    width={200}
-                    height={200}
-                  />
-                )}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 ">
+            <div className="w-full">
+              {loading ? (
+                <h1 className="w-full h-full justify-center items-center text-9xl">
+                  Loading...
+                </h1>
+              ) : (
+                <Image
+                  alt="qrCode"
+                  src={data?.QrCode! ?? "/qrExample.png"}
+                  width={200}
+                  height={200}
+                />
+              )}
 
-                <p className="font-semibold">Code Ticket : {data?.Code}</p>
+              <p className="font-semibold">Code Ticket : {data?.Code}</p>
+            </div>
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+              <div className="grid grid-cols-2 gap-x-2">
+                <p className="font-semibold mb-3 cols-span-2">Data Booked:</p>
+                <p className="font-semibold"> </p>
+                <p className="font-semibold">Email </p>
+                <p className="font-semibold">{data?.DataDiri.email}</p>
+                <p className="font-semibold">Nama Lengkap </p>
+                <p className="font-semibold">{data?.DataDiri.namaLengkap}</p>
+                <p className="font-semibold">Nomor KTP/NIK </p>
+                <p className="font-semibold">{data?.DataDiri.nomorNik}</p>
+                <p className="font-semibold">No Telp / WA </p>
+                <p className="font-semibold">{data?.DataDiri.noTelp}</p>
+                <p className="font-semibold">Tanggal Lahir </p>
+                <p className="font-semibold">{data?.DataDiri.tanggalLahir}</p>
+                <p className="font-semibold">Jenis kelamin </p>
+                <p className="font-semibold">{data?.DataDiri.jenisKelamin}</p>
+                <p className="font-semibold">Tanggal Booking </p>
+                <p className="font-semibold">{data?.Keterangan.BoodkedDate}</p>
               </div>
-              <div>
-                <p className="font-semibold mb-3">Data Booked</p>
-                <div className="grid grid-cols-2 gap-x-2">
-                  <p className="font-semibold">Email </p>
-                  <p className="font-semibold">{data?.DataDiri.email}</p>
-                  <p className="font-semibold">Nama Lengkap </p>
-                  <p className="font-semibold">{data?.DataDiri.namaLengkap}</p>
-                  <p className="font-semibold">Nomor KTP/NIK </p>
-                  <p className="font-semibold">{data?.DataDiri.nomorNik}</p>
-                  <p className="font-semibold">No Telp / WA </p>
-                  <p className="font-semibold">{data?.DataDiri.noTelp}</p>
-                  <p className="font-semibold">Tanggal Lahir </p>
-                  <p className="font-semibold">{data?.DataDiri.tanggalLahir}</p>
-                  <p className="font-semibold">Jenis kelamin </p>
-                  <p className="font-semibold">{data?.DataDiri.jenisKelamin}</p>
-                  <p className="font-semibold">Tanggal Booking </p>
-                  <p className="font-semibold">
-                    {data?.Keterangan.BoodkedDate}
-                  </p>
-                </div>
+              {data?.DataDiri.anggotaKomunitas.length === 0 ? (
+                <></>
+              ) : (
+                <>
+                  <p className="font-semibold">Tidak Ada Anggota Komunitas</p>
 
-                <div>
-                  <p className="font-semibold mt-3">Anggota Komunitas</p>
-                  {data?.DataDiri.anggotaKomunitas.length === 0 ? (
-                    <p className="font-semibold">Tidak Ada Anggota Komunitas</p>
-                  ) : (
-                    <div>
-                      {data?.DataDiri.anggotaKomunitas.map((item, index) => (
-                        <div className="grid grid-cols-2 gap-x-2" key={index}>
-                          <p className="font-semibold">{item.namaLengkap}</p>
-                          <p className="font-semibold">{item.nomorNik}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+                  <div className="grid grid-cols-2 gap-x-2">
+                    <p className="font-semibold mt-3 col-span-2">
+                      Anggota Komunitas :
+                    </p>
+                    {data?.DataDiri.anggotaKomunitas.length === 0 ? (
+                      <p className="font-semibold">
+                        Tidak Ada Anggota Komunitas
+                      </p>
+                    ) : (
+                      <div>
+                        {data?.DataDiri.anggotaKomunitas.map((item, index) => (
+                          <div className="grid grid-cols-2 gap-x-2" key={index}>
+                            <p className="font-semibold">{item.namaLengkap}</p>
+                            <p className="font-semibold">{item.nomorNik}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
-            <div className="w-1/4 flex items-end justify-end">
-              <button
-                className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
-                onClick={handleSendEmail}
-              >
-                Kirim Bukti Ke Email
-              </button>
-            </div>
+          </div>
+          <div className="w-full flex items-end justify-end">
+            <button
+              className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
+              onClick={handleSendEmail}
+            >
+              Kirim Bukti Ke Email
+            </button>
           </div>
         </CardContent>
       </Card>

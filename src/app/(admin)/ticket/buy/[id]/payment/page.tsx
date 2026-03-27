@@ -95,77 +95,81 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="space-y-3">
-      <Card>
+    <div className="flex flex-col  gap-6">
+      <Card className="w-full ">
         <CardContent>
-          <div>
-            <h1 className="text-2xl font-bold text-start">Nama Ticket</h1>
-            <h1 className="text-2xl font-bold text-center">
+          {/* Header */}
+          <div className="mb-6 text-center">
+            <h1 className="text-lg md:text-2xl font-bold">
               {PlayMatch.stadion}
             </h1>
-            <h1 className="text-lg font-bold text-center">
+            <p className="text-sm md:text-base text-gray-600">
               {PlayMatch.tanggal}
-            </h1>
+            </p>
           </div>
-          <div className="flex justify-center items-center gap-x-72">
-            <div className="space-y-3  items-center justify-center flex flex-col">
-              <div>
-                <Image
-                  alt={PlayMatch.tim[0].label}
-                  src={`/playmatch/${PlayMatch.tim[0].logo}`}
-                  width={200}
-                  className="w-32 h-32 shadow-sm rounded-2xl"
-                  height={200}
-                />
-              </div>
-              <h1 className="text-xl font-bold text-center">
-                {" "}
+
+          {/* Teams */}
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-16">
+            {/* Team 1 */}
+            <div className="flex flex-col items-center">
+              <Image
+                alt={PlayMatch.tim[0].label}
+                src={`/playmatch/${PlayMatch.tim[0].logo}`}
+                width={100}
+                height={100}
+                className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+              />
+              <p className="text-sm md:text-lg font-bold mt-2 text-center">
                 {PlayMatch.tim[0].label}
-              </h1>
+              </p>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-center">VS</h1>
-            </div>
-            <div className="space-y-3 items-center justify-center flex flex-col">
-              <div>
-                <Image
-                  alt={PlayMatch.tim[1].label}
-                  src={`/playmatch/${PlayMatch.tim[1].logo}`}
-                  width={200}
-                  className="w-32 h-32 shadow-sm rounded-2xl"
-                  height={200}
-                />
-              </div>
-              <h1 className="text-xl font-bold text-center">
+
+            {/* VS */}
+            <span className="text-lg md:text-2xl font-bold text-gray-500">
+              VS
+            </span>
+
+            {/* Team 2 */}
+            <div className="flex flex-col items-center">
+              <Image
+                alt={PlayMatch.tim[1].label}
+                src={`/playmatch/${PlayMatch.tim[1].logo}`}
+                width={100}
+                height={100}
+                className="w-16 h-16 md:w-32 md:h-32 rounded-2xl"
+              />
+              <p className="text-sm md:text-lg font-bold mt-2 text-center">
                 {PlayMatch.tim[1].label}
-              </h1>
+              </p>
             </div>
           </div>
         </CardContent>
       </Card>
+
       {/* Price */}
       <Card>
         <CardContent>
           <h1 className="text-2xl font-bold text-star mb-3">
             Detil Harga / Price Detail
           </h1>
-          <div className="flex justify-between">
-            <div className="w-3/4 space-y-1">
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
               <h1 className="text-lg font-bold text-start">
                 {ticketPrice.name}
               </h1>
-              <h1 className="text-lg font-bold text-start mb-5">Service fee</h1>
-
-              <h1 className="text-lg font-bold text-start">Total Harga</h1>
-            </div>
-            <div className="w-1/4 space-y-1">
               <h1 className="text-lg font-bold text-start">
                 Rp :{ticketPrice.price.toLocaleString("id-ID")} X{" "}
                 {formDataBuyer?.anggotaKomunitas.length! + 1} orang
               </h1>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+              <h1 className="text-lg font-bold text-start mb-5">Service fee</h1>
               <h1 className="text-lg font-bold text-start mb-5">
                 Rp :{ticketPrice.fee.toLocaleString("id-ID")}
               </h1>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+              <h1 className="text-lg font-bold text-start">Total Harga</h1>
               <h1 className="text-lg font-bold text-start">
                 Rp :{ticketPrice.total.toLocaleString("id-ID")}
               </h1>
@@ -175,10 +179,10 @@ const PaymentPage = () => {
       </Card>
       {/* payment method */}
       <Card>
-        <CardContent className="flex">
-          <div className="w-3/4">
+        <CardContent className="flex md:flex-row gap-6 flex-col">
+          <div className="w-full">
             <h1 className="text-lg font-bold text-start">Virtual Account</h1>
-            <div className="grid grid-cols-4">
+            <div className="grid grid-cols-2 md:grid-cols-4">
               {menuVA.map((item, index) => (
                 <div
                   className="flex items-center justify-center space-x-2"
@@ -199,7 +203,7 @@ const PaymentPage = () => {
               ))}
             </div>
             <h1 className="text-lg font-bold text-start">E - Wallet</h1>
-            <div className="grid grid-cols-4">
+            <div className="grid grid-cols-2 md:grid-cols-4">
               {menuEwallet.map((item, index) => (
                 <div
                   className="flex items-center justify-center space-x-2"
@@ -220,7 +224,7 @@ const PaymentPage = () => {
               ))}
             </div>
           </div>
-          <div className="w-1/4 flex items-end justify-end">
+          <div className="w-full flex items-end justify-end">
             <button
               className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
               onClick={handleBuy}
