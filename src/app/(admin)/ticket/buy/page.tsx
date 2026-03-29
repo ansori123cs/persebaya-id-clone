@@ -170,28 +170,23 @@ const PurchaseTicketPage = () => {
 
   const [category, setCategory] = useState("fans");
 
-  const [user, setUser] = useState<User>();
-
   const handlePurcheTicketDetail = (ticket: string) => {
     router.push(`/ticket/buy/${ticket}`);
   };
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("user") || "{}");
-    setUser(u);
-  }, []);
 
-  useEffect(() => {
-    if (!user || !user.id) {
+    if (!u || !u.id) {
       router.push("/login");
-    } else if (user.categoryUserId === 1) {
+    } else if (u.categoryUserId === 1) {
       setCategory("fans");
-    } else if (user.categoryUserId === 2) {
+    } else if (u.categoryUserId === 2) {
       setCategory("tourist");
-    } else if (user.categoryUserId === 3) {
+    } else if (u.categoryUserId === 3) {
       setCategory("komunitas");
     }
-  }, [router, user]);
+  }, [router]);
 
   const handleTutorial = () => {
     router.push("/tutorial");

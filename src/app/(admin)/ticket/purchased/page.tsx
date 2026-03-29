@@ -147,7 +147,7 @@ const PurchasedTicketPage = () => {
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 ">
-            <div className="w-full">
+            <div className="flex flex-col justify-center  items-center w-full col-span-2">
               {loading ? (
                 <h1 className="w-full h-full justify-center items-center text-9xl">
                   Loading...
@@ -163,7 +163,7 @@ const PurchasedTicketPage = () => {
 
               <p className="font-semibold">Code Ticket : {data?.Code}</p>
             </div>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4 col-span-2">
               <div className="grid grid-cols-2 gap-x-2">
                 <p className="font-semibold mb-3 cols-span-2">Data Booked:</p>
                 <p className="font-semibold"> </p>

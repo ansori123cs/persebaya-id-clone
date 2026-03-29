@@ -148,7 +148,7 @@ const TicketPage = () => {
               className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handlePurchased}
             >
-              <span>Ticket Purchased</span>
+              <span>Purchased Ticket</span>
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
           </div>

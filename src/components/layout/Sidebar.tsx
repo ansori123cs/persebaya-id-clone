@@ -12,6 +12,7 @@ import {
   HelpCircle,
   ChevronRight,
   X,
+  Ticket,
 } from "lucide-react";
 import { useSidebarStore } from "@/stores/sidebarStore";
 import Button from "@/components/ui/Button";
@@ -33,7 +34,7 @@ const navItems: NavItem[] = [
   {
     label: "Ticket",
     href: "/ticket",
-    icon: <BarChart3 className="w-5 h-5" />,
+    icon: <Ticket className="w-5 h-5" />,
   },
   {
     label: "Persebaya",
@@ -49,7 +50,7 @@ const navItems: NavItem[] = [
   {
     label: "Fans",
     href: "/fans",
-    icon: <Settings className="w-5 h-5" />,
+    icon: <Users className="w-5 h-5" />,
   },
   {
     label: "Persebaya Selamanya",
@@ -140,12 +141,20 @@ const Sidebar: React.FC = () => {
                 : "text-persebaya-text hover:bg-persebaya-primary-hover border-2 hover:text-white border-persebaya-accent",
             )}
           >
-            <div className="flex justify-center  items-center gap-3 flex-1">
+            {/* <div className="flex justify-center  items-center gap-3 flex-1">
               {isOpen ? <></> : item.label[0]}
               <span className={clsx("font-medium", !isOpen && "hidden")}>
                 {item.label}
               </span>
+            </div> */}
+
+            <div className="flex justify-center  items-center gap-3 flex-1">
+              {isOpen ? <></> : item.icon}
+              <span className={clsx("font-medium", !isOpen && "hidden")}>
+                {item.label}
+              </span>
             </div>
+
             {/* {item.badge && isOpen && (
               <span className="bg-persebaya-error text-white text-xs font-bold rounded-full px-2 py-1">
                 {item.badge}
