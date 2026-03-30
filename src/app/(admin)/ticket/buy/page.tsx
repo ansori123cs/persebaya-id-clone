@@ -327,16 +327,22 @@ const PurchaseTicketPage = () => {
                   <div className="grid  md:grid-cols-2 grid-cols-1 gap-2">
                     {item.listTicket.map((ticket, index) => (
                       <button
-                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl
- ${ticket.variant} `}
+                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl hover:bg-white/20
+ `}
                         onClick={() => handlePurcheTicketDetail(ticket.kode)}
                         key={index}
                         disabled={!ticket.statusTersedia}
                       >
-                        <p className="font-bold">
-                          {ticket.namaTiket} - RP.
-                          {ticket.harga.toLocaleString("id-ID")}
-                        </p>
+                        <div className="font-bold grid grid-cols-4  items-start gap-2">
+                          <div
+                            className={`${ticket.variant} w-5 h-5 col-span-1`}
+                          ></div>
+                          <p className="col-span-3">
+                            {" "}
+                            {ticket.namaTiket} - RP.
+                            {ticket.harga.toLocaleString("id-ID")}
+                          </p>
+                        </div>
                         <div
                           className={`m-1 px-2 border border-persebaya-accent text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
                         >
