@@ -1,15 +1,15 @@
 "use client";
 import Button from "@/components/ui/Button";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
+import { useLanguage } from "@/context/LanguageContext";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
-  tanggal: "Senin 10 Maret 2026",
+  tanggal: new Date(),
   tim: [
     { logo: "play1.png", label: "Persebaya Surabaya" },
     { logo: "play2.png", label: "Manchaster United" },
@@ -53,6 +53,7 @@ type ticketDetail = {
 };
 
 const PaymentPage = () => {
+  const { lang, t } = useLanguage();
   const [pembayaran, setPembayaran] = useState("");
   const [formDataBuyer, setFormDataBuyer] = useState<FormData>();
   const [ticketPrice, setTicketPrice] = useState<ticketDetail>({
@@ -104,7 +105,14 @@ const PaymentPage = () => {
               {PlayMatch.stadion}
             </h1>
             <p className="text-sm md:text-base text-gray-600">
-              {PlayMatch.tanggal}
+              {PlayMatch.tanggal
+                .toLocaleDateString(lang, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+                .toString()}
             </p>
           </div>
 
@@ -150,7 +158,7 @@ const PaymentPage = () => {
       <Card>
         <CardContent>
           <h1 className="text-2xl font-bold text-star mb-3">
-            Detil Harga / Price Detail
+            {t("ticket.priceDetails")}
           </h1>
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
@@ -159,17 +167,22 @@ const PaymentPage = () => {
               </h1>
               <h1 className="text-lg font-bold text-start">
                 Rp :{ticketPrice.price.toLocaleString("id-ID")} X{" "}
-                {formDataBuyer?.anggotaKomunitas.length! + 1} orang
+                {formDataBuyer?.anggotaKomunitas.length! + 1}{" "}
+                {t("payment.person")}
               </h1>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-              <h1 className="text-lg font-bold text-start mb-5">Service fee</h1>
+              <h1 className="text-lg font-bold text-start mb-5">
+                {t("payment.serviceFee")}
+              </h1>
               <h1 className="text-lg font-bold text-start mb-5">
                 Rp :{ticketPrice.fee.toLocaleString("id-ID")}
               </h1>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-              <h1 className="text-lg font-bold text-start">Total Harga</h1>
+              <h1 className="text-lg font-bold text-start">
+                {t("payment.totalPrice")}
+              </h1>
               <h1 className="text-lg font-bold text-start">
                 Rp :{ticketPrice.total.toLocaleString("id-ID")}
               </h1>

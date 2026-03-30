@@ -1,12 +1,11 @@
-import React from "react";
-import { TrendingUp, Users, BarChart3, Activity } from "lucide-react";
-import Button from "@/components/ui/Button";
+"use client";
 import {
   Card,
   CardHeader,
   CardContent,
   CardFooter,
 } from "@/components/ui/Card";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 
 interface NewsProperty {
@@ -67,10 +66,12 @@ const news: NewsProperty[] = [
 ];
 
 const Dashboard = () => {
+  const { lang, t } = useLanguage();
+
   return (
     <div className="space-y-8">
       <h1 className="text-center text-2xl text-persebaya-text font-bold mt-2">
-        Selamat Datang Di Website Persebaya Surabaya
+        {t("News.title")}
       </h1>
       {/* Main Content Grid dengan Map */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -121,7 +122,9 @@ const Dashboard = () => {
 
       {/*Match Card*/}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Upcoming Matches</h2>
+        <h2 className="text-xl font-bold text-gray-900">
+          {t("News.upcoming")}
+        </h2>
 
         {todaysMatch.map((match, index) => (
           <div

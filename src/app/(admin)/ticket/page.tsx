@@ -1,6 +1,7 @@
 "use client";
-import Button from "@/components/ui/Button";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
+import { useLanguage } from "@/context/LanguageContext";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,32 +9,35 @@ import { useRouter } from "next/navigation";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
-  tanggal: "Senin 10 Maret 2026",
+  tanggal: new Date(),
   tim: [
     { logo: "play1.png", label: "Persebaya Surabaya" },
     { logo: "play2.png", label: "Manchaster United" },
   ],
 };
 
-const menu = [
-  {
-    label: "Persyaratan",
-    url: "#",
-  },
-  {
-    label: "Peraturan",
-    url: "#",
-  },
-  {
-    label: "Ketentuan",
-    url: "#",
-  },
-  {
-    label: "Informasi",
-    url: "#",
-  },
-];
 const TicketPage = () => {
+  const { lang, t } = useLanguage();
+
+  const menu = [
+    {
+      label: t("ticket.menu.condition"),
+      url: "#",
+    },
+    {
+      label: t("ticket.menu.regulation"),
+      url: "#",
+    },
+    {
+      label: t("ticket.menu.provision"),
+      url: "#",
+    },
+    {
+      label: t("ticket.menu.information"),
+      url: "#",
+    },
+  ];
+
   const router = useRouter();
 
   const handleTutorial = () => {
@@ -59,7 +63,14 @@ const TicketPage = () => {
               {PlayMatch.stadion}
             </h1>
             <p className="text-sm md:text-base text-gray-600">
-              {PlayMatch.tanggal}
+              {PlayMatch.tanggal
+                .toLocaleDateString(lang, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+                .toString()}
             </p>
           </div>
 
@@ -120,9 +131,19 @@ const TicketPage = () => {
           {/* HEADER */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-lg md:text-2xl font-bold">Pemesanan Tiket</h1>
+              <h1 className="text-lg md:text-2xl font-bold">
+                {t("ticket.title")}
+              </h1>
               <p className="text-sm md:text-base text-gray-600">
-                Pertandingan {PlayMatch.tanggal}
+                {t("ticket.match")}:{" "}
+                {PlayMatch.tanggal
+                  .toLocaleDateString(lang, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                  .toString()}
               </p>
             </div>
 
@@ -130,7 +151,7 @@ const TicketPage = () => {
               onClick={handleTutorial}
               className="text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
             >
-              Cara Pemesanan
+              {t("ticket.buttonTutorial")}
             </button>
           </div>
 
@@ -140,7 +161,7 @@ const TicketPage = () => {
               className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handleBuy}
             >
-              <span>Buy Ticket</span>
+              <span>{t("ticket.buttonBuy")}</span>
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
 
@@ -148,7 +169,7 @@ const TicketPage = () => {
               className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handlePurchased}
             >
-              <span>Purchased Ticket</span>
+              <span>{t("ticket.buttonPurchased")}</span>
               <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
           </div>

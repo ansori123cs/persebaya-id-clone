@@ -23,15 +23,15 @@ const NavbarMenu: NavbarMenuTypes[] = [
     href: "#",
   },
   {
-    title: "Berita",
+    title: "News",
     href: "#",
   },
   {
-    title: "Pertandingan",
+    title: "Match",
     href: "#",
   },
   {
-    title: "Tim",
+    title: "Clasemen",
     href: "#",
   },
   {

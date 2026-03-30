@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/Card";
 import Radio from "@/components/ui/Radio";
+import { useLanguage } from "@/context/LanguageContext";
 import { mockCommunity, mockCommunityMembers } from "@/lib/mockData";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -38,7 +39,7 @@ interface FormProps<T> {
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
-  tanggal: "Senin 10 Maret 2026",
+  tanggal: new Date(),
   tim: [
     { logo: "play1.png", label: "Persebaya Surabaya" },
     { logo: "play2.png", label: "Manchaster United" },
@@ -207,6 +208,7 @@ type TicketDipilih = {
 };
 
 const PurchaseTicketDetailPage = () => {
+  const { lang, t } = useLanguage();
   const [penukaran, setPenukaran] = useState("");
   const [ticketDipilih, setTicketDipilih] = useState<TicketDipilih>({
     name: "",
@@ -316,7 +318,14 @@ const PurchaseTicketDetailPage = () => {
               {PlayMatch.stadion}
             </h1>
             <h1 className="text-lg text-center font-bold">
-              {PlayMatch.tanggal}
+              {PlayMatch.tanggal
+                .toLocaleDateString(lang, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+                .toString()}
             </h1>
             <button
               className={`w-full border-4 rounded-lg ${ticketDipilih.variant} text-xl font-bold hover:bg-persebaya-accent/50 cursor-pointer py-2`}

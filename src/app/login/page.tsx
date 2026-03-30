@@ -13,9 +13,7 @@ import {
 } from "@/components/ui/Card";
 import Image from "next/image";
 import { userMockData } from "@/lib/mockData";
-
-import id from "../register/id.json";
-import en from "../register/en.json";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -25,25 +23,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const translations = {
-    id,
-    en,
-  };
-
-  const [lang, setLang] = useState<"id" | "en">("en");
-  const toggleLang = () => {
-    setLang((prev) => (prev === "id" ? "en" : "id"));
-  };
-  const t = (key: string) => {
-    const keys = key.split(".");
-    let value: any = translations[lang];
-
-    keys.forEach((k) => {
-      value = value?.[k];
-    });
-
-    return value || key;
-  };
+  const { lang, toggleLang, t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

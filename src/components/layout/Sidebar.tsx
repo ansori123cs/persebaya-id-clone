@@ -27,7 +27,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "Berita",
+    label: "News",
     href: "/berita",
     icon: <LayoutDashboard className="w-5 h-5" />,
   },
@@ -58,12 +58,12 @@ const navItems: NavItem[] = [
     icon: <HelpCircle className="w-5 h-5" />,
   },
   {
-    label: "Jadwal",
+    label: "Match",
     href: "/jadwal",
     icon: <HelpCircle className="w-5 h-5" />,
   },
   {
-    label: "Klasemen",
+    label: "Clasemen",
     href: "/klasmen",
     icon: <HelpCircle className="w-5 h-5" />,
   },

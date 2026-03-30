@@ -1,16 +1,14 @@
 "use client";
-import Button from "@/components/ui/Button";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
-import Radio from "@/components/ui/Radio";
-import { ChevronDown } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
-  tanggal: "Senin 10 Maret 2026",
+  tanggal: new Date(),
   tim: [
     { logo: "play1.png", label: "Persebaya Surabaya" },
     { logo: "play2.png", label: "Manchaster United" },
@@ -46,7 +44,7 @@ type TicketPurchased = {
 };
 
 const PurchasedTicketPage = () => {
-  const [pembayaran, setPembayaran] = useState("");
+  const { lang, t } = useLanguage();
   const [data, setData] = useState<TicketPurchased>();
   const [loading, setLoading] = useState(false);
 
@@ -61,12 +59,14 @@ const PurchasedTicketPage = () => {
         NameTicket: item.ticket.name,
         DataDiri: item,
         Keterangan: {
-          BoodkedDate: new Date().toLocaleDateString("id-ID", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }),
+          BoodkedDate: PlayMatch.tanggal
+            .toLocaleDateString(lang, {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+            .toString(),
         },
       });
     };
@@ -90,7 +90,14 @@ const PurchasedTicketPage = () => {
               {PlayMatch.stadion}
             </h1>
             <p className="text-sm md:text-base text-gray-600">
-              {PlayMatch.tanggal}
+              {PlayMatch.tanggal
+                .toLocaleDateString(lang, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+                .toString()}
             </p>
           </div>
 
@@ -135,7 +142,7 @@ const PurchasedTicketPage = () => {
       {/* payment method */}
       <Card>
         <CardHeader>
-          <h1 className="font-bold text-xl">Ticket Purchased</h1>
+          <h1 className="font-bold text-xl">{t("purchased.title")}</h1>
         </CardHeader>
         <CardContent>
           <div className="mb-2">
@@ -167,20 +174,31 @@ const PurchasedTicketPage = () => {
               <div className="grid grid-cols-2 gap-x-2">
                 <p className="font-semibold mb-3 cols-span-2">Data Booked:</p>
                 <p className="font-semibold"> </p>
-                <p className="font-semibold">Email </p>
+                <p className="font-semibold">{t("purchased.form.email")}</p>
                 <p className="font-semibold">{data?.DataDiri.email}</p>
-                <p className="font-semibold">Nama Lengkap </p>
+                <p className="font-semibold">{t("purchased.form.name")}</p>
                 <p className="font-semibold">{data?.DataDiri.namaLengkap}</p>
-                <p className="font-semibold">Nomor KTP/NIK </p>
+                <p className="font-semibold">{t("purchased.form.nik")}</p>
                 <p className="font-semibold">{data?.DataDiri.nomorNik}</p>
-                <p className="font-semibold">No Telp / WA </p>
+                <p className="font-semibold">{t("purchased.form.phone")}</p>
                 <p className="font-semibold">{data?.DataDiri.noTelp}</p>
-                <p className="font-semibold">Tanggal Lahir </p>
+                <p className="font-semibold">{t("purchased.form.birthDate")}</p>
                 <p className="font-semibold">{data?.DataDiri.tanggalLahir}</p>
-                <p className="font-semibold">Jenis kelamin </p>
+                <p className="font-semibold">{t("purchased.form.gender")}</p>
                 <p className="font-semibold">{data?.DataDiri.jenisKelamin}</p>
-                <p className="font-semibold">Tanggal Booking </p>
-                <p className="font-semibold">{data?.Keterangan.BoodkedDate}</p>
+                <p className="font-semibold">
+                  {t("purchased.form.bookingDate")}
+                </p>
+                <p className="font-semibold">
+                  {PlayMatch.tanggal
+                    .toLocaleDateString(lang, {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                    .toString()}
+                </p>
               </div>
               {data?.DataDiri.anggotaKomunitas.length === 0 ? (
                 <></>
@@ -216,7 +234,7 @@ const PurchasedTicketPage = () => {
               className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
               onClick={handleSendEmail}
             >
-              Kirim Bukti Ke Email
+              {t("purchased.buttonSendToEmail")}
             </button>
           </div>
         </CardContent>

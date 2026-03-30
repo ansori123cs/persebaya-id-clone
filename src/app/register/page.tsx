@@ -19,8 +19,7 @@ import Button from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import Image from "next/image";
 import { Member } from "@/lib/type";
-import id from "./id.json";
-import en from "./en.json";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -41,25 +40,7 @@ export default function RegisterPage() {
 
   const [community, setCommunity] = useState("");
 
-  const translations = {
-    id,
-    en,
-  };
-
-  const [lang, setLang] = useState<"id" | "en">("id");
-  const toggleLang = () => {
-    setLang((prev) => (prev === "id" ? "en" : "id"));
-  };
-  const t = (key: string) => {
-    const keys = key.split(".");
-    let value: any = translations[lang];
-
-    keys.forEach((k) => {
-      value = value?.[k];
-    });
-
-    return value || key;
-  };
+  const { t, toggleLang, lang } = useLanguage();
 
   const [members, setMembers] = useState<Member[]>([{ name: "", nik: "" }]);
 
