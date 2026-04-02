@@ -50,7 +50,7 @@ const PurchasedTicketPage = () => {
 
   useEffect(() => {
     const load = async () => {
-      const item = JSON.parse(localStorage.getItem("user")!) as FormData;
+      const item = JSON.parse(localStorage.getItem("formTicket")!) as FormData;
       setLoading(true);
       setData({
         QrCode: "/qrExample.png",

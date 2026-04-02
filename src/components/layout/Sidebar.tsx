@@ -63,7 +63,7 @@ const navItems: NavItem[] = [
     icon: <HelpCircle className="w-5 h-5" />,
   },
   {
-    label: "Clasemen",
+    label: "Klasemen",
     href: "/klasmen",
     icon: <HelpCircle className="w-5 h-5" />,
   },
@@ -104,7 +104,7 @@ const Sidebar: React.FC = () => {
           <button
             onClick={() => toggleSubmenu(item.label)}
             className={clsx(
-              "w-full flex items-center justify-between px-4 py-3 rounded-lg transition-colors",
+              "w-full flex items-center justify-between px-4 py-3  transition-colors",
               isSubmenu ? "text-sm ml-4" : "text-base",
               expanded || expandedItems.includes(item.label)
                 ? "bg-persebaya-bg text-persebaya-primary-hover"
@@ -129,7 +129,7 @@ const Sidebar: React.FC = () => {
             href={item.href}
             onClick={() => isMobile && closeSidebar()}
             className={clsx(
-              "flex items-center justify-between px-4 py-3 rounded-xl transition-colors ",
+              "flex items-center justify-between px-4 py-3  transition-colors ",
               item.label === "Ticket"
                 ? "bg-persebaya-accent border-persebaya-primary text-black shadow-md border-2"
                 : "",
@@ -137,8 +137,8 @@ const Sidebar: React.FC = () => {
               isActive(item.href)
                 ? item.label === "Ticket"
                   ? "bg-persebaya-accent border-persebaya-primary text-black shadow-md border-2"
-                  : "bg-persebaya-primary border-persebaya-accent text-white shadow-md border-2"
-                : "text-persebaya-text hover:bg-persebaya-primary-hover border-2 hover:text-white border-persebaya-accent",
+                  : "bg-persebaya-primary border-black text-white shadow-md border-2"
+                : "text-persebaya-text hover:bg-persebaya-primary-hover border-2 hover:text-white border-black",
             )}
           >
             {/* <div className="flex justify-center  items-center gap-3 flex-1">
@@ -178,7 +178,7 @@ const Sidebar: React.FC = () => {
       {/* Overlay untuk mobile */}
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          className="fixed inset-0  bg-opacity-50 z-30 md:hidden"
           onClick={closeSidebar}
         />
       )}
@@ -186,11 +186,11 @@ const Sidebar: React.FC = () => {
       {/* Sidebar */}
       <aside
         className={clsx(
-          "fixed top-16 left-0 bottom-0 bg-white shadow-2xl z-30 transition-all duration-300 overflow-y-auto",
+          "fixed top-16 left-0 bottom-0 bg-white shadow-2xl z-30 transition-all duration-400 overflow-y-auto",
           isOpen
             ? isMobile
-              ? "w-64"
-              : "w-64"
+              ? "w-full"
+              : "w-full"
             : isMobile
               ? "-translate-x-full"
               : "w-20",
@@ -213,7 +213,7 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Navigation Items */}
-        <nav className="space-y-5 px-2 py-4">
+        <nav className="space-y-1 px-2 py-4">
           {navItems.map((item) => (
             <NavItemComponent key={item.href} item={item} />
           ))}

@@ -268,9 +268,9 @@ const PurchaseTicketPage = () => {
             <CardContent>
               {/* MENU */}
               <div className="flex flex-wrap gap-3 mb-4">
-                {menu.map((item) => (
+                {menu.map((item, index) => (
                   <Link
-                    key={item.label}
+                    key={index}
                     href={item.url}
                     className="text-sm md:text-base font-semibold hover:underline"
                   >
@@ -327,7 +327,7 @@ const PurchaseTicketPage = () => {
                   <div className="grid  md:grid-cols-2 grid-cols-1 gap-2">
                     {item.listTicket.map((ticket, index) => (
                       <button
-                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl hover:bg-white/20
+                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl bg-white hover:bg-white/20
  `}
                         onClick={() => handlePurcheTicketDetail(ticket.kode)}
                         key={index}

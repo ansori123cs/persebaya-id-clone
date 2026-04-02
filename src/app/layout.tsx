@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lato, Roboto } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import id from "@/lib/id.json";
@@ -17,10 +17,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const roboto = Roboto({
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const lato = Lato({
+  weight: "400",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "FaiSal - Modern Dashboard",
-  description:
-    "A modern dashboard template with Next.js, TypeScript, and Tailwind CSS",
+  title: "Persebaya ID",
+  description: "Official website of Persebaya Surabaya",
   authors: [{ name: "FaiSal Team" }],
 };
 
@@ -35,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={lato.className}>
       <LanguageProvider translations={translations}>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}

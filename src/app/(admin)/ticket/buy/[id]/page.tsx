@@ -304,8 +304,8 @@ const PurchaseTicketDetailPage = () => {
 
     setFormData(newData);
 
-    localStorage.removeItem("user");
-    localStorage.setItem("user", JSON.stringify(newData));
+    localStorage.removeItem("formTicket");
+    localStorage.setItem("formTicket", JSON.stringify(newData));
     router.push(`/ticket/buy/${id}/payment`);
   };
 
