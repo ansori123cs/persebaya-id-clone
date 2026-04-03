@@ -18,6 +18,7 @@
     "here": "Login Here"
   },
   "login": {
+    "language": "Language",
     "title": "Login Account",
     "remember": "Remember Me",
     "forgot-password": "Forgot password?",

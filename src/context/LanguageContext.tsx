@@ -16,8 +16,12 @@ export const LanguageProvider = ({ children, translations }: any) => {
     localStorage.setItem("lang", lang);
   }, [lang]);
 
-  const toggleLang = () => {
-    setLang((prev) => (prev === "id" ? "en" : "id"));
+  const toggleLang = (language: "id" | "en") => {
+    // kalau pakai select option
+    setLang(language);
+
+    // kalau pakai  togle
+    // setLang((prev) => (prev === "id" ? "en" : "id"));
   };
 
   const t = (key: string) => {

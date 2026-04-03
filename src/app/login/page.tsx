@@ -14,6 +14,23 @@ import {
 import Image from "next/image";
 import { userMockData } from "@/lib/mockData";
 import { useLanguage } from "@/context/LanguageContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -74,8 +91,8 @@ export default function LoginPage() {
           </div>
 
           {/* Login Card */}
-          <Card className="mb-6">
-            <CardContent className="pt-6">
+          <div className="mb-6">
+            <div className="pt-6">
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Error Message */}
                 {error && (
@@ -83,46 +100,26 @@ export default function LoginPage() {
                     <p className="text-sm text-red-600">{error}</p>
                   </div>
                 )}
-                <div className="flex items-center gap-3 mb-2">
-                  {/* EN */}
-                  <span
-                    className={`text-sm ${
-                      lang === "en"
-                        ? "font-semibold text-black"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    English
-                  </span>
-
-                  {/* Toggle */}
-                  <button
-                    type="button"
-                    onClick={toggleLang}
-                    className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-                      lang === "en" ? "bg-gray-300" : "bg-green-500"
-                    }`}
-                  >
-                    <div
-                      className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                        lang === "en" ? "translate-x-0" : "translate-x-6"
-                      }`}
-                    />
-                  </button>
-
-                  {/* ID */}
-                  <span
-                    className={`text-sm ${
-                      lang === "id"
-                        ? "font-semibold text-black"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    Indonesia
-                  </span>
+                <div className="mb-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    {t("login.language")}
+                  </label>
+                  <Select onValueChange={(value) => toggleLang(value)}>
+                    <SelectTrigger className="w-52">
+                      <SelectValue placeholder="Language / Bahasa">
+                        {lang === "en" ? "English" : "Indonesia"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="id">Indonesia</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
                 {/* Username Field */}
-                <div className="space-y-2">
+                <div className="my-3">
                   <label
                     htmlFor="username"
                     className="block text-base font-medium text-gray-700"
@@ -143,7 +140,7 @@ export default function LoginPage() {
                 </div>
 
                 {/* Password Field */}
-                <div className="space-y-2">
+                <div className="my-3">
                   <label
                     htmlFor="password"
                     className="block text-base font-medium text-gray-700"
@@ -191,8 +188,17 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="text-center">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  loading={isLoading}
+                  className="w-full "
+                >
+                  {t("login.button")}
+                </Button>
+                <div className="my-3">
+                  <div className="text-start">
                     <p className="text-gray-600 text-sm">
                       {t("login.dont-have-account")}{" "}
                       <Link
@@ -204,31 +210,19 @@ export default function LoginPage() {
                     </p>
                   </div>
                   {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="md"
-                    loading={isLoading}
-                    className="md:w-1/2 "
-                  >
-                    {t("login.button")}
-                  </Button>
                 </div>
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <div className=" p-2 bg-persebaya-bg rounded-lg border border-gray-300">
+          <div className=" p-2 rounded-lg ">
             <p className="text-xs font-semibold text-persebaya-text mb-1">
               Demo Account:
             </p>
 
             <div className="space-y-1">
               {userMockData.map((user) => (
-                <div
-                  key={user.id}
-                  className="p-1 rounded border border-gray-200 "
-                >
+                <div key={user.id} className="p-1 rounded  ">
                   <p className="text-xs text-persebaya-text">
                     <span className="font-medium">Username:</span>{" "}
                     {user.username}

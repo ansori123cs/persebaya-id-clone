@@ -19,6 +19,7 @@
     "here": "Login Di Sini"
   },
   "login": {
+    "language": "Bahasa",
     "title": "Login Akun",
     "remember": "Ingat Saya",
     "forgot-password": "Lupa password?",

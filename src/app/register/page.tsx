@@ -20,6 +20,14 @@ import { Card, CardContent } from "@/components/ui/Card";
 import Image from "next/image";
 import { Member } from "@/lib/type";
 import { useLanguage } from "@/context/LanguageContext";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -165,7 +173,7 @@ export default function RegisterPage() {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {/* Full Name Field */}
-          <div className="space-y-2">
+          <div className="my-3">
             <label
               htmlFor="fullName"
               className="block text-sm font-medium text-gray-700"
@@ -187,7 +195,7 @@ export default function RegisterPage() {
           </div>
 
           {/* no Field */}
-          <div className="space-y-2">
+          <div className="my-3">
             <label
               htmlFor="no"
               className="block text-sm font-medium text-gray-700"
@@ -243,9 +251,9 @@ export default function RegisterPage() {
           </div>
 
           {/* Register Card */}
-          <Card className="mb-6 ">
-            <CardContent className="pt-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="mb-6 ">
+            <div className="pt-6">
+              <form onSubmit={handleSubmit} className="">
                 {/* Error Message */}
                 {error && (
                   <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -259,50 +267,30 @@ export default function RegisterPage() {
                       : ""
                   }
                 >
-                  <Card>
-                    <CardContent>
-                      <div className="flex items-center gap-3 mb-2">
-                        {/* EN */}
-                        <span
-                          className={`text-sm ${
-                            lang === "en"
-                              ? "font-semibold text-black"
-                              : "text-gray-400"
-                          }`}
-                        >
-                          Register As a Tourist
-                        </span>
-
-                        {/* Toggle */}
-                        <button
-                          type="button"
-                          onClick={toggleLang}
-                          className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-                            lang === "en" ? "bg-gray-300" : "bg-green-500"
-                          }`}
-                        >
-                          <div
-                            className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                              lang === "en" ? "translate-x-0" : "translate-x-6"
-                            }`}
-                          />
-                        </button>
-
-                        {/* ID */}
-                        <span
-                          className={`text-sm ${
-                            lang === "id"
-                              ? "font-semibold text-black"
-                              : "text-gray-400"
-                          }`}
-                        >
-                          Daftar Sebagai Orang Indonesia
-                        </span>
+                  <div>
+                    <div>
+                      <div className="mb-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          {t("login.language")}
+                        </label>
+                        <Select onValueChange={(value) => toggleLang(value)}>
+                          <SelectTrigger className="w-52">
+                            <SelectValue placeholder="Language / Bahasa">
+                              {lang === "en" ? "English" : "Indonesia"}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="en">English</SelectItem>
+                              <SelectItem value="id">Indonesia</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </div>
                       {/* Baris 1: Full Name & no */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
                         {/* Full Name Field */}
-                        <div className="space-y-2">
+                        <div className="my-3">
                           <label
                             htmlFor="fullName"
                             className="block text-sm font-medium text-gray-700"
@@ -324,7 +312,7 @@ export default function RegisterPage() {
                         </div>
 
                         {/* no Field */}
-                        <div className="space-y-2">
+                        <div className="my-3">
                           <label
                             htmlFor="no"
                             className="block text-sm font-medium text-gray-700"
@@ -347,9 +335,9 @@ export default function RegisterPage() {
                       </div>
 
                       {/* Baris 2: Username & Password */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6">
                         {/* Username Field */}
-                        <div className="space-y-2">
+                        <div className="my-3">
                           <label
                             htmlFor="username"
                             className="block text-sm font-medium text-gray-700"
@@ -371,7 +359,7 @@ export default function RegisterPage() {
                         </div>
 
                         {/* Password Field */}
-                        <div className="space-y-2">
+                        <div className="my-3">
                           <label
                             htmlFor="password"
                             className="block text-sm font-medium text-gray-700"
@@ -405,7 +393,7 @@ export default function RegisterPage() {
                       </div>
 
                       {/* Email Field */}
-                      <div className="space-y-2">
+                      <div className="grid grid-cols-1 ">
                         <label
                           htmlFor="email"
                           className="block text-sm font-medium text-gray-700"
@@ -427,7 +415,7 @@ export default function RegisterPage() {
                       </div>
 
                       {/* Phone Field */}
-                      <div className="space-y-2">
+                      <div className="my-3">
                         <label
                           htmlFor="phone"
                           className="block text-sm font-medium text-gray-700"
@@ -449,7 +437,7 @@ export default function RegisterPage() {
                       </div>
 
                       {/* Address Field */}
-                      <div className="space-y-2">
+                      <div className="my-3">
                         <label
                           htmlFor="address"
                           className="block text-sm font-medium text-gray-700"
@@ -471,37 +459,33 @@ export default function RegisterPage() {
                       </div>
                       {/* Is Leader Community*/}
                       {lang === "id" ? (
-                        <div className="flex items-center ">
-                          <span className="text-sm text-gray-600 me-2">
-                            Daftar Sebagai Ketua Komunitas
-                          </span>
-                          <button
-                            type="button"
-                            onClick={toggleCommunityMemberForm}
-                            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-                              isCommunityLeader ? "bg-green-500" : "bg-gray-300"
-                            }`}
+                        <div className="flex items-start gap-2">
+                          <input
+                            id="agreeTerms"
+                            name="agreeTerms"
+                            type="checkbox"
+                            checked={isCommunityLeader}
+                            onChange={toggleCommunityMemberForm}
+                            className="mt-1 rounded border-gray-300"
+                          />
+                          <label
+                            htmlFor="agreeTerms"
+                            className="text-sm text-gray-600"
                           >
-                            <div
-                              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                isCommunityLeader
-                                  ? "translate-x-6"
-                                  : "translate-x-0"
-                              }`}
-                            />
-                          </button>
+                            Daftas Sebagai Ketua Komunitas
+                          </label>
                         </div>
                       ) : (
                         <></>
                       )}
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                   {isCommunityLeader && lang === "id" && (
-                    <Card className="mb-6 w-full space-y-2 bg-white rounded-2xl p-3">
+                    <div className="mb-6 w-full space-y-2 bg-white rounded-2xl p-3">
                       <h1>Form Komunitas ( Min 3 anggota, Max 20 anggota )</h1>
 
                       {/* Community NameField  */}
-                      <div className="space-y-2">
+                      <div className="my-3">
                         <label
                           htmlFor="community"
                           className="block text-sm font-medium text-gray-700"
@@ -536,7 +520,7 @@ export default function RegisterPage() {
                       <Button onClick={handleAdd} type="button">
                         Tambah Anggota Komunitas
                       </Button>
-                    </Card>
+                    </div>
                   )}
                 </div>
                 {/* Terms Agreement */}
@@ -578,8 +562,8 @@ export default function RegisterPage() {
                   {t("register.button")}
                 </Button>
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Footer */}
           <div className="text-start">
