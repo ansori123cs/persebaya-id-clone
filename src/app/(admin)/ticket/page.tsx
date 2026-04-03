@@ -117,9 +117,9 @@ const TicketPage = () => {
         <CardContent>
           {/* MENU */}
           <div className="flex flex-wrap gap-3 mb-4">
-            {menu.map((item) => (
+            {menu.map((item, index) => (
               <Link
-                key={item.label}
+                key={index}
                 href={item.url}
                 className="text-sm md:text-base font-semibold hover:underline"
               >
@@ -149,9 +149,10 @@ const TicketPage = () => {
 
             <button
               onClick={handleTutorial}
-              className="text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
+              className="flex justify-between items-center text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
             >
-              {t("ticket.buttonTutorial")}
+              <span> {t("ticket.buttonTutorial")}</span>
+              <ChevronDown className="w-5 h-5 -rotate-90" />
             </button>
           </div>
 

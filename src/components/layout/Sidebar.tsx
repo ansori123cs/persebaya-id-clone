@@ -8,14 +8,17 @@ import {
   LayoutDashboard,
   BarChart3,
   Users,
-  Settings,
   HelpCircle,
   ChevronRight,
   X,
   Ticket,
+  FlaskConical,
+  ArrowDownUp,
+  Percent,
 } from "lucide-react";
 import { useSidebarStore } from "@/stores/sidebarStore";
 import Button from "@/components/ui/Button";
+import Image from "next/image";
 
 interface NavItem {
   label: string;
@@ -44,7 +47,7 @@ const navItems: NavItem[] = [
   {
     label: "Persebaya Future Lab",
     href: "/lab",
-    icon: <Users className="w-5 h-5" />,
+    icon: <FlaskConical className="w-5 h-5" />,
     badge: "24",
   },
   {
@@ -55,17 +58,17 @@ const navItems: NavItem[] = [
   {
     label: "Persebaya Selamanya",
     href: "/psb",
-    icon: <HelpCircle className="w-5 h-5" />,
+    icon: <Percent className="w-5 h-5" />,
   },
   {
     label: "Match",
     href: "/jadwal",
-    icon: <HelpCircle className="w-5 h-5" />,
+    icon: <div className="w-5 h-5 font-bold"> VS </div>,
   },
   {
     label: "Klasemen",
     href: "/klasmen",
-    icon: <HelpCircle className="w-5 h-5" />,
+    icon: <ArrowDownUp className="w-5 h-5" />,
   },
 ];
 
@@ -132,12 +135,12 @@ const Sidebar: React.FC = () => {
               "flex items-center justify-between px-4 py-3  transition-colors ",
               item.label === "Ticket"
                 ? "bg-persebaya-accent border-persebaya-primary text-black shadow-md border-2"
-                : "",
+                : "bg-persebaya-primary hover:bg-persebaya-primary-hover border-black text-white shadow-md border-2",
               isSubmenu ? "text-sm ml-4" : "text-base",
               isActive(item.href)
                 ? item.label === "Ticket"
                   ? "bg-persebaya-accent border-persebaya-primary text-black shadow-md border-2"
-                  : "bg-persebaya-primary border-black text-white shadow-md border-2"
+                  : "bg-persebaya-primary-hover border-black text-white shadow-md border-2"
                 : "text-persebaya-text hover:bg-persebaya-primary-hover border-2 hover:text-white border-black",
             )}
           >
@@ -189,8 +192,8 @@ const Sidebar: React.FC = () => {
           "fixed top-16 left-0 bottom-0 bg-white shadow-2xl z-30 transition-all duration-400 overflow-y-auto",
           isOpen
             ? isMobile
-              ? "w-full"
-              : "w-full"
+              ? "w-full overflow-auto"
+              : "w-64"
             : isMobile
               ? "-translate-x-full"
               : "w-20",
@@ -198,14 +201,26 @@ const Sidebar: React.FC = () => {
         )}
       >
         {/* Sidebar Header */}
-        <div className="p-4 flex items-center justify-between">
-          {isOpen && <h3 className="font-bold text-gray-900">Menu</h3>}
+        <div className="p-2 mt-12 flex justify-between items-center">
+          {isMobile && isOpen && (
+            <h3 className="font-bold text-gray-900">Menu</h3>
+          )}
+          {isMobile && isOpen && (
+            <Image
+              src="/logo-small.png"
+              width={100}
+              height={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="w-20 h-20 object-contain"
+              alt="logo-persebaya"
+            />
+          )}
           {isMobile && isOpen && (
             <Button
               variant="ghost"
-              size="sm"
+              size="lg"
               onClick={closeSidebar}
-              className="p-1"
+              className="p-3"
             >
               <X className="w-5 h-5" />
             </Button>
@@ -213,7 +228,7 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Navigation Items */}
-        <nav className="space-y-1 px-2 py-4">
+        <nav className="space-y-1 px-2 py-4 overflow-auto h-max-screen">
           {navItems.map((item) => (
             <NavItemComponent key={item.href} item={item} />
           ))}

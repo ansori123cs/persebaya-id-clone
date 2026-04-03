@@ -68,14 +68,14 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 h-20  bg-persebaya-primary text-white z-40 flex items-center  shadow-sm">
       <div className="w-full items-center h-16">
-        <div className="flex w-full justify-between">
+        <div className="flex w-full justify-between md:justify-between items-center h-full md:px-4">
           {/* Left Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex justify-start items-center ">
             <Button
               variant="primary"
               size="sm"
               onClick={handleBack}
-              className="md:p-2"
+              className="md:p-2 "
             >
               <ArrowLeft className="w-8 h-8" />
             </Button>
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
               variant="primary"
               size="sm"
               onClick={toggleSidebar}
-              className="md:p-2"
+              className="md:p-2 "
             >
               <Menu className="w-8 h-8" />
             </Button>
@@ -107,13 +107,13 @@ const Navbar: React.FC = () => {
             {/* search Field */}
             <div className="space-y-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-5 md:left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   id="search"
                   type="text"
                   placeholder="Search"
                   // onChange={(e) => setsearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border bg-white text-black border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
+                  className=" w-1/2 md:w-full pl-10 pr-4 py-2 border bg-white text-black border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
                 />
               </div>
             </div>

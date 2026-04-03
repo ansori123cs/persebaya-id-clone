@@ -65,7 +65,7 @@ const PaymentPage = () => {
 
   useEffect(() => {
     const load = async () => {
-      const localItem = localStorage.getItem("user");
+      const localItem = localStorage.getItem("formTicket");
       const deserialize = JSON.parse(localItem!) as FormData;
       setTicketPrice({
         fee: 5000,
@@ -157,34 +157,37 @@ const PaymentPage = () => {
       {/* Price */}
       <Card>
         <CardContent>
-          <h1 className="text-2xl font-bold text-star mb-3">
-            {t("ticket.priceDetails")}
+          <h1 className="text-xl md:text-2xl font-bold text-star mb-3">
+            {t("payment.priceDetail")}
           </h1>
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-              <h1 className="text-lg font-bold text-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h1 className="text-sm md:text-lg font-bold text-start">
                 {ticketPrice.name}
               </h1>
-              <h1 className="text-lg font-bold text-start">
-                Rp :{ticketPrice.price.toLocaleString("id-ID")} X{" "}
-                {formDataBuyer?.anggotaKomunitas.length! + 1}{" "}
-                {t("payment.person")}
-              </h1>
+              <div className="text-sm md:text-lg font-bold text-start grid grid-cols-2">
+                <p>Rp{ticketPrice.price.toLocaleString("id-ID")}</p>
+
+                <p>
+                  X {formDataBuyer?.anggotaKomunitas.length! + 1}{" "}
+                  {t("payment.person")}
+                </p>
+              </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-              <h1 className="text-lg font-bold text-start mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h1 className="text-sm md:text-lg font-bold text-start  md:mb-5">
                 {t("payment.serviceFee")}
               </h1>
-              <h1 className="text-lg font-bold text-start mb-5">
-                Rp :{ticketPrice.fee.toLocaleString("id-ID")}
+              <h1 className="text-sm md:text-lg font-bold text-start  md:mb-5">
+                Rp{ticketPrice.fee.toLocaleString("id-ID")}
               </h1>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-              <h1 className="text-lg font-bold text-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h1 className="text-sm md:text-lg font-bold text-start">
                 {t("payment.totalPrice")}
               </h1>
-              <h1 className="text-lg font-bold text-start">
-                Rp :{ticketPrice.total.toLocaleString("id-ID")}
+              <h1 className="text-sm md:text-lg font-bold text-start">
+                Rp{ticketPrice.total.toLocaleString("id-ID")}
               </h1>
             </div>
           </div>
@@ -194,7 +197,9 @@ const PaymentPage = () => {
       <Card>
         <CardContent className="flex md:flex-row gap-6 flex-col">
           <div className="w-full">
-            <h1 className="text-lg font-bold text-start">Virtual Account</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-start">
+              Virtual Account
+            </h1>
             <div className="grid grid-cols-2 md:grid-cols-4">
               {menuVA.map((item, index) => (
                 <div
@@ -205,6 +210,7 @@ const PaymentPage = () => {
                     type="radio"
                     checked={pembayaran === item.label}
                     onChange={() => setPembayaran(item.label)}
+                    className="w-6 h-6"
                   />
                   <Image
                     alt={item.label}
@@ -215,7 +221,9 @@ const PaymentPage = () => {
                 </div>
               ))}
             </div>
-            <h1 className="text-lg font-bold text-start">E - Wallet</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-start">
+              E - Wallet
+            </h1>
             <div className="grid grid-cols-2 md:grid-cols-4">
               {menuEwallet.map((item, index) => (
                 <div
@@ -226,6 +234,7 @@ const PaymentPage = () => {
                     type="radio"
                     checked={pembayaran === item.label}
                     onChange={() => setPembayaran(item.label)}
+                    className="w-6 h-6 "
                   />
                   <Image
                     alt={item.label}

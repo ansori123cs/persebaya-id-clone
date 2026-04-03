@@ -3,6 +3,7 @@
 import { Card, CardContent } from "@/components/ui/Card";
 import { useLanguage } from "@/context/LanguageContext";
 import { User } from "@/lib/type";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -300,9 +301,10 @@ const PurchaseTicketPage = () => {
 
                 <button
                   onClick={handleTutorial}
-                  className="text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
+                  className="flex justify-between items-center text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
                 >
-                  {t("ticket.buttonTutorial")}
+                  <span> {t("ticket.buttonTutorial")}</span>
+                  <ChevronDown className="w-5 h-5 -rotate-90" />
                 </button>
               </div>
 
@@ -327,24 +329,23 @@ const PurchaseTicketPage = () => {
                   <div className="grid  md:grid-cols-2 grid-cols-1 gap-2">
                     {item.listTicket.map((ticket, index) => (
                       <button
-                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl bg-white hover:bg-white/20
+                        className={`cursor-pointer p-2 flex justify-between items-center border-3 rounded-2xl bg-white hover:bg-black/20
  `}
                         onClick={() => handlePurcheTicketDetail(ticket.kode)}
                         key={index}
                         disabled={!ticket.statusTersedia}
                       >
-                        <div className="font-bold grid grid-cols-4  items-start gap-2">
+                        <div className="w-3/4 font-bold flex items-center gap-2 text-sm md:text-base">
                           <div
-                            className={`${ticket.variant} w-5 h-5 col-span-1`}
-                          ></div>
-                          <p className="col-span-3">
-                            {" "}
-                            {ticket.namaTiket} - RP.
+                            className={`${ticket.variant} w-5 h-5 col-span-1 rounded-sm`}
+                          />
+                          <p className="col-span-6 text-start">
+                            {ticket.namaTiket} - Rp
                             {ticket.harga.toLocaleString("id-ID")}
                           </p>
                         </div>
                         <div
-                          className={`m-1 px-2 border border-persebaya-accent text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
+                          className={`w-1/4 text-sm md:text-base m-1 px-2 border border-persebaya-accent text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
                         >
                           {ticket.statusTersedia ? "Available" : "Sold Out"}
                         </div>
