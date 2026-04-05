@@ -231,7 +231,7 @@ const Sidebar: React.FC = () => {
         {/* Navigation Items */}
         <nav className="space-y-1 px-2 py-4 overflow-auto h-max-screen">
           {/* search Field */}
-          <div className="w-full flex md:hidden">
+          <div className="w-full flex mb-5 md:hidden">
             <input
               id="search"
               type="text"

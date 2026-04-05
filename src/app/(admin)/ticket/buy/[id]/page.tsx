@@ -316,7 +316,7 @@ const PurchaseTicketDetailPage = () => {
             <h1 className="text-2xl text-center font-bold">
               {PlayMatch.stadion}
             </h1>
-            <h1 className="text-lg text-center font-bold">
+            <h1 className="text-sm md:text-base text-gray-600 text-center">
               {PlayMatch.tanggal
                 .toLocaleDateString(lang, {
                   weekday: "long",
@@ -327,7 +327,7 @@ const PurchaseTicketDetailPage = () => {
                 .toString()}
             </h1>
             <div
-              className={` w-full flex justify-center items-center  text-xl font-bold`}
+              className={` w-full flex justify-center items-center  md:text-base text-gray-600`}
             >
               <div className={`${ticketDipilih.variant} w-5 h-5 mx-1`}></div>
               <p>{ticketDipilih.name}</p>
