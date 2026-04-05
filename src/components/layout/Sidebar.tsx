@@ -15,6 +15,7 @@ import {
   FlaskConical,
   ArrowDownUp,
   Percent,
+  Search,
 } from "lucide-react";
 import { useSidebarStore } from "@/stores/sidebarStore";
 import Button from "@/components/ui/Button";
@@ -229,6 +230,20 @@ const Sidebar: React.FC = () => {
 
         {/* Navigation Items */}
         <nav className="space-y-1 px-2 py-4 overflow-auto h-max-screen">
+          {/* search Field */}
+          <div className="w-full flex md:hidden">
+            <input
+              id="search"
+              type="text"
+              placeholder="Search"
+              className="flex-1 pl-4 pr-4 py-2 border bg-white text-black border-gray-300 focus:outline-none focus:ring-2 focus:ring-persebaya-primary focus:border-transparent"
+            />
+
+            <button className="bg-persebaya-primary px-4 flex items-center justify-center">
+              <Search className="w-5 h-5 text-white" />
+            </button>
+          </div>
+
           {navItems.map((item) => (
             <NavItemComponent key={item.href} item={item} />
           ))}

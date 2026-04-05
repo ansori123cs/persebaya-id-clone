@@ -145,8 +145,9 @@ const PurchasedTicketPage = () => {
           <h1 className="font-bold text-xl">{t("purchased.title")}</h1>
         </CardHeader>
         <CardContent>
-          <div className="mb-2">
-            <h1 className="font-bold text-lg bg-persebaya-accent text-left p-1 inline-block">
+          <div className="mb-2 flex items-center gap-2">
+            <div className="bg-persebaya-accent w-5 h-5"></div>
+            <h1 className="font-bold text-lg  text-left p-1 inline-block">
               {data?.NameTicket} Kategori{" "}
               {data?.DataDiri.anggotaKomunitas.length === 0
                 ? "Fans"
@@ -231,7 +232,7 @@ const PurchasedTicketPage = () => {
           </div>
           <div className="w-full flex items-end justify-end">
             <button
-              className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
+              className="p-2 rounded-xl text-white border   bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
               onClick={handleSendEmail}
             >
               {t("purchased.buttonSendToEmail")}

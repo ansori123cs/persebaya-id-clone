@@ -129,7 +129,7 @@ const Dashboard = () => {
         {todaysMatch.map((match, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg border border-gray-200 p-4 hover:border-persebaya-accent transition-colors"
+            className="bg-white rounded-lg border border-gray-200 p-4 hover:  transition-colors"
           >
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-medium text-gray-500">

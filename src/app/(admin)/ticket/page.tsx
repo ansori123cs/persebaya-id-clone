@@ -149,7 +149,7 @@ const TicketPage = () => {
 
             <button
               onClick={handleTutorial}
-              className="flex justify-between items-center text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
+              className="flex justify-between items-center text-sm md:text-base border-2   rounded-xl bg-persebaya-primary text-white px-4 py-2 hover:bg-persebaya-primary-hover"
             >
               <span> {t("ticket.buttonTutorial")}</span>
               <ChevronDown className="w-5 h-5 -rotate-90" />
@@ -159,7 +159,7 @@ const TicketPage = () => {
           {/* BUTTON LIST */}
           <div className="space-y-3">
             <button
-              className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
+              className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2   px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handleBuy}
             >
               <span>{t("ticket.buttonBuy")}</span>
@@ -167,7 +167,7 @@ const TicketPage = () => {
             </button>
 
             <button
-              className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2 border-persebaya-accent px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
+              className="flex justify-between items-center w-full text-white text-sm md:text-lg bg-persebaya-primary border-2   px-4 py-3 md:px-5 md:py-4 rounded-xl hover:bg-persebaya-primary-hover"
               onClick={handlePurchased}
             >
               <span>{t("ticket.buttonPurchased")}</span>

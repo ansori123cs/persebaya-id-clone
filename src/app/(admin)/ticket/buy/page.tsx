@@ -27,42 +27,42 @@ const ticket = [
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
-        variant: "bg-persebaya-accent border-persebaya-primary",
+        variant: "bg-persebaya-accent ",
       },
       {
         kode: "T-002",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+        variant: "bg-[#1a1a1a] text-white ",
       },
       {
         kode: "T-003",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+        variant: "bg-[#0000FF] text-white ",
       },
       {
         kode: "T-004",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+        variant: "bg-[#005a2c] text-white ",
       },
       {
         kode: "T-005",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#BDBDBD] border-persebaya-primary",
+        variant: "bg-[#BDBDBD] ",
       },
       {
         kode: "T-006",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#810103] text-white border-persebaya-accent",
+        variant: "bg-[#810103] text-white ",
       },
     ],
   },
@@ -74,42 +74,42 @@ const ticket = [
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
-        variant: "bg-persebaya-accent border-persebaya-primary",
+        variant: "bg-persebaya-accent ",
       },
       {
         kode: "TR-008",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+        variant: "bg-[#1a1a1a] text-white ",
       },
       {
         kode: "TR-009",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+        variant: "bg-[#0000FF] text-white ",
       },
       {
         kode: "TR-010",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+        variant: "bg-[#005a2c] text-white ",
       },
       {
         kode: "TR-011",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#BDBDBD] border-persebaya-primary",
+        variant: "bg-[#BDBDBD] ",
       },
       {
         kode: "TR-012",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#810103] text-white border-persebaya-accent",
+        variant: "bg-[#810103] text-white ",
       },
     ],
   },
@@ -121,28 +121,28 @@ const ticket = [
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: true,
-        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+        variant: "bg-[#1a1a1a] text-white ",
       },
       {
         kode: "K-014",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+        variant: "bg-[#005a2c] text-white ",
       },
       {
         kode: "K-015",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+        variant: "bg-[#0000FF] text-white ",
       },
       {
         kode: "K-016",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: true,
-        variant: "bg-[#810103] text-white border-persebaya-accent",
+        variant: "bg-[#810103] text-white ",
       },
     ],
   },
@@ -301,7 +301,7 @@ const PurchaseTicketPage = () => {
 
                 <button
                   onClick={handleTutorial}
-                  className="flex justify-between items-center text-sm md:text-base border-2 border-persebaya-accent rounded-xl bg-persebaya-primary-hover text-white px-4 py-2 hover:bg-persebaya-primary"
+                  className="flex justify-between items-center text-sm md:text-base border-2  rounded-xl bg-persebaya-primary text-white px-4 py-2 hover:bg-persebaya-primary-hover"
                 >
                   <span> {t("ticket.buttonTutorial")}</span>
                   <ChevronDown className="w-5 h-5 -rotate-90" />
@@ -345,7 +345,7 @@ const PurchaseTicketPage = () => {
                           </p>
                         </div>
                         <div
-                          className={`w-1/4 text-sm md:text-base m-1 px-2 border border-persebaya-accent text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
+                          className={`w-1/4 text-sm md:text-base m-1 px-2 border  text-white font-bold  rounded-xl ${ticket.statusTersedia ? "bg-green-500" : "bg-red-500"}`}
                         >
                           {ticket.statusTersedia ? "Available" : "Sold Out"}
                         </div>

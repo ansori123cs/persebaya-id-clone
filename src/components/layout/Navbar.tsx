@@ -103,9 +103,9 @@ const Navbar: React.FC = () => {
           </Link>
 
           {/* Right Section */}
-          <div className="flex items-center gap-2 md:gap-4 my-2 me-2">
+          <div className="flex items-center gap-2 md:gap-4 my-2 me-2 py-1">
             {/* search Field */}
-            <div className="space-y-2">
+            <div className="space-y-2 hidden md:block">
               <div className="relative">
                 <Search className="absolute left-5 md:left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -117,12 +117,11 @@ const Navbar: React.FC = () => {
                 />
               </div>
             </div>
-            <>
-              <Button className="rounded-full" onClick={handelLogout}>
-                <Power className="w-5 h-5 text-white hover:text-white/50" />
-                <p>Logout</p>
-              </Button>
-            </>
+
+            <Button className="rounded-full" onClick={handelLogout}>
+              <Power className="w-5 h-5 text-white hover:text-white/50" />
+              <p>Logout</p>
+            </Button>
           </div>
         </div>
         <div className="flex w-full justify-center bg-white h-10 z-50">

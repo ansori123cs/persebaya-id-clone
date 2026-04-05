@@ -157,15 +157,15 @@ const PaymentPage = () => {
       {/* Price */}
       <Card>
         <CardContent>
-          <h1 className="text-xl md:text-2xl font-bold text-star mb-3">
+          <h1 className="text-lg md:text-xl font-bold text-star mb-3">
             {t("payment.priceDetail")}
           </h1>
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <h1 className="text-sm md:text-lg font-bold text-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-1 md:my-0">
+              <h1 className="text-sm md:text-base  text-gray-600  text-start">
                 {ticketPrice.name}
               </h1>
-              <div className="text-sm md:text-lg font-bold text-start grid grid-cols-2">
+              <div className="text-sm md:text-base  text-gray-600  text-start grid grid-cols-2">
                 <p>Rp{ticketPrice.price.toLocaleString("id-ID")}</p>
 
                 <p>
@@ -174,19 +174,19 @@ const PaymentPage = () => {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <h1 className="text-sm md:text-lg font-bold text-start  md:mb-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-1 md:my-0">
+              <h1 className="text-sm md:text-base  text-gray-600  text-start  md:mb-5">
                 {t("payment.serviceFee")}
               </h1>
-              <h1 className="text-sm md:text-lg font-bold text-start  md:mb-5">
+              <h1 className="text-sm md:text-base  text-gray-600  text-start  md:mb-5">
                 Rp{ticketPrice.fee.toLocaleString("id-ID")}
               </h1>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <h1 className="text-sm md:text-lg font-bold text-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-1 md:my-0">
+              <h1 className="text-sm md:text-base  text-gray-600 text-start">
                 {t("payment.totalPrice")}
               </h1>
-              <h1 className="text-sm md:text-lg font-bold text-start">
+              <h1 className="text-sm md:text-base  text-gray-600 text-start">
                 Rp{ticketPrice.total.toLocaleString("id-ID")}
               </h1>
             </div>
@@ -197,13 +197,13 @@ const PaymentPage = () => {
       <Card>
         <CardContent className="flex md:flex-row gap-6 flex-col">
           <div className="w-full">
-            <h1 className="text-xl md:text-2xl font-bold text-start">
+            <h1 className="text-lg md:text-xl font-bold text-start mt-3 md:mt-0">
               Virtual Account
             </h1>
             <div className="grid grid-cols-2 md:grid-cols-4">
               {menuVA.map((item, index) => (
                 <div
-                  className="flex items-center justify-center space-x-2"
+                  className="flex items-center justify-center space-x-2 p-2"
                   key={index}
                 >
                   <input
@@ -217,17 +217,19 @@ const PaymentPage = () => {
                     src={item.src}
                     height={100}
                     width={100}
+                    style={{ objectFit: "contain" }}
+                    className="border rounded-2xl shadow-sm p-1 w-24 h-24"
                   />
                 </div>
               ))}
             </div>
-            <h1 className="text-xl md:text-2xl font-bold text-start">
+            <h1 className="text-lg md:text-xl font-bold text-start mt-3 md:mt-0">
               E - Wallet
             </h1>
             <div className="grid grid-cols-2 md:grid-cols-4">
               {menuEwallet.map((item, index) => (
                 <div
-                  className="flex items-center justify-center space-x-2"
+                  className="flex items-center justify-center space-x-2 "
                   key={index}
                 >
                   <input
@@ -241,14 +243,16 @@ const PaymentPage = () => {
                     src={item.src}
                     height={100}
                     width={100}
+                    style={{ objectFit: "contain" }}
+                    className="border rounded-2xl shadow-sm p-1 w-24 h-24"
                   />
                 </div>
               ))}
             </div>
           </div>
-          <div className="w-full flex items-end justify-end">
+          <div className="w-full flex items-end justify-end ">
             <button
-              className="p-2 rounded-xl text-white border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
+              className="p-2 rounded-xl text-white border   bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
               onClick={handleBuy}
             >
               Proceed To Payment

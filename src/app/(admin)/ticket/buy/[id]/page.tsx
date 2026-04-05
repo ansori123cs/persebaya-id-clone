@@ -55,42 +55,42 @@ const ticket = [
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
-        variant: "bg-persebaya-accent border-persebaya-primary",
+        variant: "bg-persebaya-accent ",
       },
       {
         kode: "T-002",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+        variant: "bg-[#1a1a1a] text-white  ",
       },
       {
         kode: "T-003",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+        variant: "bg-[#0000FF] text-white  ",
       },
       {
         kode: "T-004",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+        variant: "bg-[#005a2c] text-white  ",
       },
       {
         kode: "T-005",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#BDBDBD] border-persebaya-primary",
+        variant: "bg-[#BDBDBD] ",
       },
       {
         kode: "T-006",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#810103] text-white border-persebaya-accent",
+        variant: "bg-[#810103] text-white  ",
       },
     ],
   },
@@ -102,42 +102,42 @@ const ticket = [
         namaTiket: "Ticket Gate VIP (West)",
         harga: 200000,
         statusTersedia: true,
-        variant: "bg-persebaya-accent border-persebaya-primary",
+        variant: "bg-persebaya-accent ",
       },
       {
         kode: "TR-008",
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+        variant: "bg-[#1a1a1a] text-white  ",
       },
       {
         kode: "TR-009",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+        variant: "bg-[#0000FF] text-white  ",
       },
       {
         kode: "TR-010",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+        variant: "bg-[#005a2c] text-white  ",
       },
       {
         kode: "TR-011",
         namaTiket: "Ticket Gate Keluarga (West)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#BDBDBD] border-persebaya-primary",
+        variant: "bg-[#BDBDBD] ",
       },
       {
         kode: "TR-012",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#810103] text-white border-persebaya-accent",
+        variant: "bg-[#810103] text-white  ",
       },
     ],
   },
@@ -149,28 +149,28 @@ const ticket = [
         namaTiket: "Ticket Gate Utara (North)",
         harga: 100000,
         statusTersedia: true,
-        variant: "bg-[#1a1a1a] text-white border-persebaya-accent",
+        variant: "bg-[#1a1a1a] text-white  ",
       },
       {
         kode: "K-014",
         namaTiket: "Ticket Gate Timur (East)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#005a2c] text-white border-persebaya-accent",
+        variant: "bg-[#005a2c] text-white  ",
       },
       {
         kode: "K-015",
         namaTiket: "Ticket Gate Jhoner (West)",
         harga: 150000,
         statusTersedia: false,
-        variant: "bg-[#0000FF] text-white border-persebaya-accent",
+        variant: "bg-[#0000FF] text-white  ",
       },
       {
         kode: "K-016",
         namaTiket: "Ticket Gate Selatan (South)",
         harga: 100000,
         statusTersedia: false,
-        variant: "bg-[#810103] text-white border-persebaya-accent",
+        variant: "bg-[#810103] text-white  ",
       },
     ],
   },
@@ -254,7 +254,6 @@ const PurchaseTicketDetailPage = () => {
 
   const prefix = id?.split("-")[0];
 
-  // --- lift form state here, keep a generic shape so we can handle all categories
   const [formData, setFormData] = useState<AnyFormData>({
     namaLengkap: "",
     email: "",
@@ -313,7 +312,7 @@ const PurchaseTicketDetailPage = () => {
     <div className="p-2">
       <Card>
         <CardContent className="space-y-2 flex flex-col md:flex-row">
-          <div className="w-full space-y-3  ">
+          <div className="flex flex-col w-full  space-y-3  ">
             <h1 className="text-2xl text-center font-bold">
               {PlayMatch.stadion}
             </h1>
@@ -327,11 +326,12 @@ const PurchaseTicketDetailPage = () => {
                 })
                 .toString()}
             </h1>
-            <button
-              className={`w-full border-4 rounded-lg ${ticketDipilih.variant} text-xl font-bold hover:bg-persebaya-accent/50 cursor-pointer py-2`}
+            <div
+              className={` w-full flex justify-center items-center  text-xl font-bold`}
             >
-              {ticketDipilih.name}
-            </button>
+              <div className={`${ticketDipilih.variant} w-5 h-5 mx-1`}></div>
+              <p>{ticketDipilih.name}</p>
+            </div>
           </div>
           <div className="w-full">
             <div className="flex justify-center items-center gap-x-2">
@@ -392,7 +392,7 @@ const PurchaseTicketDetailPage = () => {
           </div>
           <div className="flex justify-end">
             <button
-              className="text-white  rounded-xl border border-persebaya-accent bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer px-4 py-2"
+              className="text-white  rounded-xl border   bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer px-4 py-2"
               type="button"
               onClick={() => handlePayment(ticketDipilih)}
             >
@@ -493,6 +493,20 @@ const FansForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
       <h1 className="text-xl font-bold">Data Pemesan Kategori Fans</h1>
 
       <form className="space-y-3 mt-3">
+        {/* Nomor KTP */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
+            Nomor KTP
+          </label>
+          <input
+            id="nomorNik"
+            name="nomorNik"
+            type="text"
+            maxLength={16}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
         {/* Nama Lengkap */}
         <div className="flex flex-col md:flex-row items-center">
           <label htmlFor="namaLengkap" className="md:w-1/4 w-full font-medium">
@@ -518,21 +532,6 @@ const FansForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
             name="email"
             type="email"
             maxLength={100}
-            onChange={handleChange}
-            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
-          />
-        </div>
-
-        {/* Nomor KTP */}
-        <div className="flex flex-col md:flex-row items-center">
-          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
-            Nomor KTP
-          </label>
-          <input
-            id="nomorNik"
-            name="nomorNik"
-            type="text"
-            maxLength={16}
             onChange={handleChange}
             className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
           />
@@ -655,6 +654,21 @@ const TouristForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
       <h1 className="text-xl font-bold">Tourist Category Order Data</h1>
 
       <form className="space-y-3 mt-3">
+        {/* ID Number */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
+            National ID Number
+          </label>
+          <input
+            id="nomorNik"
+            name="nomorNik"
+            type="text"
+            placeholder="3575673587990004"
+            maxLength={16}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
         {/* Full Name */}
         <div className="flex flex-col md:flex-row items-center">
           <label htmlFor="namaLengkap" className="md:w-1/4 w-full font-medium">
@@ -682,22 +696,6 @@ const TouristForm = ({ formData, setFormData }: FormProps<FansFormData>) => {
             type="email"
             placeholder="example@email.com"
             maxLength={100}
-            onChange={handleChange}
-            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
-          />
-        </div>
-
-        {/* ID Number */}
-        <div className="flex flex-col md:flex-row items-center">
-          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
-            National ID Number
-          </label>
-          <input
-            id="nomorNik"
-            name="nomorNik"
-            type="text"
-            placeholder="3575673587990004"
-            maxLength={16}
             onChange={handleChange}
             className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
           />
@@ -857,6 +855,21 @@ const KomunitasForm = ({
       <h1 className="text-xl font-bold">Data Pemesan Kategori Komunitas</h1>
 
       <form className="space-y-3 mt-3">
+        {/* Nomor KTP */}
+        <div className="flex flex-col md:flex-row items-center">
+          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
+            Nomor KTP
+          </label>
+          <input
+            id="nomorNik"
+            name="nomorNik"
+            type="text"
+            maxLength={16}
+            onChange={handleChange}
+            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
+          />
+        </div>
+
         {/* Nama Lengkap */}
         <div className="flex flex-col md:flex-row items-center">
           <label htmlFor="namaLengkap" className="md:w-1/4 w-full font-medium">
@@ -882,21 +895,6 @@ const KomunitasForm = ({
             name="email"
             type="email"
             maxLength={100}
-            onChange={handleChange}
-            className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
-          />
-        </div>
-
-        {/* Nomor KTP */}
-        <div className="flex flex-col md:flex-row items-center">
-          <label htmlFor="nomorNik" className="md:w-1/4 w-full font-medium">
-            Nomor KTP
-          </label>
-          <input
-            id="nomorNik"
-            name="nomorNik"
-            type="text"
-            maxLength={16}
             onChange={handleChange}
             className="md:w-3/4 w-full px-2 py-1 border rounded-lg"
           />
