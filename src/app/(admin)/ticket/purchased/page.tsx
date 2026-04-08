@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PlayMatch = {
   stadion: "Gelora Bung Tomo",
@@ -54,7 +54,7 @@ const PurchasedTicketPage = () => {
       setLoading(true);
       setData({
         QrCode: "/qrExample.png",
-        Code: btoa("persebaya" + item.namaLengkap),
+        Code: btoa("persebaya" + item.nomorNik),
         CategoryTicket: item.ticket.name,
         NameTicket: item.ticket.name,
         DataDiri: item,
@@ -169,68 +169,87 @@ const PurchasedTicketPage = () => {
                 />
               )}
 
-              <p className="font-semibold">Code Ticket : {data?.Code}</p>
+              <p className="font-semibold ">Code Ticket : {data?.Code}</p>
             </div>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4 col-span-2">
-              <div className="grid grid-cols-2 gap-x-2">
-                <p className="font-semibold mb-3 cols-span-2">Data Booked:</p>
-                <p className="font-semibold"> </p>
-                <p className="font-semibold">{t("purchased.form.email")}</p>
-                <p className="font-semibold">{data?.DataDiri.email}</p>
-                <p className="font-semibold">{t("purchased.form.name")}</p>
-                <p className="font-semibold">{data?.DataDiri.namaLengkap}</p>
-                <p className="font-semibold">{t("purchased.form.nik")}</p>
-                <p className="font-semibold">{data?.DataDiri.nomorNik}</p>
-                <p className="font-semibold">{t("purchased.form.phone")}</p>
-                <p className="font-semibold">{data?.DataDiri.noTelp}</p>
-                <p className="font-semibold">{t("purchased.form.birthDate")}</p>
-                <p className="font-semibold">{data?.DataDiri.tanggalLahir}</p>
-                <p className="font-semibold">{t("purchased.form.gender")}</p>
-                <p className="font-semibold">{data?.DataDiri.jenisKelamin}</p>
-                <p className="font-semibold">
-                  {t("purchased.form.bookingDate")}
+            <div className="grid  grid-cols-1 gap-4 col-span-2 gap-y-4 md:gap-y-0">
+              <div className="grid grid-cols-[150px_10px_1fr] gap-y-2">
+                <p className="font-semibold col-span-3 mb-3">Data Booked:</p>
+
+                <p className="font-medium">{t("purchased.form.nik")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium break-words-break-words">
+                  {data?.DataDiri.nomorNik}
                 </p>
-                <p className="font-semibold">
-                  {PlayMatch.tanggal
-                    .toLocaleDateString(lang, {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })
-                    .toString()}
+
+                <p className="font-medium">{t("purchased.form.email")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium words-break-words">
+                  {data?.DataDiri.email}
+                </p>
+
+                <p className="font-medium">{t("purchased.form.name")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium break-words-break-words">
+                  {data?.DataDiri.namaLengkap}
+                </p>
+
+                <p className="font-medium">{t("purchased.form.phone")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium break-words-break-words">
+                  {data?.DataDiri.noTelp}
+                </p>
+
+                <p className="font-medium">{t("purchased.form.birthDate")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium break-words-break-words">
+                  {data?.DataDiri.tanggalLahir}
+                </p>
+
+                <p className="font-medium">{t("purchased.form.gender")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium break-words-break-words">
+                  {data?.DataDiri.jenisKelamin}
+                </p>
+
+                <p className="font-medium">{t("purchased.form.bookingDate")}</p>
+                <p className="text-center">:</p>
+                <p className="font-medium break-words-break-words">
+                  {PlayMatch.tanggal.toLocaleDateString(lang, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </p>
               </div>
               {data?.DataDiri.anggotaKomunitas.length === 0 ? (
-                <></>
+                <div className="grid grid-cols-[150px_10px_1fr] gap-y-2 ">
+                  <p className="font-medium">Anggota Komunitas</p>
+                  <p className="text-center">:</p>
+                  <p className="font-medium">Tidak Ada Anggota Komunitas</p>
+                </div>
               ) : (
-                <>
-                  <p className="font-semibold">Tidak Ada Anggota Komunitas</p>
-
-                  <div className="grid grid-cols-2 gap-x-2">
-                    <p className="font-semibold mt-3 col-span-2">
-                      Anggota Komunitas :
-                    </p>
-                    {data?.DataDiri.anggotaKomunitas.length === 0 ? (
-                      <p className="font-semibold">
-                        Tidak Ada Anggota Komunitas
-                      </p>
-                    ) : (
-                      <div>
-                        {data?.DataDiri.anggotaKomunitas.map((item, index) => (
-                          <div className="grid grid-cols-2 gap-x-2" key={index}>
-                            <p className="font-semibold">{item.namaLengkap}</p>
-                            <p className="font-semibold">{item.nomorNik}</p>
-                          </div>
-                        ))}
+                <div className="grid md:grid-cols-[150px_10px_1fr] gap-y-2 mt-5">
+                  <p className="font-medium">Anggota Komunitas</p>
+                  <p className="text-center hidden md:block">:</p>
+                  <div className="flex flex-col gap-2">
+                    {data?.DataDiri.anggotaKomunitas.map((item, index) => (
+                      <div
+                        key={index}
+                        className="grid grid-cols-[1fr_1fr] gap-x-4 wordbreak-words"
+                      >
+                        <p className="font-medium">{item.namaLengkap}</p>
+                        <p className="font-medium">{item.nomorNik}</p>
                       </div>
-                    )}
+                    ))}
                   </div>
-                </>
+                </div>
               )}
             </div>
           </div>
-          <div className="w-full flex items-end justify-end">
+          <div
+            className={`w-full flex items-end justify-end mt-5 md:mt-3${data?.DataDiri.anggotaKomunitas.length === 0 ? " md:mt-3" : ""}`}
+          >
             <button
               className="p-2 rounded-xl text-white border   bg-persebaya-primary hover:bg-persebaya-primary/50 cursor-pointer"
               onClick={handleSendEmail}

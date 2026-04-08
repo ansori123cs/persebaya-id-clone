@@ -161,11 +161,11 @@ const PaymentPage = () => {
             {t("payment.priceDetail")}
           </h1>
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-1 md:my-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 my-1 md:my-0">
               <h1 className="text-sm md:text-base  text-gray-600  text-start">
                 {ticketPrice.name}
               </h1>
-              <div className="text-sm md:text-base  text-gray-600  text-start grid grid-cols-2">
+              <div className="text-sm md:text-base  text-gray-600  text-start grid grid-cols-2 ms-3">
                 <p>Rp{ticketPrice.price.toLocaleString("id-ID")}</p>
 
                 <p>
@@ -174,19 +174,19 @@ const PaymentPage = () => {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-1 md:my-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 my-1 md:my-0">
               <h1 className="text-sm md:text-base  text-gray-600  text-start  md:mb-5">
                 {t("payment.serviceFee")}
               </h1>
-              <h1 className="text-sm md:text-base  text-gray-600  text-start  md:mb-5">
+              <h1 className="text-sm md:text-base  text-gray-600  text-start  md:mb-5 ms-3">
                 Rp{ticketPrice.fee.toLocaleString("id-ID")}
               </h1>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-1 md:my-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 my-1 md:my-0">
               <h1 className="text-sm md:text-base  text-gray-600 text-start">
                 {t("payment.totalPrice")}
               </h1>
-              <h1 className="text-sm md:text-base  text-gray-600 text-start">
+              <h1 className="text-sm md:text-base  text-gray-600 text-start ms-3">
                 Rp{ticketPrice.total.toLocaleString("id-ID")}
               </h1>
             </div>
@@ -229,7 +229,7 @@ const PaymentPage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4">
               {menuEwallet.map((item, index) => (
                 <div
-                  className="flex items-center justify-center space-x-2 "
+                  className="flex items-center justify-center space-x-2 p-2 "
                   key={index}
                 >
                   <input
