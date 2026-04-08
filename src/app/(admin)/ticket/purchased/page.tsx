@@ -223,11 +223,7 @@ const PurchasedTicketPage = () => {
                 </p>
               </div>
               {data?.DataDiri.anggotaKomunitas.length === 0 ? (
-                <div className="grid grid-cols-[150px_10px_1fr] gap-y-2 ">
-                  <p className="font-medium">Anggota Komunitas</p>
-                  <p className="text-center">:</p>
-                  <p className="font-medium">Tidak Ada Anggota Komunitas</p>
-                </div>
+                <div></div>
               ) : (
                 <div className="grid md:grid-cols-[150px_10px_1fr] gap-y-2 mt-5">
                   <p className="font-medium">Anggota Komunitas</p>
