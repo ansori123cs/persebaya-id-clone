@@ -169,51 +169,54 @@ const PurchasedTicketPage = () => {
                 />
               )}
 
-              <p className="font-semibold ">Code Ticket : {data?.Code}</p>
+              <p className="font-semibold min-w-0 w-full break-all ">
+                Code Ticket : {data?.Code}ahvhavhjavjhavhavhjavjav
+              </p>
             </div>
             <div className="grid  grid-cols-1 gap-4 col-span-2 gap-y-4 md:gap-y-0">
-              <div className="grid grid-cols-[150px_10px_1fr] gap-y-2">
+              <div className="grid grid-cols-[140px_10px_minmax(0,1fr)] gap-y-2 text-sm">
                 <p className="font-semibold col-span-3 mb-3">Data Booked:</p>
 
-                <p className="font-medium">{t("purchased.form.nik")}</p>
+                <p className="font-medium">NIK</p>
                 <p className="text-center">:</p>
-                <p className="font-medium break-words-break-words">
-                  {data?.DataDiri.nomorNik}
+                <p className="font-medium min-w-0 w-full break-all">
+                  {data?.DataDiri.nomorNik}jbakjbajkbajkbajkbajkbakjbajkbajkb
                 </p>
 
-                <p className="font-medium">{t("purchased.form.email")}</p>
+                <p className="font-medium">Email</p>
                 <p className="text-center">:</p>
-                <p className="font-medium words-break-words">
+                <p className="font-medium min-w-0 w-full break-all">
                   {data?.DataDiri.email}
                 </p>
 
-                <p className="font-medium">{t("purchased.form.name")}</p>
+                <p className="font-medium">Name</p>
                 <p className="text-center">:</p>
-                <p className="font-medium break-words-break-words">
+                <p className="font-medium min-w-0 w-full break-all">
                   {data?.DataDiri.namaLengkap}
+                  loremanknknjkannajnakjanajanjnajnajnajnajnajnajnajnajanjanajn
                 </p>
 
-                <p className="font-medium">{t("purchased.form.phone")}</p>
+                <p className="font-medium">Phone</p>
                 <p className="text-center">:</p>
-                <p className="font-medium break-words-break-words">
+                <p className="font-medium min-w-0 w-full break-all">
                   {data?.DataDiri.noTelp}
                 </p>
 
-                <p className="font-medium">{t("purchased.form.birthDate")}</p>
+                <p className="font-medium">Birth Date</p>
                 <p className="text-center">:</p>
-                <p className="font-medium break-words-break-words">
+                <p className="font-medium min-w-0 w-full break-all">
                   {data?.DataDiri.tanggalLahir}
                 </p>
 
-                <p className="font-medium">{t("purchased.form.gender")}</p>
+                <p className="font-medium">Gender</p>
                 <p className="text-center">:</p>
-                <p className="font-medium break-words-break-words">
+                <p className="font-medium min-w-0 w-full break-all">
                   {data?.DataDiri.jenisKelamin}
                 </p>
 
-                <p className="font-medium">{t("purchased.form.bookingDate")}</p>
+                <p className="font-medium">Booking Date</p>
                 <p className="text-center">:</p>
-                <p className="font-medium break-words-break-words">
+                <p className="font-medium min-w-0 w-full break-all">
                   {PlayMatch.tanggal.toLocaleDateString(lang, {
                     weekday: "long",
                     year: "numeric",

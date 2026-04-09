@@ -777,7 +777,7 @@ const KomunitasForm = ({
     const current = (formData as KomunitasFormData).anggotaKomunitas;
     if (current.length < members.length) {
       const newItem: AnggotaKomunitas = {
-        key: crypto.randomUUID(),
+        key: Math.random().toString(36).substring(2, 12),
         namaLengkap: "",
         nomorNik: "",
       };
